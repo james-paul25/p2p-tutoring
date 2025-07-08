@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Outlet, NavLink } from "react-router-dom";
 import ProfilePic from "../assets/prof.jpg";
 import {
   Menu,
@@ -9,7 +10,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 
-const StudentLayout = ({ onLogout, children }) => {
+const StudentLayout = ({ onLogout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -27,9 +28,10 @@ const StudentLayout = ({ onLogout, children }) => {
 
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">
+      {/* Sidebar */}
       <aside
         className={`fixed md:static top-0 left-0 h-full ${
-          collapsed ? "w-20" : "w-50"
+          collapsed ? "w-20" : "w-52"
         } bg-white border-r p-4 z-40 transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-all duration-300 ease-in-out md:translate-x-0 flex flex-col justify-between`}
@@ -40,35 +42,63 @@ const StudentLayout = ({ onLogout, children }) => {
               <h2 className="text-xl font-bold whitespace-nowrap">Student Panel</h2>
             )}
             <button
-                onClick={() => setCollapsed(!collapsed)}
-                className="md:block hidden p-1 rounded hover:bg-gray-100 hover:text-blue-600 transition cursor-pointer"
-                title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-                >
-                {collapsed ? (
-                    <ChevronsRight className="h-5 w-5" />
-                ) : (
-                    <ChevronsLeft className="h-5 w-5" />
-                )}
+              onClick={() => setCollapsed(!collapsed)}
+              className="md:block hidden p-1 rounded hover:bg-gray-100 hover:text-blue-600 transition"
+              title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+              {collapsed ? (
+                <ChevronsRight className="h-5 w-5" />
+              ) : (
+                <ChevronsLeft className="h-5 w-5" />
+              )}
             </button>
           </div>
 
           <ul className="space-y-2">
-            <li className="flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <Home className="h-5 w-5" />
-              {!collapsed && <span>Home</span>}
+            <li>
+              <NavLink
+                to="/home"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
+                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  }`
+                }
+              >
+                <Home className="h-5 w-5" />
+                {!collapsed && <span>Home</span>}
+              </NavLink>
             </li>
-            <li className="flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <MessageSquare className="h-5 w-5" />
-              {!collapsed && <span>Messages</span>}
+            <li>
+              <NavLink
+                to="/message"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
+                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  }`
+                }
+              >
+                <MessageSquare className="h-5 w-5" />
+                {!collapsed && <span>Messages</span>}
+              </NavLink>
             </li>
-            <li className="flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-              <User className="h-5 w-5" />
-              {!collapsed && <span>Profile</span>}
+            <li>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
+                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  }`
+                }
+              >
+                <User className="h-5 w-5" />
+                {!collapsed && <span>Profile</span>}
+              </NavLink>
             </li>
           </ul>
         </div>
       </aside>
 
+      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
@@ -76,7 +106,9 @@ const StudentLayout = ({ onLogout, children }) => {
         ></div>
       )}
 
+      {/* Main Content */}
       <div className="flex-1 flex flex-col">
+        {/* Topbar */}
         <header className="bg-white shadow p-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <button
@@ -120,7 +152,9 @@ const StudentLayout = ({ onLogout, children }) => {
           </div>
         </header>
 
-        <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-4 overflow-y-auto">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
