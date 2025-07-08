@@ -11,8 +11,8 @@ import {
 
 const StudentLayout = ({ onLogout, children }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // for mobile
-  const [collapsed, setCollapsed] = useState(false); // for desktop collapse
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const StudentLayout = ({ onLogout, children }) => {
 
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">
-      {/* Sidebar */}
       <aside
         className={`fixed md:static top-0 left-0 h-full ${
           collapsed ? "w-20" : "w-50"
@@ -70,7 +69,6 @@ const StudentLayout = ({ onLogout, children }) => {
         </div>
       </aside>
 
-      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
@@ -78,9 +76,7 @@ const StudentLayout = ({ onLogout, children }) => {
         ></div>
       )}
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col">
-        {/* Topbar */}
         <header className="bg-white shadow p-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <button
@@ -124,7 +120,6 @@ const StudentLayout = ({ onLogout, children }) => {
           </div>
         </header>
 
-        {/* Main page content */}
         <main className="flex-1 p-4 overflow-y-auto">{children}</main>
       </div>
     </div>
