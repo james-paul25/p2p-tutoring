@@ -11,7 +11,7 @@ import {
   Clock
 } from "lucide-react";
 
-const StudentLayout = ({ onLogout, user }) => {
+const TutorLayout = ({ onLogout, user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -170,4 +170,4 @@ const StudentLayout = ({ onLogout, user }) => {
   );
 };
 
-export default StudentLayout;
+export default TutorLayout;

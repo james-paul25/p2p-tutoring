@@ -3,10 +3,18 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
+
 import StudentLayout from './layout/StudentLayout';
 import Home from './pages/student/Home';
 import Profile from './pages/student/Profile';
 import Message from './pages/student/Message';
+import Session from './pages/student/Session';
+
+import TutorLayout from './layout/TutorLayout'; 
+import TutorHome from './pages/tutor/HomeTutor';
+import TutorProfile from './pages/tutor/TutorProfile';
+import TutorMessage from './pages/tutor/TutorMessage';
+import TutorSession from './pages/tutor/TutorSession';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
@@ -21,9 +29,9 @@ function App() {
         });
 
         if (response.ok) {
-          const data = await response.json(); 
+          const data = await response.json();
           setLoggedIn(true);
-          setUserData(data); 
+          setUserData(data);
         } else {
           setLoggedIn(false);
         }
@@ -54,7 +62,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Navigate to={loggedIn ? '/home' : '/login'} replace />}
+          element={<Navigate to={loggedIn ? "/home" : "/login"} replace />}
         />
 
         <Route
@@ -72,24 +80,39 @@ function App() {
             )
           }
         />
+
         <Route
           path="/signup"
           element={loggedIn ? <Navigate to="/home" replace /> : <Register />}
         />
 
-        {loggedIn && userData && (
+         {/* student */}
+        {loggedIn && userData?.role === 'STUDENT' && (
           <Route element={<StudentLayout onLogout={handleLogout} user={userData} />}>
             <Route path="/home" element={<Home user={userData} />} />
             <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/message" element={<Message user={userData} />} />
+            <Route path="/session" element={<Session user={userData} />} />
           </Route>
         )}
 
+        {/* tutor */}
+        {loggedIn && userData?.role === 'TUTOR' && (
+          <Route element={<TutorLayout onLogout={handleLogout} user={userData} />}>
+            <Route path="/home" element={<TutorHome user={userData} />} />
+            <Route path="/profile" element={<TutorProfile user={userData} />} />
+            <Route path="/message" element={<TutorMessage user={userData} />} />
+            <Route path="/session" element={<TutorSession user={userData} />} />
+          </Route>
+        )}
+
+        {/* fallback for unauthorized access */}
         {!loggedIn && (
           <>
             <Route path="/home" element={<Navigate to="/login" />} />
             <Route path="/profile" element={<Navigate to="/login" />} />
             <Route path="/message" element={<Navigate to="/login" />} />
+            <Route path="/session" element={<Navigate to="/login" />} />
           </>
         )}
       </Routes>
