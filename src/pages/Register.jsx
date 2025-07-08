@@ -85,7 +85,7 @@ const Register = () => {
           </button>
       
           <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">Already have an account?</p>
+            <p className="text-sm text-gray-600">Already have an account</p>
             <button
               type="button"
               onClick={() => navigate("/login")}
