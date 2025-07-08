@@ -1,11 +1,11 @@
 import React from "react";
 
-const Profile = () => {
+const Profile = ({user}) => {
 
   return (
       <div>
         <h2 className="text-2xl font-bold mb-4">Home Page Content</h2>
-        <p>This is your profile, student! 📚</p>
+        <p>This is your profile, {user.username}!</p>
       </div>
   );
 };

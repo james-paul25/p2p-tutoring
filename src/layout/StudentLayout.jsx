@@ -10,7 +10,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 
-const StudentLayout = ({ onLogout }) => {
+const StudentLayout = ({ onLogout, user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -25,10 +25,9 @@ const StudentLayout = ({ onLogout }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+    
   return (
-    <div className="flex h-screen flex-col md:flex-row bg-gray-100">
-      {/* Sidebar */}
+    <div className="flex h-screen flex-col md:flex-row bg-gray-100">    
       <aside
         className={`fixed md:static top-0 left-0 h-full ${
           collapsed ? "w-20" : "w-52"
@@ -98,7 +97,6 @@ const StudentLayout = ({ onLogout }) => {
         </div>
       </aside>
 
-      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
@@ -106,9 +104,7 @@ const StudentLayout = ({ onLogout }) => {
         ></div>
       )}
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Topbar */}
         <header className="bg-white shadow p-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <button
@@ -117,7 +113,7 @@ const StudentLayout = ({ onLogout }) => {
             >
               <Menu className="h-6 w-6" />
             </button>
-            <h1 className="text-lg font-semibold">Welcome Student</h1>
+                      <h1 className="text-lg font-semibold">Welcome { user.username }!</h1>
           </div>
 
           <div className="relative" ref={dropdownRef}>
