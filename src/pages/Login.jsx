@@ -21,13 +21,12 @@ const Login = ({onLogin}) => {
             });
 
             if (response.ok) {
-                const data = response.json();
-                console.log(data);
-                console.log(data?.message);
+                const data = await response.json();
                 onLogin();
                 alert(data.message);
-                navigate("/home", { replace: true });
-            } 
+            } else {
+                alert("Signing in failed");
+            }
             
         } catch (e) {
             alert(e);
@@ -51,6 +50,8 @@ const Login = ({onLogin}) => {
                     onChange={(e) => setPassword(e.target.value)}
                 /><br />
                 <button type="submit">Sign In</button>
+                <p>Dont have an account ?</p>
+                <button type="button" onClick={() => navigate("/signup")}>Sign Up</button>
                 
             </form>
         </>

@@ -45,7 +45,7 @@ function App() {
           element={
             loggedIn ? (
               <Navigate to="/home" replace />
-            ) : ( <Navigate to="login" replace />)
+            ) : ( <Navigate to="/login" replace />)
           }
         />
         <Route
@@ -64,6 +64,17 @@ function App() {
             ) : (<Navigate to="/login" />)
           }
         />
+        <Route
+          path='/signup'
+          element={
+            loggedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <Register />
+            )
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   )
