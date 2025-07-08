@@ -12,7 +12,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [userData, setUserData] = useState(null);
 
-  // Check session on initial load
   useEffect(() => {
     const check = async () => {
       try {
@@ -22,9 +21,9 @@ function App() {
         });
 
         if (response.ok) {
-          const data = await response.json(); // assuming your /check returns user info
+          const data = await response.json(); 
           setLoggedIn(true);
-          setUserData(data); // set data from session
+          setUserData(data); 
         } else {
           setLoggedIn(false);
         }
@@ -37,7 +36,6 @@ function App() {
     check();
   }, []);
 
-  // Handle logout
   const handleLogout = async () => {
     await fetch('http://localhost:8080/api/v1/auth/logout', {
       method: 'POST',
@@ -47,7 +45,6 @@ function App() {
     setUserData(null);
   };
 
-  // While checking login or waiting for userData
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
   }
@@ -55,13 +52,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redirect base route */}
         <Route
           path="/"
           element={<Navigate to={loggedIn ? '/home' : '/login'} replace />}
         />
 
-        {/* Auth routes */}
         <Route
           path="/login"
           element={
@@ -82,7 +77,6 @@ function App() {
           element={loggedIn ? <Navigate to="/home" replace /> : <Register />}
         />
 
-        {/* Protected student routes */}
         {loggedIn && userData && (
           <Route element={<StudentLayout onLogout={handleLogout} user={userData} />}>
             <Route path="/home" element={<Home user={userData} />} />
@@ -91,7 +85,6 @@ function App() {
           </Route>
         )}
 
-        {/* Redirect if not logged in */}
         {!loggedIn && (
           <>
             <Route path="/home" element={<Navigate to="/login" />} />
