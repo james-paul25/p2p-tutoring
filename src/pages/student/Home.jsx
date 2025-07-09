@@ -8,8 +8,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
+import SessionModal from "../../modals/SessionModal";
 
-// Dummy data
+// Dummy Tutors
 const dummyTutors = [
   {
     id: 1,
@@ -40,7 +41,7 @@ const dummyTutors = [
   },
 ];
 
-// Dummy current sessions
+// Dummy Sessions
 const dummySessions = [
   {
     id: 1,
@@ -48,11 +49,14 @@ const dummySessions = [
     subject: "Mathematics",
     time: "Today at 3:00 PM",
     avatar: "https://i.pravatar.cc/150?img=3",
+    location: "Zoom",
+    notes: "Review for midterm exam",
   },
 ];
 
 const Home = ({ user }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const recentTutors = dummyTutors;
@@ -61,175 +65,200 @@ const Home = ({ user }) => {
   const sessions = dummySessions;
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md space-y-10">
-      {/* Current Sessions */}
-      <section>
-        <div className="flex items-center gap-2 mb-3">
-          <GraduationCap className="text-purple-600 w-5 h-5" />
-          <h2 className="text-xl font-semibold text-gray-800">Current Sessions</h2>
-        </div>
-        {sessions.length === 0 ? (
-          <p className="text-gray-600 text-sm">
-            No upcoming sessions. Book a tutor now!
-          </p>
-        ) : (
-          <div className="flex flex-col gap-4">
-            {sessions.map((session) => (
-              <div key={session.id} className="bg-purple-100 p-4 rounded-lg flex gap-4 items-center">
-                <img
-                  src={session.avatar}
-                  alt={session.tutorName}
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <h3 className="font-semibold text-purple-900">{session.tutorName}</h3>
-                  <p className="text-sm text-purple-800">{session.subject} – {session.time}</p>
-                </div>
-              </div>
-            ))}
+    <>
+      {/* Main Content */}
+      <div
+        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${
+          selectedTutor || selectedSession ? "blur-sm pointer-events-none select-none" : ""
+        }`}
+      >
+        {/* Current Sessions */}
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <GraduationCap className="text-purple-600 w-5 h-5" />
+            <h2 className="text-xl font-semibold text-gray-800">Current Sessions</h2>
           </div>
-        )}
-      </section>
-
-      {/* Recent Tutors */}
-      <section>
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Users className="text-blue-600 w-5 h-5" />
-          <h2 className="text-xl font-semibold text-gray-800">Recent Tutors</h2>
-        </div>
-        <Link to="/tutors" className="text-sm text-blue-600 hover:underline">See all</Link>
-      </div>
-        {recentTutors.length === 0 ? (
-          <p className="text-gray-600 text-sm">
-            No recent tutors. Book a session with the best tutor of your choice.
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {recentTutors.map((tutor) => (
-              <div
-                key={tutor.id}
-                onClick={() => setSelectedTutor(tutor)}
-                className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
-              >
-                <img
-                  src={tutor.avatar}
-                  alt={tutor.name}
-                  className="w-14 h-14 rounded-full object-cover"
-                />
-                <div>
-                  <h3 className="font-semibold text-gray-800">{tutor.name}</h3>
-                  <p className="text-sm text-gray-600">Subject: {tutor.subject}</p>
-                  <p className="text-sm text-yellow-600">⭐ {tutor.rating}</p>
+          {sessions.length === 0 ? (
+            <p className="text-gray-600 text-sm">
+              No upcoming sessions. Book a tutor now!
+            </p>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {sessions.map((session) => (
+                <div
+                  key={session.id}
+                  onClick={() => setSelectedSession(session)}
+                  className="cursor-pointer bg-purple-100 p-4 rounded-lg flex gap-4 items-center hover:bg-purple-200"
+                >
+                  <img
+                    src={session.avatar}
+                    alt={session.tutorName}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-purple-900">{session.tutorName}</h3>
+                    <p className="text-sm text-purple-800">
+                      {session.subject} – {session.time}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Favorite Tutors */}
-      <section>
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Heart className="text-pink-600 w-5 h-5" />
-          <h2 className="text-xl font-semibold text-gray-800">Your Favorites</h2>
-        </div>
-        <Link to="/tutors" className="text-sm text-pink-600 hover:underline">See all</Link>
-      </div>
-        {favoriteTutors.length === 0 ? (
-          <p className="text-gray-600 text-sm">
-            No favorites yet. Book a session and mark a tutor as favorite.
-          </p>
-        ) : (
-          <div className="flex gap-4 overflow-x-auto pb-1">
-            {favoriteTutors.map((tutor) => (
-              <div
-                key={tutor.id}
-                onClick={() => setSelectedTutor(tutor)}
-                className="min-w-[220px] bg-pink-100 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:bg-pink-200"
-              >
-                <img
-                  src={tutor.avatar}
-                  alt={tutor.name}
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <h3 className="font-medium text-pink-900">{tutor.name}</h3>
-                  <p className="text-sm text-pink-700">{tutor.subject}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Top-Rated Tutors */}
-      <section>
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Star className="text-yellow-500 w-5 h-5" />
-          <h2 className="text-xl font-semibold text-gray-800">Top-Rated Tutors</h2>
-        </div>
-        <Link to="/tutors" className="text-sm text-yellow-600 hover:underline">See all</Link>
-      </div>
-        {topTutors.length === 0 ? (
-          <p className="text-gray-600 text-sm">
-            No top-rated tutors yet. Book a session and rate your tutor.
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {topTutors.map((tutor) => (
-              <div
-                key={tutor.id}
-                onClick={() => setSelectedTutor(tutor)}
-                className="bg-yellow-100 p-4 rounded-lg shadow flex gap-4 cursor-pointer hover:bg-yellow-200"
-              >
-                <img
-                  src={tutor.avatar}
-                  alt={tutor.name}
-                  className="w-14 h-14 rounded-full object-cover"
-                />
-                <div>
-                  <h3 className="font-semibold text-yellow-900">{tutor.name}</h3>
-                  <p className="text-sm text-yellow-800">
-                    ⭐ {tutor.rating} – {tutor.subject}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Recommended Subjects */}
-      <section>
-        <div className="flex items-center gap-2 mb-3">
-          <BookOpen className="text-indigo-600 w-5 h-5" />
-          <h2 className="text-xl font-semibold text-gray-800">
-            Recommended for {user?.department || "your department"}
-          </h2>
-        </div>
-        <div className="flex gap-3 flex-wrap">
-          {recommendedSubjects.map((subject, i) => (
-            <div
-              key={i}
-              className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg shadow"
-            >
-              {subject}
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
+          )}
+        </section>
 
-      {/* Modal */}
+        {/* Recent Tutors */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Users className="text-blue-600 w-5 h-5" />
+              <h2 className="text-xl font-semibold text-gray-800">Recent Tutors</h2>
+            </div>
+            <Link to="/tutors" className="text-sm text-blue-600 hover:underline">
+              See all
+            </Link>
+          </div>
+          {recentTutors.length === 0 ? (
+            <p className="text-gray-600 text-sm">
+              No recent tutors. Book a session with the best tutor of your choice.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {recentTutors.map((tutor) => (
+                <div
+                  key={tutor.id}
+                  onClick={() => setSelectedTutor(tutor)}
+                  className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
+                >
+                  <img
+                    src={tutor.avatar}
+                    alt={tutor.name}
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{tutor.name}</h3>
+                    <p className="text-sm text-gray-600">Subject: {tutor.subject}</p>
+                    <p className="text-sm text-yellow-600">⭐ {tutor.rating}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Favorite Tutors */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Heart className="text-pink-600 w-5 h-5" />
+              <h2 className="text-xl font-semibold text-gray-800">Your Favorites</h2>
+            </div>
+            <Link to="/tutors" className="text-sm text-pink-600 hover:underline">
+              See all
+            </Link>
+          </div>
+          {favoriteTutors.length === 0 ? (
+            <p className="text-gray-600 text-sm">
+              No favorites yet. Book a session and mark a tutor as favorite.
+            </p>
+          ) : (
+            <div className="flex gap-4 overflow-x-auto pb-1">
+              {favoriteTutors.map((tutor) => (
+                <div
+                  key={tutor.id}
+                  onClick={() => setSelectedTutor(tutor)}
+                  className="min-w-[220px] bg-pink-100 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:bg-pink-200"
+                >
+                  <img
+                    src={tutor.avatar}
+                    alt={tutor.name}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div>
+                    <h3 className="font-medium text-pink-900">{tutor.name}</h3>
+                    <p className="text-sm text-pink-700">{tutor.subject}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Top-Rated Tutors */}
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Star className="text-yellow-500 w-5 h-5" />
+              <h2 className="text-xl font-semibold text-gray-800">Top-Rated Tutors</h2>
+            </div>
+            <Link to="/tutors" className="text-sm text-yellow-600 hover:underline">
+              See all
+            </Link>
+          </div>
+          {topTutors.length === 0 ? (
+            <p className="text-gray-600 text-sm">
+              No top-rated tutors yet. Book a session and rate your tutor.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {topTutors.map((tutor) => (
+                <div
+                  key={tutor.id}
+                  onClick={() => setSelectedTutor(tutor)}
+                  className="bg-yellow-100 p-4 rounded-lg shadow flex gap-4 cursor-pointer hover:bg-yellow-200"
+                >
+                  <img
+                    src={tutor.avatar}
+                    alt={tutor.name}
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
+                  <div>
+                    <h3 className="font-semibold text-yellow-900">{tutor.name}</h3>
+                    <p className="text-sm text-yellow-800">
+                      ⭐ {tutor.rating} – {tutor.subject}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Recommended Subjects */}
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <BookOpen className="text-indigo-600 w-5 h-5" />
+            <h2 className="text-xl font-semibold text-gray-800">
+              Recommended for {user?.department || "your department"}
+            </h2>
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            {recommendedSubjects.map((subject, i) => (
+              <div
+                key={i}
+                className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg shadow"
+              >
+                {subject}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* Modals OUTSIDE the blurred container */}
       {selectedTutor && (
         <TutorProfileModal
           tutor={selectedTutor}
           onClose={() => setSelectedTutor(null)}
         />
       )}
-    </div>
+      {selectedSession && (
+        <SessionModal
+          session={selectedSession}
+          onClose={() => setSelectedSession(null)}
+        />
+      )}
+    </>
   );
 };
 
