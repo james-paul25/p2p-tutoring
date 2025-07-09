@@ -3,6 +3,8 @@ import EditProfileModal from "../../modals/EditProfileModal";
 import defaultAvatar from "../../assets/prof.jpg";
 import { getStudentInfo } from "../../services/studentService";
 import { Pencil, Check, X } from "lucide-react";
+import ProfileItem from "../../components/ProfileItem";
+import { fetchProfilePicture } from "../../services/profilePictureService";
 
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -48,8 +50,10 @@ const Profile = ({ user }) => {
     const fetchData = async () => {
       try {
         const student = await getStudentInfo(user.userId);
+        const profile = await fetchProfilePicture(user.userId);
         setStudentInfo(student);
         setBioInput(student.bio || "");
+        setProfileImage(profile.filePath);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -166,12 +170,5 @@ const Profile = ({ user }) => {
     </>
   );
 };
-
-const ProfileItem = ({ label, value }) => (
-  <div className="bg-gray-50 p-4 rounded-md shadow-inner">
-    <h4 className="text-sm text-gray-500">{label}</h4>
-    <p className="text-base text-gray-800">{value || "N/A"}</p>
-  </div>
-);
 
 export default Profile;
