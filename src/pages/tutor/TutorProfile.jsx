@@ -1,7 +1,7 @@
 
 const TutorProfile = ({user}) => {
     return (
-        <div>
+        <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
             <h2 className="text-2xl font-bold mb-4">Tutor</h2>
             <p>Profile, {user?.username || "guest"}!</p>
         </div>
