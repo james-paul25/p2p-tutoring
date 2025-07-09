@@ -28,17 +28,17 @@ const SessionModal = ({ session, onClose }) => {
             className="w-16 h-16 rounded-full object-cover"
           />
           <div>
-            <h2 className="text-xl font-bold text-gray-800">{session.tutorName}</h2>
-            <p className="text-gray-600">{session.subject}</p>
+            <h2 className="text-xl font-bold text-gray-800">{session?.tutor?.student?.fullName}</h2>
+            <p className="text-gray-600">{session?.subject?.subjectDescription}</p>
           </div>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Time:</span> {session.time}
+            <span className="font-semibold text-gray-800">Time:</span> {session?.sessionTime}
           </p>
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Location:</span> {session.location}
+            <span className="font-semibold text-gray-800">Location:</span> dummy location
           </p>
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Notes:</span> {session.notes}
