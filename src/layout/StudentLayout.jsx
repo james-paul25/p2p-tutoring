@@ -9,7 +9,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Clock,
-  GraduationCap
+  GraduationCap,
+  School
 } from "lucide-react";
 
 const StudentLayout = ({ onLogout, user }) => {
@@ -117,7 +118,7 @@ const StudentLayout = ({ onLogout, user }) => {
                   }`
                 }
               >
-                <User className="h-5 w-5" />
+                <School className="h-5 w-5" />
                 {!collapsed && <span>Tutors</span>}
               </NavLink>
             </li>

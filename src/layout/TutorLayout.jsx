@@ -8,7 +8,9 @@ import {
   User,
   ChevronsLeft,
   ChevronsRight,
-  Clock
+  Clock,
+  School,
+  GraduationCap
 } from "lucide-react";
 
 const TutorLayout = ({ onLogout, user }) => {
@@ -39,7 +41,7 @@ const TutorLayout = ({ onLogout, user }) => {
         <div>
           <div className="flex justify-between items-center mb-6">
             {!collapsed && (
-              <h2 className="text-xl font-bold whitespace-nowrap">Student Panel</h2>
+              <h2 className="text-xl font-bold whitespace-nowrap">StudentTutor Panel</h2>
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}
@@ -105,6 +107,19 @@ const TutorLayout = ({ onLogout, user }) => {
               >
                 <Clock className="h-5 w-5" />
                 {!collapsed && <span>Session</span>}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/tutors"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
+                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  }`
+                }
+              >
+                <School className="h-5 w-5" />
+                {!collapsed && <span>Tutors</span>}
               </NavLink>
             </li>
           </ul>
