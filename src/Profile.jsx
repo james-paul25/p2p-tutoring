@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import EditProfileModal from "../../modals/EditProfileModal";
-import defaultAvatar from "../../assets/prof.jpg";
-import { getStudentInfo } from "../../services/studentService";
+import EditProfileModal from "./modals/EditProfileModal";
+import defaultAvatar from "./assets/prof.jpg";
+import { getStudentInfo } from "./services/studentService";
 import { Pencil, Check, X } from "lucide-react";
-import ProfileItem from "../../components/ProfileItem";
-import { fetchProfilePicture } from "../../services/profilePictureService";
+import ProfileItem from "./components/ProfileItem";
+import { fetchProfilePicture } from "./services/profilePictureService";
 
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);

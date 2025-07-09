@@ -6,13 +6,12 @@ import Register from './pages/Register';
 
 import StudentLayout from './layout/StudentLayout';
 import Home from './pages/student/Home';
-import Profile from './pages/student/Profile';
+import Profile from './Profile';
 import Message from './pages/student/Message';
 import Session from './pages/student/Session';
 
 import TutorLayout from './layout/TutorLayout'; 
 import TutorHome from './pages/tutor/HomeTutor';
-import TutorProfile from './pages/tutor/TutorProfile';
 import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
 
@@ -104,7 +103,7 @@ function App() {
         {loggedIn && userData?.role === 'TUTOR' && (
           <Route element={<TutorLayout onLogout={handleLogout} user={userData} />}>
             <Route path="/home" element={<TutorHome user={userData} />} />
-            <Route path="/profile" element={<TutorProfile user={userData} />} />
+            <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/message" element={<TutorMessage user={userData} />} />
             <Route path="/session" element={<TutorSession user={userData} />} />
             <Route path="/tutors" element={<Tutors user={userData} />} />
