@@ -12,12 +12,14 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
+import { fetchProfilePicture } from "../services/profilePictureService";
 
 const StudentLayout = ({ onLogout, user }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const dropdownRef = useRef(null);
+  const [profilePicture, setProfilePicture] = useState();
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -28,6 +30,25 @@ const StudentLayout = ({ onLogout, user }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!user?.userId) return;
+
+    const fetchData = async () => {
+      try {
+        const [profile] = await Promise.all([
+          fetchProfilePicture(user.userId)
+        ]);
+
+        setProfilePicture(`http://localhost:8080${profile.filePath}`);
+  
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+  
+    fetchData();
+  }, [user.userId]);
     
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">    
@@ -148,7 +169,7 @@ const StudentLayout = ({ onLogout, user }) => {
 
           <div className="relative" ref={dropdownRef}>
             <img
-              src={ProfilePic}
+              src={profilePicture || ProfilePic}
               alt="Profile"
               className="w-10 h-10 rounded-full cursor-pointer"
               onClick={() => setDropdownOpen(!dropdownOpen)}
