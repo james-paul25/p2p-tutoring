@@ -9,8 +9,9 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
-import { getRecentTutors } from "../../services/tutorService";
+import { fetchRecentTutors } from "../../services/tutorService";
 import { getSessionByStudent } from "../../services/sessionService";
+import { getStudentInfo } from "../../services/studentService";
 // dummy profile
 import Avatar from "../../assets/prof.jpg"
 
@@ -22,20 +23,26 @@ const Home = ({ user }) => {
   const [selectedSession, setSelectedSession] = useState(null);
   const [recentTutors, setRecentTutors] = useState([]);
   const [studentSession, setStudentSession] = useState([]);
+  const [studentInfo, setStudentInfo] = useState([]);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
 
   useEffect(() => {
+    if (!user?.userId) return;
+
     const fetchData = async () => {
       try {
-        const [recent, session] = await Promise.all([
-          getRecentTutors(),
-          getSessionByStudent(),
+        const [recent, student] = await Promise.all([
+          fetchRecentTutors(),
+          getStudentInfo(user.userId),
         ]);
   
+        const session = await getSessionByStudent(student.studentId);
+  
         setRecentTutors(recent);
+        setStudentInfo(student);
         setStudentSession(session);
       } catch (error) {
         console.error("Fetching error:", error);
@@ -43,9 +50,12 @@ const Home = ({ user }) => {
     };
   
     fetchData();
-  }, []);
-
-  console.log("tutors: ", recentTutors)
+  }, [user.userId]);
+  
+  console.log("user: ",user)
+  console.log("tutors: ", recentTutors);
+  console.log("student info:", studentInfo);
+  console.log("session: ", studentSession);
 
   return (
     <>
