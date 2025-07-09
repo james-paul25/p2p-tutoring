@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const SessionModal = ({ session, onClose }) => {
-    if (!session) return null;
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (e.target.id === "sessionModalBackdrop") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("mousedown", handleOutsideClick);
+    return () => window.removeEventListener("mousedown", handleOutsideClick);
+  }, [onClose]);
     
+  if (!session) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-30 backdrop-blur-sm">
+    <div
+      id="sessionModalBackdrop"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-30 backdrop-blur-sm"
+    >
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        >
-          &times;
-        </button>
-
         <div className="flex items-center gap-4 mb-4">
           <img
             src={session.avatar}
@@ -30,10 +37,24 @@ const SessionModal = ({ session, onClose }) => {
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Time:</span> {session.time}
           </p>
-
           <p className="text-sm text-gray-600">
-            Please be ready for your session on time. Check your email for the meeting link.
+            <span className="font-semibold text-gray-800">Location:</span> {session.location}
           </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Notes:</span> {session.notes}
+          </p>
+          <p className="text-sm text-gray-600">
+            Please be ready on time. Check your email for the session link.
+          </p>
+        </div>
+
+        <div className="mt-6 text-right">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>

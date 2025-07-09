@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 
 const TutorProfileModal = ({ tutor, onClose }) => {
-  if (!tutor) return null;
+    
+    useEffect(() => {
+    const handleOutsideClick = (e) => {
+        if (e.target.id === "tutorProfileModalBackdrop") {
+        onClose();
+        }
+    };
+
+    window.addEventListener("mousedown", handleOutsideClick);
+    return () => window.removeEventListener("mousedown", handleOutsideClick);
+    }, [onClose]);
+
+    if (!tutor) return null;
+
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
+      <div
+          id="tutorProfileModalBackdrop"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+      >
       <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
         <button
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
