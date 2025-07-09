@@ -9,44 +9,34 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
-import { fetchRecentTutors } from "../../services/tutorService";
+import { getRecentTutors } from "../../services/tutorService";
+import { getSessionByStudent } from "../../services/sessionService";
 // dummy profile
 import Avatar from "../../assets/prof.jpg"
 
 const dummyTutors = [
 ];
 
-// Dummy Sessions
-const dummySessions = [
-  {
-    id: 1,
-    tutorName: "John Doe",
-    subject: "Mathematics",
-    time: "Today at 3:00 PM",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    location: "Zoom",
-    notes: "Review for midterm exam",
-  },
-];
-
 const Home = ({ user }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
   const [recentTutors, setRecentTutors] = useState([]);
+  const [studentSession, setStudentSession] = useState([]);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
-  const sessions = dummySessions;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [recent] = await Promise.all([
-          fetchRecentTutors(),
+        const [recent, session] = await Promise.all([
+          getRecentTutors(),
+          getSessionByStudent(),
         ]);
   
         setRecentTutors(recent);
+        setStudentSession(session);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -55,7 +45,7 @@ const Home = ({ user }) => {
     fetchData();
   }, []);
 
-  console.log("tutors: " , recentTutors)
+  console.log("tutors: ", recentTutors)
 
   return (
     <>
@@ -71,13 +61,13 @@ const Home = ({ user }) => {
             <GraduationCap className="text-purple-600 w-5 h-5" />
             <h2 className="text-xl font-semibold text-gray-800">Current Sessions</h2>
           </div>
-          {sessions.length === 0 ? (
+          {studentSession.length === 0 ? (
             <p className="text-gray-600 text-sm">
               No upcoming sessions. Book a tutor now!
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {sessions.map((session) => (
+              {studentSession.map((session) => (
                 <div
                   key={session.id}
                   onClick={() => setSelectedSession(session)}
@@ -89,9 +79,9 @@ const Home = ({ user }) => {
                     className="w-12 h-12 rounded-full"
                   />
                   <div>
-                    <h3 className="font-semibold text-purple-900">{session.tutorName}</h3>
+                    <h3 className="font-semibold text-purple-900">{session?.tutor?.student?.fullName}</h3>
                     <p className="text-sm text-purple-800">
-                      {session.subject} – {session.time}
+                      {session?.subject?.subjectDescription} – {session?.sessionTime}
                     </p>
                   </div>
                 </div>
