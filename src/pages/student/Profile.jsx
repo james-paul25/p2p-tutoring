@@ -9,7 +9,7 @@ import { fetchProfilePicture } from "../../services/profilePictureService";
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [userInfo, setUserInfo] = useState(user);
-  const [profileImage, setProfileImage] = useState(defaultAvatar);
+  const [profileImage, setProfileImage] = useState();
   const [studentInfo, setStudentInfo] = useState({});
   const [editingBio, setEditingBio] = useState(false);
   const [bioInput, setBioInput] = useState("");
@@ -26,8 +26,8 @@ const Profile = ({ user }) => {
 
         const res = await fetch(`http://localhost:8080/api/v1/profile-picture/upload/${user.userId}`, {
           method: "POST",
-          body: formData,
           credentials: "include",
+          body: formData,
         });
 
         if (!res.ok) {
@@ -36,7 +36,8 @@ const Profile = ({ user }) => {
         }
 
         const savedProfile = await res.json();
-        alert("Profile image uploaded successfully!", savedProfile);
+        alert(savedProfile.message || "Profile image uploaded successfully!" );
+        console.log("saveprofile", savedProfile);
       } catch (err) {
         console.error("Upload failed:", err.message);
         alert("Failed to upload image: " + err.message);
@@ -53,7 +54,9 @@ const Profile = ({ user }) => {
         const profile = await fetchProfilePicture(user.userId);
         setStudentInfo(student);
         setBioInput(student.bio || "");
-        setProfileImage(profile.filePath);
+        if (profile?.filePath) {
+          setProfileImage(`http://localhost:8080${profile.filePath}`);
+        }
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -61,6 +64,8 @@ const Profile = ({ user }) => {
 
     fetchData();
   }, [user.userId]);
+
+  console.log("profile image: ", profileImage);
 
   const handleBioUpdate = async () => {
     try {
@@ -98,7 +103,7 @@ const Profile = ({ user }) => {
         <div className="flex items-center gap-6 mb-6">
           <div className="relative group">
             <img
-              src={profileImage}
+              src={profileImage || defaultAvatar}
               alt="Profile"
               className="w-24 h-24 rounded-full object-cover border border-gray-300"
             />

@@ -28,7 +28,7 @@ const Register = () => {
             if (response.ok) {
                 const data = await response.text();
                 alert(data);
-
+                
                 setUsername("");
                 setPassword("");
                 setEmail("");
