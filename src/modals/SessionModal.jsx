@@ -41,7 +41,7 @@ const SessionModal = ({ session, onClose }) => {
             <span className="font-semibold text-gray-800">Location:</span> dummy location
           </p>
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Notes:</span> {session.notes}
+            <span className="font-semibold text-gray-800">Notes:</span> {session.notes || "N/A"}
           </p>
           <p className="text-sm text-gray-600">
             Please be ready on time. Check your email for the session link.
