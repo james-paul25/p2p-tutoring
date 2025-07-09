@@ -41,7 +41,7 @@ const TutorLayout = ({ onLogout, user }) => {
         <div>
           <div className="flex justify-between items-center mb-6">
             {!collapsed && (
-              <h2 className="text-xl font-bold whitespace-nowrap">StudentTutor Panel</h2>
+              <h2 className="text-xl font-bold whitespace-nowrap">Tutor Panel</h2>
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}
@@ -142,6 +142,7 @@ const TutorLayout = ({ onLogout, user }) => {
             >
               <Menu className="h-6 w-6" />
             </button>
+                <GraduationCap className="w-6 h-6 text-purple-600" />
                 <h1 className="text-lg font-semibold">Welcome { user.username }!</h1>
           </div>
 
