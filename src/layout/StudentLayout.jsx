@@ -8,7 +8,8 @@ import {
   User,
   ChevronsLeft,
   ChevronsRight,
-  Clock
+  Clock,
+  GraduationCap
 } from "lucide-react";
 
 const StudentLayout = ({ onLogout, user }) => {
@@ -107,6 +108,19 @@ const StudentLayout = ({ onLogout, user }) => {
                 {!collapsed && <span>Session</span>}
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/tutors"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
+                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  }`
+                }
+              >
+                <User className="h-5 w-5" />
+                {!collapsed && <span>Tutors</span>}
+              </NavLink>
+            </li>
           </ul>
         </div>
       </aside>
@@ -127,6 +141,7 @@ const StudentLayout = ({ onLogout, user }) => {
             >
               <Menu className="h-6 w-6" />
             </button>
+                <GraduationCap className="w-6 h-6 text-purple-600" />
                 <h1 className="text-lg font-semibold">Welcome { user.username }!</h1>
           </div>
 

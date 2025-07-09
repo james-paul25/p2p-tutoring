@@ -16,6 +16,9 @@ import TutorProfile from './pages/tutor/TutorProfile';
 import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
 
+{/* can access both tutors and students */}
+import Tutors from './pages/Tutors';
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -93,6 +96,7 @@ function App() {
             <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/message" element={<Message user={userData} />} />
             <Route path="/session" element={<Session user={userData} />} />
+            <Route path="/tutors" element={<Tutors user={userData} />} />
           </Route>
         )}
 
@@ -103,6 +107,7 @@ function App() {
             <Route path="/profile" element={<TutorProfile user={userData} />} />
             <Route path="/message" element={<TutorMessage user={userData} />} />
             <Route path="/session" element={<TutorSession user={userData} />} />
+            <Route path="/tutors" element={<Tutors user={userData} />} />
           </Route>
         )}
 
@@ -113,6 +118,7 @@ function App() {
             <Route path="/profile" element={<Navigate to="/login" />} />
             <Route path="/message" element={<Navigate to="/login" />} />
             <Route path="/session" element={<Navigate to="/login" />} />
+            <Route path="/tutors" element={<Navigate to="/login" />} />
           </>
         )}
       </Routes>
