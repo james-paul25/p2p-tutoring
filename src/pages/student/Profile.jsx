@@ -2,41 +2,82 @@ import React, { useState, useEffect } from "react";
 import EditProfileModal from "../../modals/EditProfileModal";
 import defaultAvatar from "../../assets/prof.jpg";
 import { getStudentInfo } from "../../services/studentService";
+import { Pencil, Check, X } from "lucide-react";
 
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [userInfo, setUserInfo] = useState(user);
   const [profileImage, setProfileImage] = useState(defaultAvatar);
-  const [studentInfo, setStudentInfo] = useState([]);
+  const [studentInfo, setStudentInfo] = useState({});
+  const [editingBio, setEditingBio] = useState(false);
+  const [bioInput, setBioInput] = useState("");
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setProfileImage(imageUrl);
-      // here, upload the change in backend 
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch(`http://localhost:8080/api/v1/profile-picture/upload/${user.userId}`, {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText);
+        }
+
+        const savedProfile = await res.json();
+        alert("Profile image uploaded successfully!", savedProfile);
+      } catch (err) {
+        console.error("Upload failed:", err.message);
+        alert("Failed to upload image: " + err.message);
+      }
     }
   };
 
   useEffect(() => {
-      if (!user?.userId) return;
-  
-      const fetchData = async () => {
-        try {
-          const [student] = await Promise.all([
-            getStudentInfo(user.userId),
-          ]);
-    
-          setStudentInfo(student);
-        } catch (error) {
-          console.error("Fetching error:", error);
-        }
-      };
-    
-      fetchData();
-    }, [user.userId]);
+    if (!user?.userId) return;
 
-    console.log("student: ",studentInfo)
+    const fetchData = async () => {
+      try {
+        const student = await getStudentInfo(user.userId);
+        setStudentInfo(student);
+        setBioInput(student.bio || "");
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+
+    fetchData();
+  }, [user.userId]);
+
+  const handleBioUpdate = async () => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/v1/students/update-bio/${studentInfo.studentId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ bio: bioInput }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update bio");
+
+      const updated = await res.json();
+      setStudentInfo((prev) => ({ ...prev, bio: updated.bio }));
+      setEditingBio(false);
+    } catch (err) {
+      console.error("Bio update error:", err);
+      alert("Failed to update bio");
+    }
+  };
+
   return (
     <>
       <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto mt-10 space-y-6">
@@ -50,7 +91,6 @@ const Profile = ({ user }) => {
           </button>
         </div>
 
-        {/* Profile Image + Upload */}
         <div className="flex items-center gap-6 mb-6">
           <div className="relative group">
             <img
@@ -69,19 +109,44 @@ const Profile = ({ user }) => {
             </label>
           </div>
 
-          <div>
+          <div className="flex-1">
             <h3 className="text-xl font-semibold text-gray-900">
               {userInfo?.username || "N/A"}
             </h3>
             <p className="text-gray-600">{userInfo?.email || "No email"}</p>
-            <p className="text-gray-500">{studentInfo?.bio || "No bio"}</p>
+
+            <div className="flex items-start gap-2 mt-1">
+              {editingBio ? (
+                <div className="flex flex-col w-full">
+                  <textarea
+                    className="w-full border border-gray-300 rounded-md px-2 py-1 text-sm"
+                    value={bioInput}
+                    onChange={(e) => setBioInput(e.target.value)}
+                  />
+                  <div className="flex justify-end mt-1 gap-2">
+                    <button onClick={handleBioUpdate} className="text-green-600 hover:text-green-800">
+                      <Check className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => setEditingBio(false)} className="text-gray-500 hover:text-gray-800">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-500 text-sm">{studentInfo?.bio || "No bio"}</p>
+                  <button onClick={() => setEditingBio(true)} className="text-gray-400 hover:text-gray-700">
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* User Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <ProfileItem label="Full Name" value={studentInfo?.fullName} />
-          <ProfileItem label="Department" value={studentInfo?.department} />
+          <ProfileItem label="Department" value={studentInfo?.department?.departmentName} />
           <ProfileItem label="Year Level" value={studentInfo?.yearLevel} />
           <ProfileItem label="Role" value={studentInfo?.user?.role} />
         </div>
@@ -89,10 +154,11 @@ const Profile = ({ user }) => {
 
       {showEditModal && (
         <EditProfileModal
-          user={userInfo}
+          student={studentInfo}
           onClose={() => setShowEditModal(false)}
-          onSave={(updatedUser) => {
-            setUserInfo(updatedUser);
+          onSave={(updated) => {
+            setUserInfo(updated.user);
+            setStudentInfo(updated);
             setShowEditModal(false);
           }}
         />
