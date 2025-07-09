@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import InputField from "../components/InputField";
 
 const EditProfileModal = ({ user, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,17 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+      const handleOutsideClick = (e) => {
+        if (e.target.id === "editProfileBackdrop") {
+          onClose();
+        }
+      };
+  
+      window.addEventListener("mousedown", handleOutsideClick);
+      return () => window.removeEventListener("mousedown", handleOutsideClick);
+  }, [onClose]);
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,12 +49,17 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+      <div
+          id="editProfileBackdrop"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
+      >
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Edit Profile</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <InputField label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} />
+          <InputField label="First Name" name="firstName" value={formData.firstName} onChange={handleChange} />
+          <InputField label="Middle Name" name="middleName" value={formData.firstName} onChange={handleChange} />
+          <InputField label="Last Name" name="lastName" value={formData.firstName} onChange={handleChange} />
           <InputField label="Department" name="department" value={formData.department} onChange={handleChange} />
           <InputField label="Year Level" name="yearLevel" value={formData.yearLevel} onChange={handleChange} />
           <InputField label="Email" name="email" value={formData.email} onChange={handleChange} />
@@ -68,14 +85,5 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
   );
 };
 
-const InputField = ({ label, ...props }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-    <input
-      {...props}
-      className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-    />
-  </div>
-);
 
 export default EditProfileModal;

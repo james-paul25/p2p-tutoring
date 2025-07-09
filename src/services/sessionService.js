@@ -5,7 +5,7 @@ const getSessionByStudent = async (studentId) => {
         return []; 
     }
 
-    if (!res.ok) throw new Error("Failed to fetch recent tutors");
+    if (!res.ok) throw new Error("Failed to fetch sessions");
     return res.json();
 }
 

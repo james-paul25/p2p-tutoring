@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditProfileModal from "../../modals/EditProfileModal";
 import defaultAvatar from "../../assets/prof.jpg";
+import { getStudentInfo } from "../../services/studentService";
 
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [userInfo, setUserInfo] = useState(user);
   const [profileImage, setProfileImage] = useState(defaultAvatar);
+  const [studentInfo, setStudentInfo] = useState([]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -16,6 +18,25 @@ const Profile = ({ user }) => {
     }
   };
 
+  useEffect(() => {
+      if (!user?.userId) return;
+  
+      const fetchData = async () => {
+        try {
+          const [student] = await Promise.all([
+            getStudentInfo(user.userId),
+          ]);
+    
+          setStudentInfo(student);
+        } catch (error) {
+          console.error("Fetching error:", error);
+        }
+      };
+    
+      fetchData();
+    }, [user.userId]);
+
+    console.log("student: ",studentInfo)
   return (
     <>
       <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto mt-10 space-y-6">
@@ -53,15 +74,16 @@ const Profile = ({ user }) => {
               {userInfo?.username || "N/A"}
             </h3>
             <p className="text-gray-600">{userInfo?.email || "No email"}</p>
+            <p className="text-gray-500">{studentInfo?.bio || "No bio"}</p>
           </div>
         </div>
 
         {/* User Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <ProfileItem label="Full Name" value={userInfo?.fullName} />
-          <ProfileItem label="Department" value={userInfo?.department} />
-          <ProfileItem label="Year Level" value={userInfo?.yearLevel} />
-          <ProfileItem label="Role" value={userInfo?.role} />
+          <ProfileItem label="Full Name" value={studentInfo?.fullName} />
+          <ProfileItem label="Department" value={studentInfo?.department} />
+          <ProfileItem label="Year Level" value={studentInfo?.yearLevel} />
+          <ProfileItem label="Role" value={studentInfo?.user?.role} />
         </div>
       </div>
 
