@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Users,
   Star,
@@ -9,36 +9,11 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
+import { fetchRecentTutors } from "../../services/tutorService";
+// dummy profile
+import Avatar from "../../assets/prof.jpg"
 
-// Dummy Tutors
 const dummyTutors = [
-  {
-    id: 1,
-    name: "John Doe",
-    subject: "Mathematics",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    rating: 4.7,
-    email: "john.doe@example.com",
-    experience: "3 years",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    subject: "Physics",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    rating: 4.9,
-    email: "jane.smith@example.com",
-    experience: "5 years",
-  },
-  {
-    id: 3,
-    name: "Mike Johnson",
-    subject: "Chemistry",
-    avatar: "https://i.pravatar.cc/150?img=8",
-    rating: 4.6,
-    email: "mike.johnson@example.com",
-    experience: "2 years",
-  },
 ];
 
 // Dummy Sessions
@@ -57,12 +32,30 @@ const dummySessions = [
 const Home = ({ user }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
+  const [recentTutors, setRecentTutors] = useState([]);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
-  const recentTutors = dummyTutors;
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
   const sessions = dummySessions;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [recent] = await Promise.all([
+          fetchRecentTutors(),
+        ]);
+  
+        setRecentTutors(recent);
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  console.log("tutors: " , recentTutors)
 
   return (
     <>
@@ -126,19 +119,20 @@ const Home = ({ user }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {recentTutors.map((tutor) => (
                 <div
-                  key={tutor.id}
+                  key={tutor.tutorId}
                   onClick={() => setSelectedTutor(tutor)}
                   className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
                 >
                   <img
-                    src={tutor.avatar}
-                    alt={tutor.name}
+                    src={Avatar}
+                    alt={tutor?.student?.firstName}
                     className="w-14 h-14 rounded-full object-cover"
                   />
                   <div>
-                    <h3 className="font-semibold text-gray-800">{tutor.name}</h3>
-                    <p className="text-sm text-gray-600">Subject: {tutor.subject}</p>
-                    <p className="text-sm text-yellow-600">⭐ {tutor.rating}</p>
+                    <h3 className="font-semibold text-gray-800">{tutor?.student?.firstName}</h3>
+                    <p className="text-sm text-gray-600"><strong>Subject: </strong>{tutor?.subject?.subjectDescription}</p>
+                    <p className="text-sm text-gray-600"><strong>Status: </strong>{tutor?.status}</p>
+                    <p className="text-sm text-yellow-600">Year Level: {tutor?.student?.yearLevel}</p>
                   </div>
                 </div>
               ))}
