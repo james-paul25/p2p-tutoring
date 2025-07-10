@@ -9,7 +9,7 @@ const EditProfileModal = ({ student, onClose}) => {
     middleName: student?.middleName || "",
     lastName: student?.lastName || "",
     yearLevel: student?.yearLevel || "",
-    department: student?.department?.departmentName || "",
+    departmentId: student?.department?.departmentId || "",
   });
 
   const handleChange = (e) => {
@@ -107,14 +107,14 @@ const EditProfileModal = ({ student, onClose}) => {
             </label>
             <select
               id="department"
-              name="department"
-              value={formData.department}
+              name="departmentId"
+              value={formData.departmentId}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select department</option>
               {departments.map((dept) => (
-                <option key={dept.departmentId} value={dept.departmentName}>
+                <option key={dept.departmentId} value={dept.departmentId}>
                   {dept.departmentName}
                 </option>
               ))}

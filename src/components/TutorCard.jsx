@@ -1,4 +1,3 @@
-// src/components/cards/TutorCard.jsx
 import React from "react";
 import Avatar from "../assets/prof.jpg";
 

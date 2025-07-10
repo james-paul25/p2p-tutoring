@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
-import { fetchRecentTutors } from "../../services/tutorService";
+import { fetchAllTutors } from "../../services/tutorService";
 import { getSessionByStudent } from "../../services/sessionService";
 import { getStudentInfo } from "../../services/studentService";
 import { fetchAllProfilePicture } from "../../services/profilePictureService";
@@ -39,7 +39,7 @@ const Home = ({ user }) => {
     const fetchData = async () => {
       try {
         const [recent, student, pictures] = await Promise.all([
-          fetchRecentTutors(),
+          fetchAllTutors(),
           getStudentInfo(user.userId),
           fetchAllProfilePicture(),
         ]);
@@ -123,7 +123,7 @@ const Home = ({ user }) => {
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
 
-                const imageUrl = `http://localhost:8080${matchedPic.filePath}`;
+                const imageUrl =  matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
                 console.log("url", imageUrl);
 
                 return (
