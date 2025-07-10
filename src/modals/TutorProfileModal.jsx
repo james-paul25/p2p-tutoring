@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { X } from "lucide-react";
 import Avatar from "../assets/prof.jpg"
+import { useOutsideClick } from "../utils/useOutsideClick";
 
 const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
     
-    useEffect(() => {
-    const handleOutsideClick = (e) => {
-        if (e.target.id === "tutorProfileModalBackdrop") {
-        onClose();
-        }
-    };
-
-    window.addEventListener("mousedown", handleOutsideClick);
-    return () => window.removeEventListener("mousedown", handleOutsideClick);
-    }, [onClose]);
+  useOutsideClick("tutorProfileModalBackdrop", onClose);
 
     if (!tutor) return null;
 

@@ -1,24 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useOutsideClick } from "../utils/useOutsideClick";
 
 const SessionModal = ({ session, onClose }) => {
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (e.target.id === "sessionModalBackdrop") {
-        onClose();
-      }
-    };
-
-    window.addEventListener("mousedown", handleOutsideClick);
-    return () => window.removeEventListener("mousedown", handleOutsideClick);
-  }, [onClose]);
+  useOutsideClick("sessionModalBackdrop", onClose);
     
   if (!session) return null;
 
   return (
     <div
       id="sessionModalBackdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-30 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
     >
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
         <div className="flex items-center gap-4 mb-4">

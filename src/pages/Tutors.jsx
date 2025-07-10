@@ -65,7 +65,7 @@ const Tutors = ({ user }) => {
   
 
   const statusOptions = [
-    { value: "ALL", label: "All Statuses" },
+    { value: "ALL", label: "Status" },
     { value: "PENDING", label: "Pending" },
     { value: "APPROVED", label: "Approved" },
     { value: "REJECTED", label: "Rejected" },

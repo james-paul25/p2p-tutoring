@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../components/InputField";
 import { fetchDepartment } from "../services/departmentService";
+import { useOutsideClick } from "../utils/useOutsideClick";
 
-const EditProfileModal = ({ student, onClose}) => {
+const EditProfileModal = ({ student, onClose }) => {
+  
+  useOutsideClick("editProfileBackdrop", onClose);
+
   const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     firstName: student?.firstName || "",
@@ -16,16 +20,6 @@ const EditProfileModal = ({ student, onClose}) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (e.target.id === "editProfileBackdrop") {
-        onClose();
-      }
-    };
-    window.addEventListener("mousedown", handleOutsideClick);
-    return () => window.removeEventListener("mousedown", handleOutsideClick);
-  }, [onClose]);
 
   useEffect(() => {
     if (!student?.user?.userId) return;
@@ -72,7 +66,7 @@ const EditProfileModal = ({ student, onClose}) => {
   return (
     <div
       id="editProfileBackdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
     >
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Edit Profile</h2>
