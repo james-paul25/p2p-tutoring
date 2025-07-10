@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import Avatar from "../assets/prof.jpg"
 
-const TutorProfileModal = ({ tutor, onClose }) => {
+const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
     
     useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -33,7 +33,7 @@ const TutorProfileModal = ({ tutor, onClose }) => {
 
         <div className="flex flex-col items-center text-center">
           <img
-            src={Avatar}
+            src={imageUrl || Avatar}
             alt={tutor?.student?.firstName}
             className="w-24 h-24 rounded-full object-cover mb-3"
           />

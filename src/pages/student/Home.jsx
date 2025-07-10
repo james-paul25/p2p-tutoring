@@ -12,6 +12,7 @@ import SessionModal from "../../modals/SessionModal";
 import { fetchRecentTutors } from "../../services/tutorService";
 import { getSessionByStudent } from "../../services/sessionService";
 import { getStudentInfo } from "../../services/studentService";
+import { fetchAllProfilePicture } from "../../services/profilePictureService";
 // dummy profile
 import Avatar from "../../assets/prof.jpg"
 
@@ -23,6 +24,8 @@ const Home = ({ user }) => {
   const [selectedSession, setSelectedSession] = useState(null);
   const [recentTutors, setRecentTutors] = useState([]);
   const [studentSession, setStudentSession] = useState([]);
+  const [profilePictures, setProfilePictures] = useState([]);
+  const [selectedTutorImage, setSelectedTutorImage] = useState(null);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
@@ -33,15 +36,17 @@ const Home = ({ user }) => {
 
     const fetchData = async () => {
       try {
-        const [recent, student] = await Promise.all([
+        const [recent, student, pictures] = await Promise.all([
           fetchRecentTutors(),
           getStudentInfo(user.userId),
+          fetchAllProfilePicture(),
         ]);
   
         const session = await getSessionByStudent(student.studentId);
   
         setRecentTutors(recent);
         setStudentSession(session);
+        setProfilePictures(pictures);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -49,7 +54,7 @@ const Home = ({ user }) => {
   
     fetchData();
   }, [user.userId]);
-  
+
   console.log("user: ",user)
   console.log("tutors: ", recentTutors);
   console.log("session: ", studentSession);
@@ -114,25 +119,44 @@ const Home = ({ user }) => {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {recentTutors.map((tutor) => (
-                <div
-                  key={tutor?.tutorId}
-                  onClick={() => setSelectedTutor(tutor)}
-                  className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
-                >
-                  <img
-                    src={Avatar}
-                    alt={tutor?.student?.firstName}
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-gray-800">{tutor?.student?.firstName}</h3>
-                    <p className="text-sm text-gray-600"><strong>Subject: </strong>{tutor?.subject?.subjectDescription}</p>
-                    <p className="text-sm text-gray-600"><strong>Status: </strong>{tutor?.status}</p>
-                    <p className="text-sm text-yellow-600">Year Level: {tutor?.student?.yearLevel}</p>
+              {recentTutors.map((tutor) => {
+                const matchedPic = profilePictures.find(
+                  (pic) => pic?.user?.userId === tutor?.user?.userId
+                );
+
+                const imageUrl = `http://localhost:8080${matchedPic.filePath}`;
+                console.log("url", imageUrl);
+
+                return (
+                  <div
+                    key={tutor?.tutorId}
+                    onClick={() => {
+                      setSelectedTutor(tutor);
+                      setSelectedTutorImage(imageUrl);
+                    }}
+                    className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
+                  >
+                    <img
+                      src={imageUrl || Avatar}
+                      alt={tutor?.student?.firstName}
+                      className="w-14 h-14 rounded-full object-cover"
+                    />
+                    <div>
+                      <h3 className="font-semibold text-gray-800">{tutor?.student?.firstName}</h3>
+                      <p className="text-sm text-gray-600">
+                        <strong>Subject: </strong>{tutor?.subject?.subjectDescription}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <strong>Status: </strong>{tutor?.status}
+                      </p>
+                      <p className="text-sm text-yellow-600">
+                        Year Level: {tutor?.student?.yearLevel}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
+
             </div>
           )}
         </section>
@@ -239,13 +263,17 @@ const Home = ({ user }) => {
       {selectedTutor && (
         <TutorProfileModal
           tutor={selectedTutor}
+          imageUrl={selectedTutorImage}
           onClose={() => setSelectedTutor(null)}
         />
       )}
       {selectedSession && (
         <SessionModal
           session={selectedSession}
-          onClose={() => setSelectedSession(null)}
+          onClose={() => {
+            setSelectedSession(null);
+            setSelectedTutorImage(null);
+          }}
         />
       )}
     </>
