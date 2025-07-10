@@ -109,19 +109,6 @@ const TutorLayout = ({ onLogout, user }) => {
             </li>
             <li>
               <NavLink
-                to="/profile"
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
-                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
-                  }`
-                }
-              >
-                <User className="h-5 w-5" />
-                {!collapsed && <span>Profile</span>}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to="/session"
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
