@@ -38,7 +38,7 @@ const TutorProfileModal = ({ tutor, onClose }) => {
             className="w-24 h-24 rounded-full object-cover mb-3"
           />
           <h2 className="text-xl font-bold text-gray-800 mb-1">{tutor?.student?.fullName}</h2>
-          <p className="text-sm text-gray-600 font-medium"><strong>Department: </strong>{tutor?.student?.department || "N/A"}</p>
+          <p className="text-sm text-gray-600 font-medium"><strong>Department: </strong>{tutor?.student?.department?.departmentName || "N/A"}</p>
         </div>
 
         <div className="mt-4 border-t pt-4 text-sm text-gray-700 space-y-2">

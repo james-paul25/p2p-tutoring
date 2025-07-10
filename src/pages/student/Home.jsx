@@ -23,7 +23,6 @@ const Home = ({ user }) => {
   const [selectedSession, setSelectedSession] = useState(null);
   const [recentTutors, setRecentTutors] = useState([]);
   const [studentSession, setStudentSession] = useState([]);
-  const [studentInfo, setStudentInfo] = useState([]);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
@@ -42,7 +41,6 @@ const Home = ({ user }) => {
         const session = await getSessionByStudent(student.studentId);
   
         setRecentTutors(recent);
-        setStudentInfo(student);
         setStudentSession(session);
       } catch (error) {
         console.error("Fetching error:", error);
@@ -54,7 +52,6 @@ const Home = ({ user }) => {
   
   console.log("user: ",user)
   console.log("tutors: ", recentTutors);
-  console.log("student info:", studentInfo);
   console.log("session: ", studentSession);
 
   return (
@@ -119,7 +116,7 @@ const Home = ({ user }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {recentTutors.map((tutor) => (
                 <div
-                  key={tutor.tutorId}
+                  key={tutor?.tutorId}
                   onClick={() => setSelectedTutor(tutor)}
                   className="bg-white shadow rounded-lg p-4 flex gap-4 cursor-pointer hover:bg-gray-50"
                 >
@@ -239,7 +236,6 @@ const Home = ({ user }) => {
         </section>
       </div>
 
-      {/* Modals OUTSIDE the blurred container */}
       {selectedTutor && (
         <TutorProfileModal
           tutor={selectedTutor}
