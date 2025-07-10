@@ -10,7 +10,9 @@ import {
   ChevronsRight,
   Clock,
   GraduationCap,
-  School
+  School,
+  LogOut,
+  Settings
 } from "lucide-react";
 import { fetchProfilePicture } from "../services/profilePictureService";
 
@@ -171,28 +173,44 @@ const StudentLayout = ({ onLogout, user }) => {
             <img
               src={profilePicture || ProfilePic}
               alt="Profile"
-              className="w-10 h-10 rounded-full cursor-pointer"
+              className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80 transition duration-200"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             />
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md z-50">
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                   onClick={() => {
                     alert("Go to Settings");
                     setDropdownOpen(false);
                   }}
                 >
-                  Settings
+                  <Settings className="h-4 w-4 text-gray-600" />
+                  <span>Settings</span>
                 </button>
+
+                <NavLink
+                  to="/profile"
+                  onClick={() => setDropdownOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition ${
+                      isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                    }`
+                  }
+                >
+                  <User className="h-4 w-4" />
+                  <span>Profile</span>
+                </NavLink>
+
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
                   onClick={() => {
                     setDropdownOpen(false);
                     onLogout();
                   }}
                 >
-                  Logout
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
                 </button>
               </div>
             )}
