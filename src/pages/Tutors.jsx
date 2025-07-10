@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Users } from "lucide-react";
 import TutorCard from "../components/TutorCard";
 import TutorProfileModal from "../modals/TutorProfileModal";
@@ -8,6 +8,7 @@ import Avatar from "../assets/prof.jpg";
 
 import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
+import { debounce } from "../utils/debounce";
 
 const Tutors = ({ user }) => {
   const [tutors, setTutors] = useState([]);
@@ -15,6 +16,7 @@ const Tutors = ({ user }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
   useEffect(() => {
@@ -34,23 +36,44 @@ const Tutors = ({ user }) => {
     fetchData();
   }, []);
 
+  const debouncedChangeHandler = useMemo(
+    () =>
+      debounce((value) => {
+        setDebouncedSearch(value);
+      }, 400),
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    debouncedChangeHandler(e.target.value);
+  };
+
   const filteredTutors = tutors.filter((tutor) => {
-    const fullName = `${tutor.firstName} ${tutor.lastName}`.toLowerCase();
-    const matchesName = fullName.includes(searchTerm.toLowerCase());
+    const fullName = `${tutor.student.firstName} ${tutor.student.lastName}`.toLowerCase();
+    const subject = tutor.subject?.subjectDescription?.toLowerCase() || "";
+    const department = tutor.student?.department?.departmentName?.toLowerCase() || "";
+  
+    const combinedFields = `${fullName} ${subject} ${department}`;
+    const matchesSearch = combinedFields.includes(debouncedSearch.toLowerCase());
+  
     const matchesStatus =
       statusFilter === "ALL" || tutor.status === statusFilter;
-
-    return matchesName && matchesStatus;
+  
+    return matchesSearch && matchesStatus;
   });
+  
 
   const statusOptions = [
     { value: "ALL", label: "All Statuses" },
     { value: "PENDING", label: "Pending" },
-      { value: "APPROVED", label: "Approved" },
-      { value: "REJECTED", label: "Rejected" },
+    { value: "APPROVED", label: "Approved" },
+    { value: "REJECTED", label: "Rejected" },
   ];
-
+    
     console.log(user);
+    console.log("tutor: ", tutors);
+
   return (
     <>
       <div
@@ -67,13 +90,14 @@ const Tutors = ({ user }) => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <SearchBar
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tutors by name..."
+              onChange={handleSearchChange}
+              placeholder="Search tutors..."
             />
             <FilterDropdown
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               options={statusOptions}
+              label="Status"
             />
           </div>
         </div>
