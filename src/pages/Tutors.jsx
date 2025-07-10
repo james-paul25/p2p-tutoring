@@ -4,6 +4,7 @@ import TutorCard from "../components/TutorCard";
 import { fetchAllTutors } from "../services/tutorService";
 import { fetchAllProfilePicture } from "../services/profilePictureService";
 import Avatar from "../assets/prof.jpg";
+import TutorProfileModal from "../modals/TutorProfileModal";
 
 const Tutors = ({ user }) => {
   const [tutors, setTutors] = useState([]);
@@ -27,22 +28,27 @@ const Tutors = ({ user }) => {
 
     fetchData();
   }, []);
+    
+    console.log("selected image: ", selectedTutorImage);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
-      {/* Page Header */}
+    <>
+    <div
+        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${
+          selectedTutor ? "blur-sm pointer-events-none select-none" : ""
+        }`}
+      >
+
       <div className="flex items-center gap-2 mb-6">
         <Users className="text-blue-600 w-6 h-6" />
         <h1 className="text-2xl font-bold text-gray-800">All Tutors</h1>
       </div>
 
-      {/* User Info (optional) */}
       <div className="text-gray-700 space-y-1">
         <p>Logged in as: <span className="font-medium">{user?.username}</span></p>
         <p>Role: <span className="font-medium capitalize">{user?.role}</span></p>
       </div>
 
-      {/* Tutor Grid */}
       {tutors.length === 0 ? (
         <p className="text-gray-600 mt-4">No tutors available at the moment.</p>
       ) : (
@@ -68,7 +74,16 @@ const Tutors = ({ user }) => {
           })}
         </div>
       )}
-    </div>
+      </div>
+      
+      {selectedTutor && (
+        <TutorProfileModal
+          tutor={selectedTutor}
+          imageUrl={selectedTutorImage}
+          onClose={() => setSelectedTutor(null)}
+        />
+      )}
+    </>
   );
 };
 

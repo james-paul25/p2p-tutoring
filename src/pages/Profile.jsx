@@ -14,6 +14,26 @@ const Profile = ({ user }) => {
   const [editingBio, setEditingBio] = useState(false);
   const [bioInput, setBioInput] = useState("");
 
+  useEffect(() => {
+    if (!user?.userId) return;
+
+    const fetchData = async () => {
+      try {
+        const student = await getStudentInfo(user.userId);
+        const profile = await fetchProfilePicture(user.userId);
+        setStudentInfo(student);
+        setBioInput(student.bio || "");
+        if (profile?.filePath) {
+          setProfileImage(`http://localhost:8080${profile.filePath}`);
+        }
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+
+    fetchData();
+  }, [user.userId]);
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -39,31 +59,11 @@ const Profile = ({ user }) => {
         alert(savedProfile.message || "Profile image uploaded successfully!" );
         console.log("saveprofile", savedProfile);
       } catch (err) {
-        console.error("Upload failed:", err.message);
+        console.warn("Upload failed:", err.message);
         alert("Failed to upload image: " + err.message);
       }
     }
   };
-
-  useEffect(() => {
-    if (!user?.userId) return;
-
-    const fetchData = async () => {
-      try {
-        const student = await getStudentInfo(user.userId);
-        const profile = await fetchProfilePicture(user.userId);
-        setStudentInfo(student);
-        setBioInput(student.bio || "");
-        if (profile?.filePath) {
-          setProfileImage(`http://localhost:8080${profile.filePath}`);
-        }
-      } catch (error) {
-        console.error("Fetching error:", error);
-      }
-    };
-
-    fetchData();
-  }, [user.userId]);
 
   const handleBioUpdate = async () => {
     try {
@@ -86,6 +86,8 @@ const Profile = ({ user }) => {
       alert("Failed to update bio");
     }
   };
+
+  console.log("Student info: ", studentInfo);
 
   return (
     <>
