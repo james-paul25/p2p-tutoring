@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import InputField from "../components/InputField";
 import { fetchDepartment } from "../services/departmentService";
 
-const EditProfileModal = ({ student, onClose, onSave }) => {
+const EditProfileModal = ({ student, onClose}) => {
   const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     firstName: student?.firstName || "",
@@ -61,13 +61,8 @@ const EditProfileModal = ({ student, onClose, onSave }) => {
       if (!res.ok) throw new Error("Failed to update profile");
 
       const updated = await res.text();
-
-      alert(updated || "Your info was updated successfully!");
-      // ✅ Flatten department object for safe re-rendering
-      onSave?.({
-        ...updated,
-        department: updated?.department?.departmentName || "",
-      });
+      console.log("updated", updated)
+      alert(updated?.message || "Your info was updated successfully!");
       onClose();
     } catch (err) {
       console.error("Error updating profile:", err);

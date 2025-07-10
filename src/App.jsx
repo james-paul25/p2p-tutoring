@@ -6,7 +6,7 @@ import Register from './pages/Register';
 
 import StudentLayout from './layout/StudentLayout';
 import Home from './pages/student/Home';
-import Profile from './Profile';
+import Profile from './pages/Profile';
 import Message from './pages/student/Message';
 import Session from './pages/student/Session';
 

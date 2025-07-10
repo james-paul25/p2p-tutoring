@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import EditProfileModal from "./modals/EditProfileModal";
-import defaultAvatar from "./assets/prof.jpg";
-import { getStudentInfo } from "./services/studentService";
+import EditProfileModal from "../modals/EditProfileModal";
+import defaultAvatar from "../assets/prof.jpg";
+import { getStudentInfo } from "../services/studentService";
 import { Pencil, Check, X } from "lucide-react";
-import ProfileItem from "./components/ProfileItem";
-import { fetchProfilePicture } from "./services/profilePictureService";
+import ProfileItem from "../components/ProfileItem"
+import { fetchProfilePicture } from "../services/profilePictureService";
 
+{/* usable both sa tutor and student */}
 const Profile = ({ user }) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [userInfo, setUserInfo] = useState(user);
   const [profileImage, setProfileImage] = useState();
   const [studentInfo, setStudentInfo] = useState({});
   const [editingBio, setEditingBio] = useState(false);
@@ -65,11 +65,9 @@ const Profile = ({ user }) => {
     fetchData();
   }, [user.userId]);
 
-  console.log("profile image: ", profileImage);
-
   const handleBioUpdate = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/students/update-bio/${studentInfo.studentId}`, {
+      const res = await fetch(`http://localhost:8080/api/v1/students/edit-bio/${studentInfo.studentId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -78,8 +76,10 @@ const Profile = ({ user }) => {
 
       if (!res.ok) throw new Error("Failed to update bio");
 
-      const updated = await res.json();
-      setStudentInfo((prev) => ({ ...prev, bio: updated.bio }));
+      const updated = await res.text();
+
+      alert(updated);
+      setStudentInfo((prev) => ({ ...prev, bio: bioInput }));
       setEditingBio(false);
     } catch (err) {
       console.error("Bio update error:", err);
@@ -120,9 +120,9 @@ const Profile = ({ user }) => {
 
           <div className="flex-1">
             <h3 className="text-xl font-semibold text-gray-900">
-              {userInfo?.username || "N/A"}
+              {user.username || "N/A"}
             </h3>
-            <p className="text-gray-600">{userInfo?.email || "No email"}</p>
+            <p className="text-gray-600">{user.email || "No email"}</p>
 
             <div className="flex items-start gap-2 mt-1">
               {editingBio ? (
@@ -165,11 +165,6 @@ const Profile = ({ user }) => {
         <EditProfileModal
           student={studentInfo}
           onClose={() => setShowEditModal(false)}
-          onSave={(updated) => {
-            setUserInfo(updated.user);
-            setStudentInfo(updated);
-            setShowEditModal(false);
-          }}
         />
       )}
     </>
