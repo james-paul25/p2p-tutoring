@@ -4,7 +4,7 @@ import Avatar from "../assets/prof.jpg"
 import { useOutsideClick } from "../utils/useOutsideClick";
 import RequestSessionModal from "./RequestSessionModal";
 
-const TutorProfileModal = ({ user, tutor, imageUrl, onClose }) => {
+const TutorProfileModal = ({ userInfo, tutor, imageUrl, onClose }) => {
 
   const [showRequestModal, setShowRequestModal] = useState(false);
 
@@ -66,13 +66,9 @@ const TutorProfileModal = ({ user, tutor, imageUrl, onClose }) => {
       
       {showRequestModal && (
         <RequestSessionModal
-          user={user}
+          user={userInfo}
           tutor={tutor}
           onClose={() => setShowRequestModal(false)}
-          onSubmit={(data) => {
-            console.log("Session requested:", data);
-            // You can add your API call here to save it
-          }}
         />
       )}
 

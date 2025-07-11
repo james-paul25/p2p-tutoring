@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useOutsideClick } from "../utils/useOutsideClick";
+import { getStudentInfo } from "../services/studentService";
 
-const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
+const RequestSessionModal = ({ user, studentId, tutor, onClose }) => {
 
   useOutsideClick("requestSessionBackdrop", onClose);
 
@@ -10,13 +11,65 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
   const [time, setTime] = useState("");
   const [topic, setTopic] = useState("");
   const [error, setError] = useState("");
+  const [studentInfo, setStudentInfo] = useState([]);
   const subjectId = tutor?.subject?.subjectId;
+  
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  
+  
+  useEffect(() => {
+    if (!user?.userId) return;
+
+    const fetchData = async () => {
+      try {
+        const student = await getStudentInfo(user.userId);
+        setStudentInfo(student); 
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+
+    fetchData();
+  }, [user.userId]);
+    
+  console.log("studentInfo: ",studentInfo);
 
   const isFutureDateTime = () => {
-    const selected = new Date(`${date}T${time}`);
-    return selected > new Date();
+    if (!date || !time) return false;
+    const selectedDateTime = new Date(`${date}T${time}`);
+    return selectedDateTime.getTime() > Date.now();
   };
+  
 
+  const postApplySession = async() => {
+    
+      try {
+          const res = await fetch(`http://localhost:8080/api/v1/sessions/students-apply-session/${tutor?.tutorId}/${subjectId}/${studentId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type' : 'application/json',
+                },
+             credentials: "include",
+             body: JSON.stringify({ date, time, topic }),
+          });
+
+          const responseText = await res.text();
+
+          if (!res.ok) {
+            throw new Error(responseText);
+          }
+      
+          setSuccessMessage(responseText || "You applied successfully");
+          setShowSuccessModal(true);
+
+          
+      } catch (e) {
+          console.log(e);
+      }
+      
+  }
+    
   const handleSubmit = () => {
     if (!date || !time || !topic) {
       setError("All fields are required.");
@@ -27,14 +80,14 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
       setError("Please select a future date and time.");
       return;
     }
-
+    postApplySession();
     setError("");
-    onSubmit({ date, time, subjectId, topic });
     onClose();
   };
-
-    console.log("user", user);
+  console.log("user", user);
+  
   return (
+    <>
     <div
       id="requestSessionBackdrop"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
@@ -105,6 +158,18 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
         </div>
       </div>
     </div>
+     {showSuccessModal && (
+        <SuccessModal
+            message={successMessage}
+            onClose={() => {
+            setShowSuccessModal(false);
+            onClose();
+            window.location.reload();
+            }}
+        />
+        )}
+
+    </>
   );
 };
 
