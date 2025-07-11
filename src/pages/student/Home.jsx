@@ -247,6 +247,7 @@ const Home = ({ user }) => {
 
       {selectedTutor && (
         <TutorProfileModal
+          user={user}
           tutor={selectedTutor}
           imageUrl={selectedTutorImage}
           onClose={() => setSelectedTutor(null)}

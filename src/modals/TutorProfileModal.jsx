@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { X } from "lucide-react";
 import Avatar from "../assets/prof.jpg"
 import { useOutsideClick } from "../utils/useOutsideClick";
+import RequestSessionModal from "./RequestSessionModal";
 
-const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
+const TutorProfileModal = ({ user, tutor, imageUrl, onClose }) => {
+
+  const [showRequestModal, setShowRequestModal] = useState(false);
+
     
   useOutsideClick("tutorProfileModalBackdrop", onClose);
 
@@ -11,6 +15,7 @@ const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
 
 
   return (
+    <>
       <div
           id="tutorProfileModalBackdrop"
           className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
@@ -38,8 +43,15 @@ const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
             <p className="text-sm text-gray-600 mb-2"><strong>Subject: </strong>{tutor?.subject?.subjectDescription}</p>
             <p><strong>Bio:</strong> { tutor?.student?.bio || "N/A"}</p>
         </div>
+        
+        <div className="mt-6 flex justify-between items-center">
+          <button
+            onClick={() => setShowRequestModal(true)}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
+          >
+            Request Session
+          </button>
 
-        <div className="mt-6 flex justify-end">
           <button
             onClick={onClose}
             className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md"
@@ -47,8 +59,24 @@ const TutorProfileModal = ({ tutor, imageUrl, onClose }) => {
             Close
           </button>
         </div>
+
+        
       </div>
-    </div>
+      </div>
+      
+      {showRequestModal && (
+        <RequestSessionModal
+          user={user}
+          tutor={tutor}
+          onClose={() => setShowRequestModal(false)}
+          onSubmit={(data) => {
+            console.log("Session requested:", data);
+            // You can add your API call here to save it
+          }}
+        />
+      )}
+
+    </>
   );
 };
 
