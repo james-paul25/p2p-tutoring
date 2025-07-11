@@ -91,7 +91,6 @@ const EditProfileModal = ({ student, onClose }) => {
             onChange={handleChange}
           />
 
-          {/* Department Dropdown */}
           <div>
             <label
               htmlFor="department"
