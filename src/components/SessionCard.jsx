@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "../assets/prof.jpg";
+import { formatDateTime } from "../utils/formatDateTime";
 
 const SessionCard = ({ session, profilePictures, onClick }) => {
   const matchedPic = profilePictures.find(
@@ -25,7 +26,7 @@ const SessionCard = ({ session, profilePictures, onClick }) => {
           {session?.tutor?.student?.fullName}
         </h3>
         <p className="text-sm text-purple-800">
-          {session?.subject?.subjectDescription} – {session?.sessionTime}
+          {session?.subject?.subjectDescription} – {session?.topic} – {formatDateTime(session?.sessionDate, session?.sessionTime)}
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import Avatar from "../assets/prof.jpg";
+import { formatDate, formatTime } from "../utils/formatDateTime";
 
 const SessionModal = ({ session, profilePictures, onClose }) => {
   useOutsideClick("sessionModalBackdrop", onClose);
@@ -29,13 +30,16 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
           />
           <div>
             <h2 className="text-xl font-bold text-gray-800">{session?.tutor?.student?.fullName}</h2>
-            <p className="text-gray-600">{session?.subject?.subjectDescription}</p>
+            <p className="text-gray-600">{session?.subject?.subjectDescription} – { session?.topic }</p>
           </div>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Time:</span> {session?.sessionTime}
+            <span className="font-semibold text-gray-800">Date:</span> {formatDate(session?.sessionDate)}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Time:</span> {formatTime(session?.sessionTime)}
           </p>
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Location:</span> dummy location
