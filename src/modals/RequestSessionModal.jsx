@@ -10,6 +10,7 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
   const [time, setTime] = useState("");
   const [topic, setTopic] = useState("");
   const [error, setError] = useState("");
+  const subjectId = tutor?.subject?.subjectId;
 
   const isFutureDateTime = () => {
     const selected = new Date(`${date}T${time}`);
@@ -28,7 +29,7 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
     }
 
     setError("");
-    onSubmit({ date, time, topic });
+    onSubmit({ date, time, subjectId, topic });
     onClose();
   };
 
@@ -49,6 +50,9 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
         <h2 className="text-xl font-bold text-gray-800 mb-4">
           Request Session with {tutor?.student?.fullName}
         </h2>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">
+          Subject:  {tutor?.subject?.subjectDescription}
+        </h3>
 
         <div className="space-y-4">
           <div>
@@ -78,7 +82,7 @@ const RequestSessionModal = ({ user, tutor, onClose, onSubmit }) => {
               className="w-full px-3 py-2 border rounded-md"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              placeholder="e.g. Calculus Review, Database Design Help..."
+              placeholder="e.g. Loop, Linked list, Development phase..."
             />
           </div>
 
