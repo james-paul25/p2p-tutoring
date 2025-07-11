@@ -17,6 +17,7 @@ import { fetchAllProfilePicture } from "../../services/profilePictureService";
 import Avatar from "../../assets/prof.jpg"
 
 import TutorCard from "../../components/TutorCard";
+import SessionCard from "../../components/SessionCard";
 
 const dummyTutors = [
 ];
@@ -80,23 +81,12 @@ const Home = ({ user }) => {
           ) : (
             <div className="flex flex-col gap-4">
               {studentSession.map((session) => (
-                <div
+                <SessionCard
                   key={session.id}
+                  session={session}
+                  profilePictures={profilePictures}
                   onClick={() => setSelectedSession(session)}
-                  className="cursor-pointer bg-purple-100 p-4 rounded-lg flex gap-4 items-center hover:bg-purple-200"
-                >
-                  <img
-                    src={session.avatar}
-                    alt={session.tutorName}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-purple-900">{session?.tutor?.student?.fullName}</h3>
-                    <p className="text-sm text-purple-800">
-                      {session?.subject?.subjectDescription} – {session?.sessionTime}
-                    </p>
-                  </div>
-                </div>
+                />
               ))}
             </div>
           )}
@@ -124,7 +114,6 @@ const Home = ({ user }) => {
                 );
 
                 const imageUrl =  matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
-                console.log("url", imageUrl);
 
                 return (
                   <TutorCard
@@ -223,8 +212,6 @@ const Home = ({ user }) => {
           )}
         </section>
 
-
-        {/* Recommended Subjects */}
         <section>
           <div className="flex items-center gap-2 mb-3">
             <BookOpen className="text-indigo-600 w-5 h-5" />
@@ -256,6 +243,7 @@ const Home = ({ user }) => {
       {selectedSession && (
         <SessionModal
           session={selectedSession}
+          profilePictures={profilePictures}
           onClose={() => {
             setSelectedSession(null);
             setSelectedTutorImage(null);

@@ -1,10 +1,18 @@
 import React from "react";
 import { useOutsideClick } from "../utils/useOutsideClick";
+import Avatar from "../assets/prof.jpg";
 
-const SessionModal = ({ session, onClose }) => {
-
+const SessionModal = ({ session, profilePictures, onClose }) => {
   useOutsideClick("sessionModalBackdrop", onClose);
     
+  const matchedPic = profilePictures.find(
+      (pic) => pic?.user?.userId === session?.tutor?.user?.userId
+    );
+  
+    const imageUrl = matchedPic
+      ? `http://localhost:8080${matchedPic.filePath}`
+      : Avatar;
+  
   if (!session) return null;
 
   return (
@@ -15,7 +23,7 @@ const SessionModal = ({ session, onClose }) => {
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
         <div className="flex items-center gap-4 mb-4">
           <img
-            src={session.avatar}
+            src={imageUrl}
             alt={session.tutorName}
             className="w-16 h-16 rounded-full object-cover"
           />
