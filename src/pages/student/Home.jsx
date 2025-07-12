@@ -55,7 +55,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {session.map((session) => (
+              {session.slice(0,3).map((session) => (
                 <SessionCard
                   key={session?.sessionId}
                   session={session}
@@ -83,7 +83,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {tutors.map((tutor) => {
+              {tutors.slice(0,3).map((tutor) => {
                 const matchedPic = profilePictures.find(
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
