@@ -38,9 +38,14 @@ const Home = ({ user, tutors, profilePictures, session }) => {
         }`}
       >
         <section>
-          <div className="flex items-center gap-2 mb-3">
-            <GraduationCap className="text-purple-600 w-5 h-5" />
-            <h2 className="text-xl font-semibold text-gray-800">Current Sessions</h2>
+          <div className="flex items-center justify-between mb-3"gi add >
+             <div className="flex items-center gap-2">
+              <GraduationCap className="text-purple-600 w-5 h-5" />
+              <h2 className="text-xl font-semibold text-gray-800">Sessions</h2>
+            </div>
+            <Link to="/session" className="text-sm text-blue-600 hover:underline">
+              See all
+            </Link>
           </div>
           {session.length === 0 ? (
             <p className="text-gray-600 text-sm">
