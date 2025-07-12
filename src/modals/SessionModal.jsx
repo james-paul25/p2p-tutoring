@@ -2,6 +2,7 @@ import React from "react";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import Avatar from "../assets/prof.jpg";
 import { formatDate, formatTime } from "../utils/formatDateTime";
+import { statusTextColors } from "../utils/colors";
 
 const SessionModal = ({ session, profilePictures, onClose }) => {
   useOutsideClick("sessionModalBackdrop", onClose);
@@ -15,6 +16,9 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
       : Avatar;
   
   if (!session) return null;
+
+  const status = session?.sessionStatus?.toUpperCase();
+  const statusTextColor = statusTextColors[status] || statusTextColors.DEFAULT; 
 
   return (
     <div
@@ -30,6 +34,7 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
           />
           <div>
             <h2 className="text-xl font-bold text-gray-800">{session?.tutor?.student?.fullName}</h2>
+            <h6 className={`text-l font-bold ${statusTextColor}`}>{session?.sessionStatus}</h6>
             <p className="text-gray-600">{session?.subject?.subjectDescription} – { session?.topic }</p>
           </div>
         </div>

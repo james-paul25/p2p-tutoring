@@ -1,13 +1,7 @@
 import React from "react";
 import Avatar from "../assets/prof.jpg";
 import { formatDateTime } from "../utils/formatDateTime";
-
-const statusColors = {
-  PENDING: "bg-yellow-100 hover:bg-yellow-200",
-  REJECTED: "bg-red-100 hover:bg-red-200",
-  APPROVED: "bg-green-100 hover:bg-green-200",
-  DEFAULT: "bg-purple-100 hover:bg-purple-200",
-};
+import { statusColors } from "../utils/colors";
 
 const SessionCard = ({ session, profilePictures, onClick }) => {
   const matchedPic = profilePictures.find(
