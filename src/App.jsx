@@ -15,12 +15,22 @@ import TutorHome from './pages/tutor/HomeTutor';
 import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
 
+import { fetchAllTutors } from './services/tutorService';
+import { fetchAllProfilePicture } from './services/profilePictureService';
+import { getStudentInfo } from './services/studentService';
+import { getSessionByStudent } from './services/sessionService';
+
 {/* can access both tutors and students */}
 import Tutors from './pages/Tutors';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [userData, setUserData] = useState(null);
+
+  const [tutors, setTutors] = useState([]);
+  const [studentSession, setStudentSession] = useState([]);
+  const [profilePictures, setProfilePictures] = useState([]);
+  const [studentInfo, setStudentInfo] = useState([]);
 
   useEffect(() => {
     const check = async () => {
@@ -54,6 +64,36 @@ function App() {
     setLoggedIn(false);
     setUserData(null);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [recent, student, pictures] = await Promise.all([
+          fetchAllTutors(),
+          getStudentInfo(userData.userId),
+          fetchAllProfilePicture(),
+        ]);
+
+        const session = await getSessionByStudent(student.studentId);
+
+        setTutors(recent);
+        setStudentSession(session);
+        setProfilePictures(pictures);
+        setStudentInfo(student);
+      } catch (error) {
+        console.error("Fetching error:", error);
+      }
+    };
+    
+    if (loggedIn && userData) {
+      fetchData();
+    }
+    
+  }, [loggedIn, userData]);
+
+  console.log("pp", profilePictures);
+
+  
 
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
@@ -91,7 +131,12 @@ function App() {
          {/* student */}
         {loggedIn && userData?.role === 'STUDENT' && (
           <Route element={<StudentLayout onLogout={handleLogout} user={userData} />}>
-            <Route path="/home" element={<Home user={userData} />} />
+            <Route path="/home" element={<Home
+              user={userData}
+              tutors={tutors}
+              profilePictures={profilePictures}
+              session={studentSession}
+            />} />
             <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/message" element={<Message user={userData} />} />
             <Route path="/session" element={<Session user={userData} />} />

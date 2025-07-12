@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Users,
   Star,
@@ -9,10 +9,6 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
-import { fetchAllTutors } from "../../services/tutorService";
-import { getSessionByStudent } from "../../services/sessionService";
-import { getStudentInfo } from "../../services/studentService";
-import { fetchAllProfilePicture } from "../../services/profilePictureService";
 // dummy profile
 import Avatar from "../../assets/prof.jpg"
 
@@ -22,45 +18,17 @@ import SessionCard from "../../components/SessionCard";
 const dummyTutors = [
 ];
 
-const Home = ({ user }) => {
+const Home = ({ user, tutors, profilePictures, session }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
-  const [recentTutors, setRecentTutors] = useState([]);
-  const [studentSession, setStudentSession] = useState([]);
-  const [profilePictures, setProfilePictures] = useState([]);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
 
-  useEffect(() => {
-    if (!user?.userId) return;
-
-    const fetchData = async () => {
-      try {
-        const [recent, student, pictures] = await Promise.all([
-          fetchAllTutors(),
-          getStudentInfo(user.userId),
-          fetchAllProfilePicture(),
-        ]);
-  
-        const session = await getSessionByStudent(student.studentId);
-  
-        setRecentTutors(recent);
-        setStudentSession(session);
-        setProfilePictures(pictures);
-      } catch (error) {
-        console.error("Fetching error:", error);
-      }
-    };
-  
-    fetchData();
-  }, [user.userId]);
-
   console.log("user: ",user)
-  console.log("tutors: ", recentTutors);
-  console.log("session: ", studentSession);
+  console.log("profile pictures", profilePictures);
 
   return (
     <>
@@ -74,15 +42,15 @@ const Home = ({ user }) => {
             <GraduationCap className="text-purple-600 w-5 h-5" />
             <h2 className="text-xl font-semibold text-gray-800">Current Sessions</h2>
           </div>
-          {studentSession.length === 0 ? (
+          {session.length === 0 ? (
             <p className="text-gray-600 text-sm">
               No upcoming sessions. Book a tutor now!
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {studentSession.map((session) => (
+              {session.map((session) => (
                 <SessionCard
-                  key={session.id}
+                  key={session?.sessionId}
                   session={session}
                   profilePictures={profilePictures}
                   onClick={() => setSelectedSession(session)}
@@ -102,13 +70,13 @@ const Home = ({ user }) => {
               See all
             </Link>
           </div>
-          {recentTutors.length === 0 ? (
+          {tutors.length === 0 ? (
             <p className="text-gray-600 text-sm">
               No recent tutors. Book a session with the best tutor of your choice.
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {recentTutors.map((tutor) => {
+              {tutors.map((tutor) => {
                 const matchedPic = profilePictures.find(
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
