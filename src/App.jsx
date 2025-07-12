@@ -65,7 +65,7 @@ function App() {
     setLoggedIn(false);
     setUserData(null);
   };
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -93,11 +93,7 @@ function App() {
     }
     
   }, [loggedIn, userData]);
-
-  console.log("pp", profilePictures);
-
   
-
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
   }
