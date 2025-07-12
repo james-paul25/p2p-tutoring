@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
 import SessionModal from "../../modals/SessionModal";
+import ApplyAsTutorModal from "../../modals/ApplyAsTutorModal";
 // dummy profile
 import Avatar from "../../assets/prof.jpg"
 
@@ -18,10 +19,11 @@ import SessionCard from "../../components/SessionCard";
 const dummyTutors = [
 ];
 
-const Home = ({ user, tutors, profilePictures, session }) => {
+const Home = ({ user, tutors, profilePictures, session, subjects, student }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
+  const [applyButton, setApplyButton] = useState(false);
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
@@ -38,7 +40,7 @@ const Home = ({ user, tutors, profilePictures, session }) => {
         }`}
       >
         <section>
-          <div className="flex items-center justify-between mb-3"gi add >
+          <div className="flex items-center justify-between mb-3">
              <div className="flex items-center gap-2">
               <GraduationCap className="text-purple-600 w-5 h-5" />
               <h2 className="text-xl font-semibold text-gray-800">Sessions</h2>
@@ -203,6 +205,27 @@ const Home = ({ user, tutors, profilePictures, session }) => {
             ))}
           </div>
         </section>
+
+        <section className="mt-6">
+          <div className="bg-gray-100 p-6 rounded-lg flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                Want to become a Tutor?
+              </h2>
+              <p className="text-sm text-gray-600">
+                Share your knowledge and help others while earning experience.
+              </p>
+            </div>
+            <button
+              onClick={() => setApplyButton(true)}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+
+            >
+              Apply as Tutor
+            </button>
+          </div>
+        </section>
+
       </div>
 
       {selectedTutor && (
@@ -219,6 +242,16 @@ const Home = ({ user, tutors, profilePictures, session }) => {
           profilePictures={profilePictures}
           onClose={() => {
             setSelectedSession(null);
+          }}
+        />
+      )}
+      {applyButton && (
+        <ApplyAsTutorModal
+          user={user}
+          student={student}
+          subject={subjects}
+          onClose={() => {
+            setApplyButton(false);
           }}
         />
       )}

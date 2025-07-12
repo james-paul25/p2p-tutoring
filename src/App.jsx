@@ -18,6 +18,8 @@ import { fetchAllTutors } from './services/tutorService';
 import { fetchAllProfilePicture, fetchProfilePicture } from './services/profilePictureService';
 import { getStudentInfo } from './services/studentService';
 import { getSessionByStudent } from './services/sessionService';
+import { fetchDepartment } from './services/departmentService'
+import { fetchSubjects } from './services/subjectService';
 
 {/* can access both tutors and students */}
 import Tutors from './pages/Tutors';
@@ -32,6 +34,8 @@ function App() {
   const [profilePictures, setProfilePictures] = useState([]);
   const [studentInfo, setStudentInfo] = useState([]);
   const [ownProfilePicture, setOwnProfilePicture] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
     const check = async () => {
@@ -69,20 +73,46 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [recent, student, pictures] = await Promise.all([
-          fetchAllTutors(),
-          getStudentInfo(userData.userId),
-          fetchAllProfilePicture(),
+        const [recent, student, pictures, department, subject] = await Promise.all([
+          fetchAllTutors().catch((e) => {
+            console.warn("Tutors fetch failed", e);
+            return [];
+          }),
+          getStudentInfo(userData.userId).catch((e) => {
+            console.warn("Student info fetch failed", e);
+            return {};
+          }),
+          fetchAllProfilePicture().catch((e) => {
+            console.warn("Pictures fetch failed", e);
+            return [];
+          }),
+          fetchDepartment().catch((e) => {
+            console.warn("Department fetch failed", e);
+            return [];
+          }),
+          fetchSubjects().catch((e) => {
+            console.warn("Subjects fetch failed", e);
+            return [];
+          }),
         ]);
 
-        const session = await getSessionByStudent(student.studentId);
-        const ownProfilePicture = await fetchProfilePicture(userData.userId);
+        const session = await getSessionByStudent(student?.studentId).catch((e) => {
+          console.warn("Session fetch failed", e);
+          return [];
+        });
+    
+        const ownProfilePicture = await fetchProfilePicture(userData.userId).catch((e) => {
+          console.warn("Own profile picture fetch failed", e);
+          return null;
+        });
 
         setTutors(recent);
         setStudentSession(session);
         setProfilePictures(pictures);
         setStudentInfo(student);
         setOwnProfilePicture(ownProfilePicture);
+        setDepartments(department);
+        setSubjects(subject);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -93,6 +123,8 @@ function App() {
     }
     
   }, [loggedIn, userData]);
+
+  console.log("subjects", subjects);
   
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
@@ -135,11 +167,14 @@ function App() {
               tutors={tutors}
               profilePictures={profilePictures}
               session={studentSession}
+              subjects={subjects}
+              student={studentInfo}
             />} />
             <Route path="/profile" element={<Profile
               user={userData}
               student={studentInfo}
               profile={ownProfilePicture}
+              departments={departments}
             />} />
             <Route path="/message" element={<Message user={userData} />} />
             <Route path="/session" element={<Session
@@ -170,6 +205,7 @@ function App() {
               user={userData}
               tutors={tutors}
               profilePictures={profilePictures}
+              departments={departments}
             />} />
           </Route>
         )}

@@ -5,7 +5,7 @@ import { Pencil, Check, X } from "lucide-react";
 import ProfileItem from "../components/ProfileItem"
 
 {/* usable both sa tutor and student */}
-const Profile = ({ user, student, profile }) => {
+const Profile = ({ user, student, profile, departments }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [profileImage, setProfileImage] = useState();
   const [editingBio, setEditingBio] = useState(false);
@@ -162,6 +162,7 @@ const Profile = ({ user, student, profile }) => {
       {showEditModal && (
         <EditProfileModal
           student={studentInfo}
+          departments={departments}
           onClose={() => setShowEditModal(false)}
         />
       )}

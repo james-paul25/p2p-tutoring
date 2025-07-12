@@ -5,7 +5,7 @@ const fetchProfilePicture = async (userId) => {
     });
 
     if (res.status === 404) {
-      return null; // No profile picture yet
+      return null;
     }
 
     if (!res.ok) {

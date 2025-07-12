@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InputField from "../components/InputField";
-import { fetchDepartment } from "../services/departmentService";
 import { useOutsideClick } from "../utils/useOutsideClick";
 
-const EditProfileModal = ({ student, onClose }) => {
+const EditProfileModal = ({ student, departments, onClose }) => {
   
   useOutsideClick("editProfileBackdrop", onClose);
 
-  const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     firstName: student?.firstName || "",
     middleName: student?.middleName || "",
@@ -20,21 +18,6 @@ const EditProfileModal = ({ student, onClose }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  useEffect(() => {
-    if (!student?.user?.userId) return;
-
-    const fetchData = async () => {
-      try {
-        const result = await fetchDepartment();
-        setDepartments(result);
-      } catch (error) {
-        console.error("Fetching departments error:", error);
-      }
-    };
-
-    fetchData();
-  }, [student?.user?.userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
