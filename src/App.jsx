@@ -16,7 +16,7 @@ import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
 
 import { fetchAllTutors } from './services/tutorService';
-import { fetchAllProfilePicture } from './services/profilePictureService';
+import { fetchAllProfilePicture, fetchProfilePicture } from './services/profilePictureService';
 import { getStudentInfo } from './services/studentService';
 import { getSessionByStudent } from './services/sessionService';
 
@@ -31,6 +31,7 @@ function App() {
   const [studentSession, setStudentSession] = useState([]);
   const [profilePictures, setProfilePictures] = useState([]);
   const [studentInfo, setStudentInfo] = useState([]);
+  const [ownProfilePicture, setOwnProfilePicture] = useState([]);
 
   useEffect(() => {
     const check = async () => {
@@ -75,11 +76,13 @@ function App() {
         ]);
 
         const session = await getSessionByStudent(student.studentId);
+        const ownProfilePicture = await fetchProfilePicture(userData.userId);
 
         setTutors(recent);
         setStudentSession(session);
         setProfilePictures(pictures);
         setStudentInfo(student);
+        setOwnProfilePicture(ownProfilePicture);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -137,7 +140,11 @@ function App() {
               profilePictures={profilePictures}
               session={studentSession}
             />} />
-            <Route path="/profile" element={<Profile user={userData} />} />
+            <Route path="/profile" element={<Profile
+              user={userData}
+              student={studentInfo}
+              profile={ownProfilePicture}
+            />} />
             <Route path="/message" element={<Message user={userData} />} />
             <Route path="/session" element={<Session user={userData} />} />
             <Route path="/tutors" element={<Tutors user={userData} />} />

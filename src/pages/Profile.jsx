@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from "react";
 import EditProfileModal from "../modals/EditProfileModal";
 import defaultAvatar from "../assets/prof.jpg";
-import { getStudentInfo } from "../services/studentService";
 import { Pencil, Check, X } from "lucide-react";
 import ProfileItem from "../components/ProfileItem"
-import { fetchProfilePicture } from "../services/profilePictureService";
 
 {/* usable both sa tutor and student */}
-const Profile = ({ user }) => {
+const Profile = ({ user, student, profile }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [profileImage, setProfileImage] = useState();
-  const [studentInfo, setStudentInfo] = useState({});
   const [editingBio, setEditingBio] = useState(false);
   const [bioInput, setBioInput] = useState("");
+  const [studentInfo, setStudentInfo] = useState([]);
 
   useEffect(() => {
     if (!user?.userId) return;
 
     const fetchData = async () => {
       try {
-        const student = await getStudentInfo(user.userId);
-        const profile = await fetchProfilePicture(user.userId);
-        setStudentInfo(student);
         setBioInput(student.bio || "");
+        setStudentInfo(student);
         if (profile?.filePath) {
           setProfileImage(`http://localhost:8080${profile.filePath}`);
         }
       } catch (error) {
         console.error("Fetching error:", error);
-      }
+      } 
     };
 
     fetchData();
-  }, [user.userId]);
+  }, [user.userId, student, profile]);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
