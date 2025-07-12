@@ -6,7 +6,6 @@ import Register from './pages/Register';
 
 import StudentLayout from './layout/StudentLayout';
 import Home from './pages/student/Home';
-import Profile from './pages/Profile';
 import Message from './pages/student/Message';
 import Session from './pages/student/Session';
 
@@ -22,6 +21,7 @@ import { getSessionByStudent } from './services/sessionService';
 
 {/* can access both tutors and students */}
 import Tutors from './pages/Tutors';
+import Profile from './pages/Profile';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
@@ -142,7 +142,11 @@ function App() {
               profile={ownProfilePicture}
             />} />
             <Route path="/message" element={<Message user={userData} />} />
-            <Route path="/session" element={<Session user={userData} />} />
+            <Route path="/session" element={<Session
+              user={userData}
+              session={studentSession}
+              profilePictures={profilePictures}
+            />} />
             <Route path="/tutors" element={<Tutors
               user={userData}
               tutors={tutors}

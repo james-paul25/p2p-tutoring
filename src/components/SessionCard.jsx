@@ -2,6 +2,13 @@ import React from "react";
 import Avatar from "../assets/prof.jpg";
 import { formatDateTime } from "../utils/formatDateTime";
 
+const statusColors = {
+  PENDING: "bg-yellow-100 hover:bg-yellow-200",
+  REJECTED: "bg-red-100 hover:bg-red-200",
+  APPROVED: "bg-green-100 hover:bg-green-200",
+  DEFAULT: "bg-purple-100 hover:bg-purple-200",
+};
+
 const SessionCard = ({ session, profilePictures, onClick }) => {
   const matchedPic = profilePictures.find(
     (pic) => pic?.user?.userId === session?.tutor?.user?.userId
@@ -11,10 +18,13 @@ const SessionCard = ({ session, profilePictures, onClick }) => {
     ? `http://localhost:8080${matchedPic.filePath}`
     : Avatar;
 
+  const status = session?.sessionStatus?.toUpperCase();
+  const statusBg = statusColors[status] || statusColors.DEFAULT;
+
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer bg-purple-100 p-4 rounded-lg flex gap-4 items-center hover:bg-purple-200"
+      className={`cursor-pointer p-4 rounded-lg flex gap-4 items-center transition ${statusBg}`}
     >
       <img
         src={imageUrl}
@@ -25,8 +35,23 @@ const SessionCard = ({ session, profilePictures, onClick }) => {
         <h3 className="font-semibold text-purple-900">
           {session?.tutor?.student?.fullName}
         </h3>
+        <h4 className="font-semibold text-sm text-gray-800">
+          <strong>Status: </strong>
+          <span className={
+            status === "PENDING"
+              ? "text-yellow-600"
+              : status === "REJECTED"
+              ? "text-red-600"
+              : status === "APPROVED"
+              ? "text-green-600"
+              : "text-gray-600"
+          }>
+            {status}
+          </span>
+        </h4>
         <p className="text-sm text-purple-800">
-          {session?.subject?.subjectDescription} – {session?.topic} – {formatDateTime(session?.sessionDate, session?.sessionTime)}
+          {session?.subject?.subjectDescription} – {session?.topic} –{" "}
+          {formatDateTime(session?.sessionDate, session?.sessionTime)}
         </p>
       </div>
     </div>

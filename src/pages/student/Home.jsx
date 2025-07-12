@@ -214,7 +214,6 @@ const Home = ({ user, tutors, profilePictures, session }) => {
           profilePictures={profilePictures}
           onClose={() => {
             setSelectedSession(null);
-            setSelectedTutorImage(null);
           }}
         />
       )}
