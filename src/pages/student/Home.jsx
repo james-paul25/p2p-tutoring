@@ -83,7 +83,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {tutors.slice(0,3).map((tutor) => {
+              {tutors.slice(0,6).map((tutor) => {
                 const matchedPic = profilePictures.find(
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
