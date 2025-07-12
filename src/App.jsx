@@ -147,7 +147,11 @@ function App() {
             />} />
             <Route path="/message" element={<Message user={userData} />} />
             <Route path="/session" element={<Session user={userData} />} />
-            <Route path="/tutors" element={<Tutors user={userData} />} />
+            <Route path="/tutors" element={<Tutors
+              user={userData}
+              tutors={tutors}
+              profilePictures={profilePictures}
+            />} />
           </Route>
         )}
 
@@ -155,10 +159,18 @@ function App() {
         {loggedIn && userData?.role === 'TUTOR' && (
           <Route element={<TutorLayout onLogout={handleLogout} user={userData} />}>
             <Route path="/home" element={<TutorHome user={userData} />} />
-            <Route path="/profile" element={<Profile user={userData} />} />
+            <Route path="/profile" element={<Profile
+              user={userData}
+              student={studentInfo}
+              profile={ownProfilePicture}
+            />} />
             <Route path="/message" element={<TutorMessage user={userData} />} />
             <Route path="/session" element={<TutorSession user={userData} />} />
-            <Route path="/tutors" element={<Tutors user={userData} />} />
+            <Route path="/tutors" element={<Tutors
+              user={userData}
+              tutors={tutors}
+              profilePictures={profilePictures}
+            />} />
           </Route>
         )}
 

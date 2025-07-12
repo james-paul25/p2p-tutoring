@@ -1,40 +1,19 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { Users } from "lucide-react";
 import TutorCard from "../components/TutorCard";
 import TutorProfileModal from "../modals/TutorProfileModal";
-import { fetchAllTutors } from "../services/tutorService";
-import { fetchAllProfilePicture } from "../services/profilePictureService";
 import Avatar from "../assets/prof.jpg";
 
 import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
 import { debounce } from "../utils/debounce";
 
-const Tutors = ({ user }) => {
-  const [tutors, setTutors] = useState([]);
-  const [profilePictures, setProfilePictures] = useState([]);
+const Tutors = ({ user, tutors, profilePictures }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [tutorsData, pictures] = await Promise.all([
-          fetchAllTutors(),
-          fetchAllProfilePicture(),
-        ]);
-        setTutors(tutorsData);
-        setProfilePictures(pictures);
-      } catch (error) {
-        console.error("Error fetching tutors:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const debouncedChangeHandler = useMemo(
     () =>
