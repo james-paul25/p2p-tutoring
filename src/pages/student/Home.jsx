@@ -19,7 +19,7 @@ import SessionCard from "../../components/SessionCard";
 const dummyTutors = [
 ];
 
-const Home = ({ user, tutors, profilePictures, session, subjects, student }) => {
+const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
@@ -195,12 +195,12 @@ const Home = ({ user, tutors, profilePictures, session, subjects, student }) => 
             </h2>
           </div>
           <div className="flex gap-3 flex-wrap">
-            {recommendedSubjects.map((subject, i) => (
+            {recommendedSubjects.map((sub, i) => (
               <div
                 key={i}
                 className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg shadow"
               >
-                {subject}
+                {sub}
               </div>
             ))}
           </div>
@@ -249,7 +249,7 @@ const Home = ({ user, tutors, profilePictures, session, subjects, student }) => 
         <ApplyAsTutorModal
           user={user}
           student={student}
-          subject={subjects}
+          subject={subject}
           onClose={() => {
             setApplyButton(false);
           }}

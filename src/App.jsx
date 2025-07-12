@@ -125,6 +125,7 @@ function App() {
   }, [loggedIn, userData]);
 
   console.log("subjects", subjects);
+  console.log("Departments", departments);
   
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
@@ -167,7 +168,7 @@ function App() {
               tutors={tutors}
               profilePictures={profilePictures}
               session={studentSession}
-              subjects={subjects}
+              subject={subjects}
               student={studentInfo}
             />} />
             <Route path="/profile" element={<Profile

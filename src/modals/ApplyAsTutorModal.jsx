@@ -5,15 +5,15 @@ import { useOutsideClick } from "../utils/useOutsideClick";
 
 const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   const [loading, setLoading] = useState(false);
-  const [subjectId, setSubjectId] = useState();
+  const [subjectIden, setSubjectId] = useState();
   const [gwa, setGwa] = useState(); 
-    
+  
   useOutsideClick("editApplyBackdrop", onClose);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!subjectId || !gwa) {
+    if (!subjectIden || !gwa) {
       alert("Please fill in all fields.");
       return;
     }
@@ -25,7 +25,10 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({subjectId, gwa}),
+          body: JSON.stringify({
+              subjectId: subjectIden,
+              gwa : gwa
+          }),
       });
 
       if (!response.ok) {
@@ -67,8 +70,8 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
             </label>
             <select
               id="subject"
-              name="subjectId"
-              value={subjectId}
+              name="subjectIden"
+              value={subjectIden}
               onChange={(e) => setSubjectId(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >

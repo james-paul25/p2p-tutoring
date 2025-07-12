@@ -30,11 +30,11 @@ const TutorCard = ({ tutor, imageUrl, onClick, variant = "default" }) => {
         </h3>
         <p className="text-sm text-gray-600">
           <strong>Subject: </strong>
-          {tutor?.subject?.subjectDescription || tutor?.subject}
+          {tutor?.subject?.subjectDescription }
         </p>
         <p className="text-sm text-gray-600">
           <strong>Department: </strong>
-          {tutor?.student?.department?.departmentName || tutor?.subject}
+          {tutor?.student?.department?.departmentName}
         </p>
         {tutor?.status && (
           <p className="text-sm text-gray-600">
