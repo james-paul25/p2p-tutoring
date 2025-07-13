@@ -4,28 +4,39 @@ import Avatar from "../assets/prof.jpg";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { statusTextColors } from "../utils/colors";
 import { Check, X, Pencil } from "lucide-react"; 
+import SuccessModal from "./SuccessModal";
+import FailedModal from "./FailedModal";
 
 const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   useOutsideClick("tutorSessionModalBackdrop", onClose);
   
   const [editingNote, setEditingNote] = useState(false);
   const [noteInput, setNoteInput] = useState(tutorSession.notes || "");
-
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const [currentNote, setCurrentNote] = useState(tutorSession.notes || "");
    
   const handleNoteSave = async() => {
+    try{
+        const res = await fetch(`http://localhost:8080/api/v1/sessions/edit-note/${tutorSession?.sessionId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ notes: noteInput}),
+        });
     
-    const res = await fetch(`http://localhost:8080/api/v1/sessions/edit-note/${tutorSession?.sessionId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ note: noteInput}),
-    });
-
-    if (!res.ok) throw new Error("Error editing bio");
+        if (!res.ok) throw new Error("Error editing note");
+        
+        const data = await res.text();
     
-    
-    tutorSession.notes = noteInput;
-    setEditingNote(false);
+        setCurrentNote(noteInput);
+        setMessage(data);
+        setShowSuccessModal(true);
+        setEditingNote(false);
+    } catch (e) {
+        console.log(e);
+    }
     };
     
   const matchedPic = profilePictures.find(
@@ -41,7 +52,8 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   const status = tutorSession?.sessionStatus?.toUpperCase();
   const statusTextColor = statusTextColors[status] || statusTextColors.DEFAULT; 
 
-  return (
+    return (
+    <>
     <div
       id="tutorSessionModalBackdrop"
       className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
@@ -83,17 +95,17 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
                 />
                 <div className="flex justify-end mt-1 gap-2">
                     <button onClick={handleNoteSave} className="text-green-600 hover:text-green-800">
-                    <Check className="h-4 w-4" />
+                        <Check className="h-4 w-4" />
                     </button>
                     <button onClick={() => setEditingNote(false)} className="text-gray-500 hover:text-gray-800">
-                    <X className="h-4 w-4" />
+                        <X className="h-4 w-4" />
                     </button>
                 </div>
                 </div>
             ) : (
                 <div className="flex items-center justify-between gap-2">
                 <span className="font-semibold text-gray-800">Notes:</span>
-                <p className="text-sm text-gray-600 truncate flex-1">{tutorSession.notes || "N/A"}</p>
+                <p className="text-sm text-gray-600 truncate flex-1">{currentNote || "N/A"}</p>
                 <button onClick={() => setEditingNote(true)} className="text-gray-400 hover:text-gray-700">
                     <Pencil className="w-4 h-4" />
                 </button>
@@ -113,6 +125,22 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
         </div>
       </div>
     </div>
+    
+    {showSuccessModal && (
+        <SuccessModal
+          message={message}
+          onClose={() => {
+            setShowSuccessModal(false);
+          }}
+        />
+      )}
+      {showFailedModal && (
+        <FailedModal
+          message={message}
+          onClose={() => setShowFailedModal(false)}
+        />
+      )}
+    </>
   );
 };
 
