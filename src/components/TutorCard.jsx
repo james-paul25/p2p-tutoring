@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "../assets/prof.jpg";
+import { statusTextColors } from "../utils/colors";
 
 const variantStyles = {
   default: "bg-white hover:bg-gray-50",
@@ -39,12 +40,20 @@ const TutorCard = ({ tutor, imageUrl, onClick, variant = "default" }) => {
         {tutor?.status && (
           <p className="text-sm text-gray-600">
             <strong>Status: </strong>
-            {tutor.status}
+            <span className={
+              tutor.status === "PENDING" ? statusTextColors.PENDING :
+              tutor.status === "APPROVED" ? statusTextColors.APPROVED :
+              tutor.status === "REJECTED" ? statusTextColors.REJECTED :
+              statusTextColors.DEFAULT
+
+             }>
+              {tutor.status}
+            </span>
           </p>
         )}
         {tutor?.student?.yearLevel && (
-          <p className="text-sm text-yellow-600">
-            Year Level: {tutor.student.yearLevel}
+          <p className="text-sm text-gray-600">
+            <strong>Year Level :</strong> {tutor.student.yearLevel}
           </p>
         )}
         {tutor?.rating && (
