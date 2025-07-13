@@ -138,6 +138,7 @@ const EditProfileModal = ({ student, departments, onClose }) => {
           message={message}
           onClose={() => {
             setShowSuccessModal(false);
+            onClose()
           }}
         />
       )}
