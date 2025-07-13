@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import InputField from "../components/InputField";
 import { useOutsideClick } from "../utils/useOutsideClick";
+import SuccessModal from "./SuccessModal";
+import FailedModal from "./FailedModal";
 
 const EditProfileModal = ({ student, departments, onClose }) => {
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
+  const [message, setMessage] = useState(null);
   
   useOutsideClick("editProfileBackdrop", onClose);
 
@@ -35,18 +41,23 @@ const EditProfileModal = ({ student, departments, onClose }) => {
         }
       );
 
-      if (!res.ok) throw new Error("Failed to update profile");
+      if (!res.ok) {
+        const mes = await res.text();
+        setMessage(mes);
+        setShowFailedModal(true);
+      } 
 
       const updated = await res.text();
-      console.log("updated", updated)
-      alert(updated?.message || "Your info was updated successfully!");
-      onClose();
+      console.log("updated", updated);
+      setMessage(updated || "Your info was updated successfully!");
+      setShowSuccessModal(true);
     } catch (err) {
       console.error("Error updating profile:", err);
     }
   };
 
   return (
+    <>
     <div
       id="editProfileBackdrop"
       className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
@@ -122,6 +133,21 @@ const EditProfileModal = ({ student, departments, onClose }) => {
         </form>
       </div>
     </div>
+    {showSuccessModal && (
+        <SuccessModal
+          message={message}
+          onClose={() => {
+            setShowSuccessModal(false);
+          }}
+        />
+      )}
+      {showFailedModal && (
+        <FailedModal
+          message={message}
+          onClose={() => setShowFailedModal(false)}
+        />
+      )}
+    </>
   );
 };
 
