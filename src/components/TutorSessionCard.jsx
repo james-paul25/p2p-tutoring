@@ -45,7 +45,7 @@ const TutorSessionCard = ({ session, profilePictures, onClick }) => {
         </h4>
         <p className="text-sm text-purple-800">
         <strong>Subject: </strong>
-          {session?.subject?.subjectDescription} – {session?.topic} –{" "}
+          {session?.subject?.subjectDescription} – {session?.topic}
         </p >
         <p className="text-sm text-blue-800">{formatDateTime(session?.sessionDate, session?.sessionTime)}</p>
       </div>
