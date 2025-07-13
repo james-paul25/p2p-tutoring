@@ -11,10 +11,19 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   const [editingNote, setEditingNote] = useState(false);
   const [noteInput, setNoteInput] = useState(tutorSession.notes || "");
 
-    // Example handler (you can replace this with API/DB update logic)
-  const handleNoteSave = () => {
-    // Normally, you'd send an API call here to update the session notes.
-    // For now, just close the editor and pretend it saved.
+   
+  const handleNoteSave = async() => {
+    
+    const res = await fetch(`http://localhost:8080/api/v1/sessions/edit-note/${tutorSession?.sessionId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ note: noteInput}),
+    });
+
+    if (!res.ok) throw new Error("Error editing bio");
+    
+    
     tutorSession.notes = noteInput;
     setEditingNote(false);
     };
