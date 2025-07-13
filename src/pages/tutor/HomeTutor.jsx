@@ -8,11 +8,11 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import TutorProfileModal from "../../modals/TutorProfileModal";
-import SessionModal from "../../modals/SessionModal";
 import ApplyAsTutorModal from "../../modals/ApplyAsTutorModal";
 import Avatar from "../../assets/prof.jpg";
 import TutorCard from "../../components/TutorCard";
-import SessionCard from "../../components/SessionCard";
+import TutorSessionCard from "../../components/TutorSessionCard";
+import SessionForTutorModal from "../../modals/SessionForTutorModal"
 
 const dummyTutors = [];
 
@@ -21,7 +21,6 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
   const [applyButton, setApplyButton] = useState(false);
-
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
@@ -46,11 +45,14 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
           ) : (
             <div className="flex flex-col gap-4">
               {session.slice(0, 3).map((s) => (
-                <SessionCard
+                <TutorSessionCard
                   key={s.sessionId}
                   session={s}
                   profilePictures={profilePictures}
-                  onClick={() => setSelectedSession(s)}
+                  onClick={() => {
+                    console.log("onclick", s);
+                    setSelectedSession(s)
+                  }}
                 />
               ))}
             </div>
@@ -207,8 +209,8 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
       )}
 
       {selectedSession && (
-        <SessionModal
-          session={selectedSession}
+        <SessionForTutorModal
+          tutorSession={selectedSession}
           profilePictures={profilePictures}
           onClose={() => setSelectedSession(null)}
         />
