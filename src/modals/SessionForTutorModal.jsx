@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import Avatar from "../assets/prof.jpg";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { statusTextColors } from "../utils/colors";
+import { Check, X, Pencil } from "lucide-react"; 
 
 const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   useOutsideClick("tutorSessionModalBackdrop", onClose);
+  
+  const [editingNote, setEditingNote] = useState(false);
+  const [noteInput, setNoteInput] = useState(tutorSession.notes || "");
+
+    // Example handler (you can replace this with API/DB update logic)
+  const handleNoteSave = () => {
+    // Normally, you'd send an API call here to update the session notes.
+    // For now, just close the editor and pretend it saved.
+    tutorSession.notes = noteInput;
+    setEditingNote(false);
+    };
     
   const matchedPic = profilePictures.find(
       (pic) => pic?.user?.userId === tutorSession?.student?.user?.userId
@@ -49,9 +61,37 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Location:</span> dummy location
           </p>
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Notes:</span> {tutorSession.notes || "N/A"}
-          </p>
+          <div className="text-sm text-gray-600 mt-2">
+            {editingNote ? (
+                <div className="flex flex-col gap-1 w-full">
+                <div className="flex items-center justify-between">
+                    <span className="font-semibold text-gray-800">Notes:</span>
+                </div>
+                <textarea
+                    className="w-full border border-gray-300 rounded-md px-2 py-1 text-sm"
+                    value={noteInput}
+                    onChange={(e) => setNoteInput(e.target.value)}
+                />
+                <div className="flex justify-end mt-1 gap-2">
+                    <button onClick={handleNoteSave} className="text-green-600 hover:text-green-800">
+                    <Check className="h-4 w-4" />
+                    </button>
+                    <button onClick={() => setEditingNote(false)} className="text-gray-500 hover:text-gray-800">
+                    <X className="h-4 w-4" />
+                    </button>
+                </div>
+                </div>
+            ) : (
+                <div className="flex items-center justify-between gap-2">
+                <span className="font-semibold text-gray-800">Notes:</span>
+                <p className="text-sm text-gray-600 truncate flex-1">{tutorSession.notes || "N/A"}</p>
+                <button onClick={() => setEditingNote(true)} className="text-gray-400 hover:text-gray-700">
+                    <Pencil className="w-4 h-4" />
+                </button>
+                </div>
+            )}
+        </div>
+
         </div>
 
         <div className="mt-6 text-right">
