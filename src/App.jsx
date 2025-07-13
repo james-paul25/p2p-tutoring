@@ -194,7 +194,14 @@ function App() {
         {/* tutor */}
         {loggedIn && userData?.role === 'TUTOR' && (
           <Route element={<TutorLayout onLogout={handleLogout} user={userData} />}>
-            <Route path="/home" element={<TutorHome user={userData} />} />
+            <Route path="/home" element={<TutorHome
+              user={userData}
+              tutors={tutors}
+              profilePictures={profilePictures}
+              session={studentSession}
+              subject={subjects}
+              student={studentInfo}
+            />} />
             <Route path="/profile" element={<Profile
               user={userData}
               student={studentInfo}
