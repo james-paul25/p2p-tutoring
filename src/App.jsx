@@ -223,6 +223,7 @@ function App() {
               user={userData}
               student={studentInfo}
               profile={ownProfilePicture}
+              departments={departments}
             />} />
             <Route path="/message" element={<TutorMessage user={userData} />} />
             <Route path="/session" element={<TutorSession user={userData} />} />
