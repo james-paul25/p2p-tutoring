@@ -16,7 +16,13 @@ const getTopTutors = async () => {
     if (!res.ok) throw new Error("Failed to fetch top-rated tutors");
     return res.json();
 };
+
+const fetchTutorByUser = async (userId) => {
+    const res = await fetch(`http://localhost:8080/api/v1/tutors/get-tutor-by-user/${userId}`);
+    if (!res.ok) throw new Error("Failed to fetch tutor by user id");
+    return res.json();
+}
   
 
-export { getFavoriteTutors, fetchAllTutors, getTopTutors };
+export { getFavoriteTutors, fetchAllTutors, getTopTutors, fetchTutorByUser };
   

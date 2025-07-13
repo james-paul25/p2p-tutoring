@@ -14,10 +14,10 @@ import TutorHome from './pages/tutor/HomeTutor';
 import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
 
-import { fetchAllTutors } from './services/tutorService';
+import { fetchAllTutors, fetchTutorByUser } from './services/tutorService';
 import { fetchAllProfilePicture, fetchProfilePicture } from './services/profilePictureService';
 import { getStudentInfo } from './services/studentService';
-import { getSessionByStudent } from './services/sessionService';
+import { getSessionByStudent, fetchSessionByTutor } from './services/sessionService';
 import { fetchDepartment } from './services/departmentService'
 import { fetchSubjects } from './services/subjectService';
 
@@ -30,12 +30,14 @@ function App() {
   const [userData, setUserData] = useState(null);
 
   const [tutors, setTutors] = useState([]);
+  const [tutor, setTutor] = useState([]);
   const [studentSession, setStudentSession] = useState([]);
   const [profilePictures, setProfilePictures] = useState([]);
   const [studentInfo, setStudentInfo] = useState([]);
   const [ownProfilePicture, setOwnProfilePicture] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [tutorSession, setTutorSession] = useState([]);
 
   useEffect(() => {
     const check = async () => {
@@ -73,13 +75,17 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [recent, student, pictures, department, subject] = await Promise.all([
+        const [recent, student, tutorInfo, pictures, department, subject] = await Promise.all([
           fetchAllTutors().catch((e) => {
             console.warn("Tutors fetch failed", e);
             return [];
           }),
           getStudentInfo(userData.userId).catch((e) => {
             console.warn("Student info fetch failed", e);
+            return {};
+          }),
+          fetchTutorByUser(userData.userId).catch((e) => {
+            console.warn("Tutor info fetch failed", e);
             return {};
           }),
           fetchAllProfilePicture().catch((e) => {
@@ -96,7 +102,7 @@ function App() {
           }),
         ]);
 
-        const session = await getSessionByStudent(student?.studentId).catch((e) => {
+        const studentSession = await getSessionByStudent(student?.studentId).catch((e) => {
           console.warn("Session fetch failed", e);
           return [];
         });
@@ -106,13 +112,20 @@ function App() {
           return null;
         });
 
+        const tutorSession = await fetchSessionByTutor(tutorInfo?.tutorId).catch((e) => {
+          console.warn("Session fetch failed", e);
+          return [];
+        });
+
         setTutors(recent);
-        setStudentSession(session);
+        setStudentSession(studentSession);
         setProfilePictures(pictures);
         setStudentInfo(student);
         setOwnProfilePicture(ownProfilePicture);
         setDepartments(department);
         setSubjects(subject);
+        setTutor(tutorInfo);
+        setTutorSession(tutorSession);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -126,6 +139,9 @@ function App() {
 
   console.log("subjects", subjects);
   console.log("Departments", departments);
+  console.log("As tutor: ", tutor);
+  console.log("TutorSession: ", tutorSession);
+  
   
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
@@ -198,9 +214,10 @@ function App() {
               user={userData}
               tutors={tutors}
               profilePictures={profilePictures}
-              session={studentSession}
+              session={tutorSession}
               subject={subjects}
               student={studentInfo}
+              tutor={tutor}
             />} />
             <Route path="/profile" element={<Profile
               user={userData}
