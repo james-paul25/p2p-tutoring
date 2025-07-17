@@ -226,7 +226,11 @@ function App() {
               departments={departments}
             />} />
             <Route path="/message" element={<TutorMessage user={userData} />} />
-            <Route path="/session" element={<TutorSession user={userData} />} />
+            <Route path="/session" element={<TutorSession
+              user={userData}
+              sessions={tutorSession}
+              profilePictures={profilePictures}
+            />} />
             <Route path="/tutors" element={<Tutors
               user={userData}
               tutors={tutors}
