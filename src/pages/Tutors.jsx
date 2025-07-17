@@ -85,29 +85,32 @@ const Tutors = ({ user, tutors, profilePictures }) => {
           <p className="text-gray-600 mt-4">No tutors match your search or filter.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredTutors.map((tutor) => {
-              const matchedPic = profilePictures.find(
-                (pic) => pic?.user?.userId === tutor?.user?.userId
-              );
-              const imageUrl = matchedPic
-                ? `http://localhost:8080${matchedPic.filePath}`
-                : Avatar;
+            {filteredTutors
+              .filter((tutor) => tutor?.user?.userId !== user?.userId)
+              .map((tutor) => {
+                const matchedPic = profilePictures.find(
+                  (pic) => pic?.user?.userId === tutor?.user?.userId
+                );
+                const imageUrl = matchedPic
+                  ? `http://localhost:8080${matchedPic.filePath}`
+                  : Avatar;
 
-              return (
-                <TutorCard
-                  key={tutor?.tutorId}
-                  tutor={tutor}
-                  imageUrl={imageUrl}
-                  onClick={() => {
-                    setSelectedTutor(tutor);
-                    setSelectedTutorImage(imageUrl);
-                  }}
-                  variant="default"
-                />
-              );
-            })}
+                return (
+                  <TutorCard
+                    key={tutor?.tutorId}
+                    tutor={tutor}
+                    imageUrl={imageUrl}
+                    onClick={() => {
+                      setSelectedTutor(tutor);
+                      setSelectedTutorImage(imageUrl);
+                    }}
+                    variant="default"
+                  />
+                );
+              })}
           </div>
         )}
+
       </div>
 
       {selectedTutor && (
