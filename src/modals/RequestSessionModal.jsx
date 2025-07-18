@@ -55,6 +55,9 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
             sessionDate: date,              // format: YYYY-MM-DD
             sessionTime: formattedTime,     // format: HH:mm:ss
             topic: topic,
+            tutorUser: tutor?.user?.userId,
+            studentUser: user?.userId,
+            
           }),
         }
       );
