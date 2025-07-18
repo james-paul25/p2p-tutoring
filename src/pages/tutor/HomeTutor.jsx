@@ -70,7 +70,8 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {tutors.slice(0, 6).map((tutor) => {
+            {tutors.filter((tutor) => tutor?.user?.userId !== user?.userId)
+              .slice(0, 6).map((tutor) => {
               const matchedPic = profilePictures.find((pic) => pic?.user?.userId === tutor?.user?.userId);
               const imageUrl = matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
               return (
