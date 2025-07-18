@@ -25,6 +25,8 @@ import { fetchSubjects } from './services/subjectService';
 import Tutors from './pages/Tutors';
 import Profile from './pages/Profile';
 
+import DarkModeToggle from './components/DarkModeToggle';
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [userData, setUserData] = useState(null);
