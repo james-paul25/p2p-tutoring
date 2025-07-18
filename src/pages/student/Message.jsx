@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ChatCard from "../../components/ChatCard";
 import ChatModal from "../../modals/ChatModal";
 
-const Message = ({ user, sessions, profilePictures }) => {
+const Message = ({ sessions, profilePictures }) => {
   const [selectedSession, setSelectedSession] = useState(false);
 
   return (
@@ -11,40 +11,36 @@ const Message = ({ user, sessions, profilePictures }) => {
       <h2 className="text-2xl font-bold mb-6 text-center">Messages</h2>
 
       <div className="">
-        {sessions?.length === 0 ? (
-          <p className="text-gray-500 text-center">No sessions yet. Apply for the session to<br/> start messaging with the tutor.</p>
-        ) : (
-          sessions.map(() => {
+      <div className="flex flex-col gap-4">
+        {sessions.length > 0 ? (
+          sessions.map((ses) => (
+            <React.Fragment key={ses.sessionId}>
+              <ChatCard
+                session={ses}
+                profilePictures={profilePictures}
+                onClick={() => setSelectedSession(ses)} // store which session was clicked
+              />
 
-            return (
-              <div className="flex flex-col gap-4">
-                {sessions.length > 0 ? (
-                  sessions.map((ses, index) => (
-                    <ChatCard
-                      key={index}
-                      session={ses}
-                      profilePictures={profilePictures}
-                      onClick={() => setSelectedSession(true)}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-500 text-sm">No sessions found.</p>
-                )}
-              </div>
-            );
-          })
+              {selectedSession?.sessionId === ses.sessionId && (
+                <ChatModal
+                  session={ses}
+                  currentUserRole="STUDENT"
+                  profilePictures={profilePictures}
+                  onClose={() => setSelectedSession(null)}
+                />
+              )}
+            </React.Fragment>
+          ))
+        ) : (
+          <p className="text-gray-500 text-center">
+            No sessions yet. Apply for the session to<br /> start messaging with the tutor.
+          </p>
         )}
+      </div>
+
       </div>
     </div>
     
-    {selectedSession && (
-        <ChatModal
-          user={user}
-          onClose={() => {
-            setSelectedSession(false);
-          }}
-        />
-      )}
     </>
   );
 };

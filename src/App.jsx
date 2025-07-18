@@ -194,7 +194,6 @@ function App() {
               departments={departments}
             />} />
             <Route path="/message" element={<Message
-              user={userData}
               sessions={studentSession}
               profilePictures={profilePictures}
             />} />
