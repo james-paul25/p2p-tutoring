@@ -1,13 +1,9 @@
 import React, {useState} from "react";
 import SessionCard from "../../components/SessionCard";
-import Chat from "../../modals/Chat";
+import ChatModal from "../../modals/ChatModal";
 
 const Message = ({ user, sessions, profilePictures }) => {
-  const messages = [];
-  const [selectedSession, setSelectedSession] = useState(null);
-
-  console.log(messages || selectedSession);
-  console.log(user);
+  const [selectedSession, setSelectedSession] = useState(false);
 
   return (
     <>
@@ -23,12 +19,12 @@ const Message = ({ user, sessions, profilePictures }) => {
             return (
               <div className="flex flex-col gap-4">
                 {sessions.length > 0 ? (
-                  sessions.map((sesh) => (
+                  sessions.map((ses, index) => (
                     <SessionCard
-                      key={sesh.sessionId}
-                      session={sesh}
+                      key={index}
+                      session={ses}
                       profilePictures={profilePictures}
-                      onClick={() => setSelectedSession(sesh)}
+                      onClick={() => setSelectedSession(true)}
                     />
                   ))
                 ) : (
@@ -42,9 +38,10 @@ const Message = ({ user, sessions, profilePictures }) => {
     </div>
     
     {selectedSession && (
-        <Chat
+        <ChatModal
+          user={user}
           onClose={() => {
-            setSelectedSession(null);
+            setSelectedSession(false);
           }}
         />
       )}
