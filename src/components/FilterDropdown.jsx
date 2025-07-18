@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilterDropdown = ({ value, onChange, options = []}) => {
+const FilterDropdown = ({ value, onChange, options = [] }) => {
   return (
     <select
       value={value}

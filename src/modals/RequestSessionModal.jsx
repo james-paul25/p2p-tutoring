@@ -57,7 +57,7 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
             topic: topic,
             tutorUser: tutor?.user?.userId,
             studentUser: user?.userId,
-            
+
           }),
         }
       );

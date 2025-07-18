@@ -72,21 +72,21 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {tutors.filter((tutor) => tutor?.user?.userId !== user?.userId)
               .slice(0, 6).map((tutor) => {
-              const matchedPic = profilePictures.find((pic) => pic?.user?.userId === tutor?.user?.userId);
-              const imageUrl = matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
-              return (
-                <TutorCard
-                  key={tutor.tutorId}
-                  tutor={tutor}
-                  imageUrl={imageUrl}
-                  onClick={() => {
-                    setSelectedTutor(tutor);
-                    setSelectedTutorImage(imageUrl);
-                  }}
-                  variant="default"
-                />
-              );
-            })}
+                const matchedPic = profilePictures.find((pic) => pic?.user?.userId === tutor?.user?.userId);
+                const imageUrl = matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
+                return (
+                  <TutorCard
+                    key={tutor.tutorId}
+                    tutor={tutor}
+                    imageUrl={imageUrl}
+                    onClick={() => {
+                      setSelectedTutor(tutor);
+                      setSelectedTutorImage(imageUrl);
+                    }}
+                    variant="default"
+                  />
+                );
+              })}
           </div>
         </section>
 

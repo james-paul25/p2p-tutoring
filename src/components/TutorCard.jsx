@@ -31,7 +31,7 @@ const TutorCard = ({ tutor, imageUrl, onClick, variant = "default" }) => {
         </h3>
         <p className="text-sm text-gray-600">
           <strong>Subject: </strong>
-          {tutor?.subject?.subjectDescription }
+          {tutor?.subject?.subjectDescription}
         </p>
         <p className="text-sm text-gray-600">
           <strong>Department: </strong>
@@ -42,11 +42,11 @@ const TutorCard = ({ tutor, imageUrl, onClick, variant = "default" }) => {
             <strong>Status: </strong>
             <span className={
               tutor.status === "PENDING" ? statusTextColors.PENDING :
-              tutor.status === "APPROVED" ? statusTextColors.APPROVED :
-              tutor.status === "REJECTED" ? statusTextColors.REJECTED :
-              statusTextColors.DEFAULT
+                tutor.status === "APPROVED" ? statusTextColors.APPROVED :
+                  tutor.status === "REJECTED" ? statusTextColors.REJECTED :
+                    statusTextColors.DEFAULT
 
-             }>
+            }>
               {tutor.status}
             </span>
           </p>

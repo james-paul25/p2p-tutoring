@@ -29,19 +29,18 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
 
-  console.log("user: ",user)
+  console.log("user: ", user)
   console.log("profile pictures", profilePictures);
 
   return (
     <>
       <div
-        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${
-          selectedTutor || selectedSession ? "blur-sm pointer-events-none select-none" : ""
-        }`}
+        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${selectedTutor || selectedSession ? "blur-sm pointer-events-none select-none" : ""
+          }`}
       >
         <section>
           <div className="flex items-center justify-between mb-3">
-             <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <GraduationCap className="text-purple-600 w-5 h-5" />
               <h2 className="text-xl font-semibold text-gray-800">Sessions</h2>
             </div>
@@ -55,7 +54,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {session.slice(0,3).map((session) => (
+              {session.slice(0, 3).map((session) => (
                 <SessionCard
                   key={session?.sessionId}
                   session={session}
@@ -83,12 +82,12 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {tutors.slice(0,6).map((tutor) => {
+              {tutors.slice(0, 6).map((tutor) => {
                 const matchedPic = profilePictures.find(
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
 
-                const imageUrl =  matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
+                const imageUrl = matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
 
                 return (
                   <TutorCard

@@ -9,7 +9,7 @@ const EditProfileModal = ({ student, departments, onClose }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
   const [message, setMessage] = useState(null);
-  
+
   useOutsideClick("editProfileBackdrop", onClose);
 
   const [formData, setFormData] = useState({
@@ -45,7 +45,7 @@ const EditProfileModal = ({ student, departments, onClose }) => {
         const mes = await res.text();
         setMessage(mes);
         setShowFailedModal(true);
-      } 
+      }
 
       const updated = await res.text();
       console.log("updated", updated);
@@ -58,82 +58,82 @@ const EditProfileModal = ({ student, departments, onClose }) => {
 
   return (
     <>
-    <div
-      id="editProfileBackdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
-    >
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Edit Profile</h2>
+      <div
+        id="editProfileBackdrop"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+      >
+        <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Edit Profile</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <InputField
-            label="First Name"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Middle Name"
-            name="middleName"
-            value={formData.middleName}
-            onChange={handleChange}
-          />
-          <InputField
-            label="Last Name"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-
-          <div>
-            <label
-              htmlFor="department"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Department
-            </label>
-            <select
-              id="department"
-              name="departmentId"
-              value={formData.departmentId}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <InputField
+              label="First Name"
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select department</option>
-              {departments.map((dept) => (
-                <option key={dept.departmentId} value={dept.departmentId}>
-                  {dept.departmentName}
-                </option>
-              ))}
-            </select>
-          </div>
+            />
+            <InputField
+              label="Middle Name"
+              name="middleName"
+              value={formData.middleName}
+              onChange={handleChange}
+            />
+            <InputField
+              label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+            />
 
-          <InputField
-            label="Year Level"
-            name="yearLevel"
-            value={formData.yearLevel}
-            onChange={handleChange}
-          />
+            <div>
+              <label
+                htmlFor="department"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Department
+              </label>
+              <select
+                id="department"
+                name="departmentId"
+                value={formData.departmentId}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select department</option>
+                {departments.map((dept) => (
+                  <option key={dept.departmentId} value={dept.departmentId}>
+                    {dept.departmentName}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Save
-            </button>
-          </div>
-        </form>
+            <InputField
+              label="Year Level"
+              name="yearLevel"
+              value={formData.yearLevel}
+              onChange={handleChange}
+            />
+
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-    {showSuccessModal && (
+      {showSuccessModal && (
         <SuccessModal
           message={message}
           onClose={() => {

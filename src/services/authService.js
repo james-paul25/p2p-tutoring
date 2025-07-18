@@ -5,7 +5,7 @@ const check = async () => {
     });
     if (!res.ok) throw new Error("Failed to check");
     return res.json();
-    
+
 }
 
 export { check };

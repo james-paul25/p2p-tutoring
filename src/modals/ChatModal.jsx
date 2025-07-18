@@ -41,7 +41,7 @@ const ChatModal = ({
             try {
                 const response = await fetchMessages(session.sessionId);
 
-                setMessages(response);                
+                setMessages(response);
                 console.log("messages sa chat modal", response);
             } catch (error) {
                 console.error("Error fetching messages:", error);

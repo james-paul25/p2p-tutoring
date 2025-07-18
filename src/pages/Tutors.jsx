@@ -32,16 +32,16 @@ const Tutors = ({ user, tutors, profilePictures }) => {
     const fullName = `${tutor.student.firstName} ${tutor.student.lastName}`.toLowerCase();
     const subject = tutor.subject?.subjectDescription?.toLowerCase() || "";
     const department = tutor.student?.department?.departmentName?.toLowerCase() || "";
-  
+
     const combinedFields = `${fullName} ${subject} ${department}`;
     const matchesSearch = combinedFields.includes(debouncedSearch.toLowerCase());
-  
+
     const matchesStatus =
       statusFilter === "ALL" || tutor.status === statusFilter;
-  
+
     return matchesSearch && matchesStatus;
   });
-  
+
 
   const statusOptions = [
     { value: "ALL", label: "Status" },
@@ -49,16 +49,15 @@ const Tutors = ({ user, tutors, profilePictures }) => {
     { value: "APPROVED", label: "Approved" },
     { value: "REJECTED", label: "Rejected" },
   ];
-    
-    console.log(user);
-    console.log("tutor: ", tutors);
+
+  console.log(user);
+  console.log("tutor: ", tutors);
 
   return (
     <>
       <div
-        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${
-          selectedTutor ? "blur-sm pointer-events-none select-none" : ""
-        }`}
+        className={`bg-white p-6 rounded-lg shadow-md space-y-10 transition ${selectedTutor ? "blur-sm pointer-events-none select-none" : ""
+          }`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">

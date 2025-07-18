@@ -4,7 +4,7 @@ import defaultAvatar from "../assets/prof.jpg";
 import { Pencil, Check, X } from "lucide-react";
 import ProfileItem from "../components/ProfileItem"
 
-{/* usable both sa tutor and student */}
+{/* usable both sa tutor and student */ }
 const Profile = ({ user, student, profile, departments }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [profileImage, setProfileImage] = useState();
@@ -24,7 +24,7 @@ const Profile = ({ user, student, profile, departments }) => {
         }
       } catch (error) {
         console.error("Fetching error:", error);
-      } 
+      }
     };
 
     fetchData();
@@ -52,7 +52,7 @@ const Profile = ({ user, student, profile, departments }) => {
         }
 
         const savedProfile = await res.json();
-        alert(savedProfile.message || "Profile image uploaded successfully!" );
+        alert(savedProfile.message || "Profile image uploaded successfully!");
         console.log("saveprofile", savedProfile);
       } catch (err) {
         console.warn("Upload failed:", err.message);

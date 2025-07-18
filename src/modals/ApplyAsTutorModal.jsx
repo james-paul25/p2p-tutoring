@@ -6,8 +6,8 @@ import { useOutsideClick } from "../utils/useOutsideClick";
 const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [subjectIden, setSubjectId] = useState();
-  const [gwa, setGwa] = useState(); 
-  
+  const [gwa, setGwa] = useState();
+
   useOutsideClick("editApplyBackdrop", onClose);
 
   const handleSubmit = async (e) => {
@@ -25,10 +25,10 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-          body: JSON.stringify({
-              subjectId: subjectIden,
-              gwa : gwa
-          }),
+        body: JSON.stringify({
+          subjectId: subjectIden,
+          gwa: gwa
+        }),
       });
 
       if (!response.ok) {
@@ -47,10 +47,10 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   };
 
   return (
-      <div
-          id="editApplyBackdrop"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
-      >
+    <div
+      id="editApplyBackdrop"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+    >
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
         <button
           onClick={onClose}
@@ -62,7 +62,7 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
         <h2 className="text-xl font-bold text-gray-800 mb-4">Apply as a Tutor</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+          <div>
             <label
               htmlFor="subject"
               className="block text-sm font-medium text-gray-700 mb-1"

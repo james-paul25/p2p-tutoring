@@ -9,7 +9,7 @@ import Home from './pages/student/Home';
 import Message from './pages/student/Message';
 import Session from './pages/student/Session';
 
-import TutorLayout from './layout/TutorLayout'; 
+import TutorLayout from './layout/TutorLayout';
 import TutorHome from './pages/tutor/HomeTutor';
 import TutorMessage from './pages/tutor/TutorMessage';
 import TutorSession from './pages/tutor/TutorSession';
@@ -21,7 +21,7 @@ import { getSessionByStudent, fetchSessionByTutor } from './services/sessionServ
 import { fetchDepartment } from './services/departmentService'
 import { fetchSubjects } from './services/subjectService';
 
-{/* can access both tutors and students */}
+{/* can access both tutors and students */ }
 import Tutors from './pages/Tutors';
 import Profile from './pages/Profile';
 
@@ -71,7 +71,7 @@ function App() {
     setLoggedIn(false);
     setUserData(null);
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -106,7 +106,7 @@ function App() {
           console.warn("Session fetch failed", e);
           return [];
         });
-    
+
         const ownProfilePicture = await fetchProfilePicture(userData.userId).catch((e) => {
           console.warn("Own profile picture fetch failed", e);
           return null;
@@ -130,19 +130,19 @@ function App() {
         console.error("Fetching error:", error);
       }
     };
-    
+
     if (loggedIn && userData) {
       fetchData();
     }
-    
+
   }, [loggedIn, userData]);
 
   console.log("subjects", subjects);
   console.log("Departments", departments);
   console.log("As tutor: ", tutor);
   console.log("TutorSession: ", tutorSession);
-  
-  
+
+
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
   }
@@ -176,7 +176,7 @@ function App() {
           element={loggedIn ? <Navigate to="/home" replace /> : <Register />}
         />
 
-         {/* student */}
+        {/* student */}
         {loggedIn && userData?.role === 'STUDENT' && (
           <Route element={<StudentLayout onLogout={handleLogout} user={userData} />}>
             <Route path="/home" element={<Home

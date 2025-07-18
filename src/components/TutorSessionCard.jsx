@@ -35,16 +35,16 @@ const TutorSessionCard = ({ session, profilePictures, onClick }) => {
             status === "PENDING"
               ? "text-yellow-600"
               : status === "REJECTED"
-              ? "text-red-600"
-              : status === "APPROVED"
-              ? "text-green-600"
-              : "text-gray-600"
+                ? "text-red-600"
+                : status === "APPROVED"
+                  ? "text-green-600"
+                  : "text-gray-600"
           }>
             {status}
           </span>
         </h4>
         <p className="text-sm text-purple-800">
-        <strong>Subject: </strong>
+          <strong>Subject: </strong>
           {session?.subject?.subjectDescription} – {session?.topic}
         </p >
         <p className="text-sm text-blue-800">{formatDateTime(session?.sessionDate, session?.sessionTime)}</p>

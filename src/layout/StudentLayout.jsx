@@ -43,23 +43,21 @@ const StudentLayout = ({ onLogout, user }) => {
         ]);
 
         setProfilePicture(`http://localhost:8080${profile.filePath}`);
-  
+
       } catch (error) {
         console.error("Fetching error:", error);
       }
     };
-  
+
     fetchData();
   }, [user.userId]);
-    
+
   return (
-    <div className="flex h-screen flex-col md:flex-row bg-gray-100">    
+    <div className="flex h-screen flex-col md:flex-row bg-gray-100">
       <aside
-        className={`fixed md:static top-0 left-0 h-full ${
-          collapsed ? "w-20" : "w-52"
-        } bg-white border-r p-4 z-40 transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-all duration-300 ease-in-out md:translate-x-0 flex flex-col justify-between`}
+        className={`fixed md:static top-0 left-0 h-full ${collapsed ? "w-20" : "w-52"
+          } bg-white border-r p-4 z-40 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-all duration-300 ease-in-out md:translate-x-0 flex flex-col justify-between`}
       >
         <div>
           <div className="flex justify-between items-center mb-6">
@@ -84,8 +82,7 @@ const StudentLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/home"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
-                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -97,8 +94,7 @@ const StudentLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/message"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
-                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -110,8 +106,7 @@ const StudentLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/session"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
-                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -123,8 +118,7 @@ const StudentLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/tutors"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${
-                    isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -152,8 +146,8 @@ const StudentLayout = ({ onLogout, user }) => {
             >
               <Menu className="h-6 w-6" />
             </button>
-                <GraduationCap className="w-6 h-6 text-purple-600" />
-                <h1 className="text-lg font-semibold">Welcome { user.username }!</h1>
+            <GraduationCap className="w-6 h-6 text-purple-600" />
+            <h1 className="text-lg font-semibold">Welcome {user.username}!</h1>
           </div>
 
           <div className="relative" ref={dropdownRef}>
@@ -180,8 +174,7 @@ const StudentLayout = ({ onLogout, user }) => {
                   to="/profile"
                   onClick={() => setDropdownOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition ${
-                      isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                    `flex items-center gap-2 px-4 py-2 w-full text-left hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                     }`
                   }
                 >

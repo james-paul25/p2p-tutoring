@@ -35,10 +35,10 @@ const SessionCard = ({ session, profilePictures, onClick }) => {
             status === "PENDING"
               ? "text-yellow-600"
               : status === "REJECTED"
-              ? "text-red-600"
-              : status === "APPROVED"
-              ? "text-green-600"
-              : "text-gray-600"
+                ? "text-red-600"
+                : status === "APPROVED"
+                  ? "text-green-600"
+                  : "text-gray-600"
           }>
             {status}
           </span>
