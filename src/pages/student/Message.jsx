@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import SessionCard from "../../components/SessionCard";
+import ChatCard from "../../components/ChatCard";
 import ChatModal from "../../modals/ChatModal";
 
 const Message = ({ user, sessions, profilePictures }) => {
@@ -20,7 +20,7 @@ const Message = ({ user, sessions, profilePictures }) => {
               <div className="flex flex-col gap-4">
                 {sessions.length > 0 ? (
                   sessions.map((ses, index) => (
-                    <SessionCard
+                    <ChatCard
                       key={index}
                       session={ses}
                       profilePictures={profilePictures}
