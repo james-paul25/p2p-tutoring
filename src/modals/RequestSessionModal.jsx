@@ -4,9 +4,11 @@ import { useOutsideClick } from "../utils/useOutsideClick";
 import { getStudentInfo } from "../services/studentService";
 import SuccessModal from "./SuccessModal";
 import FailedModal from "./FailedModal";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const RequestSessionModal = ({ user, tutor, onClose }) => {
   useOutsideClick("requestSessionBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");

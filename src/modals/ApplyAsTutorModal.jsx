@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import InputField from "../components/InputField";
 import { useOutsideClick } from "../utils/useOutsideClick";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -9,6 +10,7 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   const [gwa, setGwa] = useState();
 
   useOutsideClick("editApplyBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

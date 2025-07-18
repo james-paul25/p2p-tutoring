@@ -3,6 +3,7 @@ import InputField from "../components/InputField";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import SuccessModal from "./SuccessModal";
 import FailedModal from "./FailedModal";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const EditProfileModal = ({ student, departments, onClose }) => {
 
@@ -11,6 +12,7 @@ const EditProfileModal = ({ student, departments, onClose }) => {
   const [message, setMessage] = useState(null);
 
   useOutsideClick("editProfileBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const [formData, setFormData] = useState({
     firstName: student?.firstName || "",

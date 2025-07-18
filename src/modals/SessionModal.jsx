@@ -3,9 +3,11 @@ import { useOutsideClick } from "../utils/useOutsideClick";
 import Avatar from "../assets/prof.jpg";
 import { formatDate, formatTime } from "../utils/formatDateTime";
 import { statusTextColors } from "../utils/colors";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const SessionModal = ({ session, profilePictures, onClose }) => {
   useOutsideClick("sessionModalBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const matchedPic = profilePictures.find(
     (pic) => pic?.user?.userId === session?.tutor?.user?.userId

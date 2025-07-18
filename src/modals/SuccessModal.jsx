@@ -1,7 +1,9 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const SuccessModal = ({ message, onClose }) => {
+  useEscapeClose(onClose);
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"

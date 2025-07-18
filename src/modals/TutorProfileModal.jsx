@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import Avatar from "../assets/prof.jpg"
 import { useOutsideClick } from "../utils/useOutsideClick";
 import RequestSessionModal from "./RequestSessionModal";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const TutorProfileModal = ({ userInfo, tutor, imageUrl, onClose }) => {
 
@@ -10,6 +11,7 @@ const TutorProfileModal = ({ userInfo, tutor, imageUrl, onClose }) => {
 
 
   useOutsideClick("tutorProfileModalBackdrop", onClose);
+  useEscapeClose(onClose);
 
   if (!tutor) return null;
 

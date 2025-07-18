@@ -6,9 +6,11 @@ import { statusTextColors } from "../utils/colors";
 import { Check, X, Pencil } from "lucide-react";
 import SuccessModal from "./SuccessModal";
 import FailedModal from "./FailedModal";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   useOutsideClick("tutorSessionModalBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const [editingNote, setEditingNote] = useState(false);
   const [noteInput, setNoteInput] = useState(tutorSession.notes || "");

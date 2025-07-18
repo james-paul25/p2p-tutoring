@@ -6,6 +6,7 @@ import MessageInput from "../components/MessageInput";
 import FailedModal from "./FailedModal";
 import Avatar from "../assets/prof.jpg";
 import { fetchMessages } from "../services/messageService";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
 const ChatModal = ({
     session,
@@ -14,6 +15,7 @@ const ChatModal = ({
     onClose,
 }) => {
     useOutsideClick("chatBackdrop", onClose);
+    useEscapeClose(onClose);
 
     const messagesEndRef = useRef(null);
 
