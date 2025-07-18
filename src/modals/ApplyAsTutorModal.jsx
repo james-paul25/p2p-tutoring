@@ -49,7 +49,8 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
   return (
       <div
           id="editApplyBackdrop"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
+          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+      >
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
         <button
           onClick={onClose}

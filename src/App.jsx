@@ -193,7 +193,11 @@ function App() {
               profile={ownProfilePicture}
               departments={departments}
             />} />
-            <Route path="/message" element={<Message user={userData} />} />
+            <Route path="/message" element={<Message
+              user={userData}
+              sessions={studentSession}
+              profilePictures={profilePictures}
+            />} />
             <Route path="/session" element={<Session
               user={userData}
               session={studentSession}

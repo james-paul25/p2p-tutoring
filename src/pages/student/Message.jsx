@@ -1,42 +1,54 @@
-import React from "react";
+import React, {useState} from "react";
+import SessionCard from "../../components/SessionCard";
+import Chat from "../../modals/Chat";
 
-const Message = ({ user, messages }) => {
+const Message = ({ user, sessions, profilePictures }) => {
+  const messages = [];
+  const [selectedSession, setSelectedSession] = useState(null);
+
+  console.log(messages || selectedSession);
+  console.log(user);
+
   return (
-    <div className="min-h-[80vh] bg-gray-100 p-4 rounded-lg shadow-inner">
-      <h2 className="text-2xl font-bold mb-6 text-center">Session Messages</h2>
+    <>
+    <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
+      <h2 className="text-2xl font-bold mb-6 text-center">Messages</h2>
 
-      <div className="bg-white p-4 rounded-lg shadow space-y-4 max-w-2xl mx-auto overflow-y-auto max-h-[70vh]">
-        {messages?.length === 0 ? (
-          <p className="text-gray-500 text-center">No messages in this session yet.</p>
+      <div className="">
+        {sessions?.length === 0 ? (
+          <p className="text-gray-500 text-center">No sessions yet. Apply for the session to<br/> start messaging with the tutor.</p>
         ) : (
-          messages.map((msg, index) => {
-            const isOwn = msg.senderId === user.userId;
+          sessions.map(() => {
 
             return (
-              <div
-                key={index}
-                className={`flex ${
-                  isOwn ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`px-4 py-2 rounded-lg max-w-[70%] ${
-                    isOwn
-                      ? "bg-blue-500 text-white rounded-br-none"
-                      : "bg-gray-200 text-gray-800 rounded-bl-none"
-                  }`}
-                >
-                  <p className="text-sm">{msg.content}</p>
-                  <p className="text-xs mt-1 opacity-70 text-right">
-                    {new Date(msg.timestamp).toLocaleString()}
-                  </p>
-                </div>
+              <div className="flex flex-col gap-4">
+                {sessions.length > 0 ? (
+                  sessions.map((sesh) => (
+                    <SessionCard
+                      key={sesh.sessionId}
+                      session={sesh}
+                      profilePictures={profilePictures}
+                      onClick={() => setSelectedSession(sesh)}
+                    />
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm">No sessions found.</p>
+                )}
               </div>
             );
           })
         )}
       </div>
     </div>
+    
+    {selectedSession && (
+        <Chat
+          onClose={() => {
+            setSelectedSession(null);
+          }}
+        />
+      )}
+    </>
   );
 };
 
