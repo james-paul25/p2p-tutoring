@@ -26,9 +26,9 @@ const MessageList = ({
             >
               <div
                 onClick={() => toggleTimestamp(index)}
-                className={`px-4 py-2 rounded-lg text-sm max-w-[75%] cursor-pointer ${
+                className={`px-4 py-2 rounded-lg text-sm max-w-[60%] cursor-pointer ${
                   isMe
-                    ? "bg-purple-600 text-white rounded-br-none"
+                    ? "bg-blue-600 text-white rounded-br-none"
                     : "bg-gray-200 text-gray-800 rounded-bl-none"
                 }`}
               >
