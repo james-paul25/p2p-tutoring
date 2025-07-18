@@ -228,7 +228,10 @@ function App() {
               profile={ownProfilePicture}
               departments={departments}
             />} />
-            <Route path="/message" element={<TutorMessage user={userData} />} />
+            <Route path="/message" element={<TutorMessage
+              sessions={tutorSession}
+              profilePictures={profilePictures}
+            />} />
             <Route path="/session" element={<TutorSession
               user={userData}
               sessions={tutorSession}

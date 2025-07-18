@@ -1,11 +1,49 @@
+import React, {useState} from "react";
+import ChatCard from "../../components/ChatCard";
+import ChatModal from "../../modals/ChatModal";
 
-const TutorMessage = ({user}) => {
-    return (
-        <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
-            <h2 className="text-2xl font-bold mb-4">Tutor</h2>
-            <p>Message, {user?.username || "guest"}!</p>
+const TutorMessage = ({ sessions, profilePictures }) => {
+  const [selectedSession, setSelectedSession] = useState(false);
+
+  return (
+    <>
+    <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
+      <h2 className="text-2xl font-bold mb-6 text-center">Messages</h2>
+
+      <div className="">
+      <div className="flex flex-col gap-4">
+        {sessions.length > 0 ? (
+          sessions.map((ses) => (
+            <React.Fragment key={ses.sessionId}>
+              <ChatCard
+                session={ses}
+                profilePictures={profilePictures}
+                onClick={() => setSelectedSession(ses)}
+                currentUserRole={"TUTOR"}
+              />
+
+              {selectedSession?.sessionId === ses.sessionId && (
+                <ChatModal
+                  session={ses}
+                  currentUserRole="TUTOR"
+                  profilePictures={profilePictures}
+                  onClose={() => setSelectedSession(null)}
+                />
+              )}
+            </React.Fragment>
+          ))
+        ) : (
+          <p className="text-gray-500 text-center">
+            No sessions yet. Apply for the session to<br /> start messaging with the tutor.
+          </p>
+        )}
       </div>
-    );
-}
+
+      </div>
+    </div>
+    
+    </>
+  );
+};
 
 export default TutorMessage;

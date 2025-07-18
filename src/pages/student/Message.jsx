@@ -18,7 +18,8 @@ const Message = ({ sessions, profilePictures }) => {
               <ChatCard
                 session={ses}
                 profilePictures={profilePictures}
-                onClick={() => setSelectedSession(ses)} // store which session was clicked
+                onClick={() => setSelectedSession(ses)}
+                currentUserRole={"STUDENT"}
               />
 
               {selectedSession?.sessionId === ses.sessionId && (
