@@ -15,8 +15,10 @@ const ChatCard = ({ session, profilePictures, onClick, currentUserRole }) => {
         : Avatar;
 
     const fullName = isStudent
-        ? session.tutor?.fullName || "Tutor"
+        ? session.tutor?.student?.fullName || "Tutor"
         : session.student?.fullName || "Student";
+    
+    console.log("chat catd", session)
 
     return (
         <div
