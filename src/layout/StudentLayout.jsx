@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import ProfilePic from "../assets/prof.jpg";
+import Logo from "../assets/logo.png"
 import {
   Menu,
   Home,
@@ -61,8 +62,13 @@ const StudentLayout = ({ onLogout, user }) => {
       >
         <div>
           <div className="flex justify-between items-center mb-6">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-8 h-8 rounded-full cursor-pointer hover:opacity-80 transition duration-200"
+            />
             {!collapsed && (
-              <h2 className="text-xl font-bold whitespace-nowrap">Student Panel</h2>
+              <h2 className="text-xl font-bold whitespace-nowrap">P2P</h2>
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import ProfilePic from "../assets/prof.jpg";
+import Logo from "../assets/logo.png"
 import {
   Menu,
   Home,
@@ -56,14 +57,19 @@ const TutorLayout = ({ onLogout, user }) => {
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">
       <aside
-        className={`fixed md:static top-0 left-0 h-full ${collapsed ? "w-20" : "w-52"
+        className={`fixed md:static top-0 left-0 h-full ${collapsed ? "w-22" : "w-52"
           } bg-white border-r p-4 z-40 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-all duration-300 ease-in-out md:translate-x-0 flex flex-col justify-between`}
       >
         <div>
           <div className="flex justify-between items-center mb-6">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-8 h-8 rounded-full cursor-pointer hover:opacity-80 transition duration-200"
+            />
             {!collapsed && (
-              <h2 className="text-xl font-bold whitespace-nowrap">Tutor Panel</h2>
+              <h2 className="text-xl font-bold whitespace-nowrap">P2P</h2>
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}
