@@ -25,6 +25,7 @@ const ChatModal = ({
     const [selectedMessageId, setSelectedMessageId] = useState(null);
     const [showFailedModal, setShowFailedModal] = useState(false);
     const [messageStatus, setMessageStatus] = useState(null);
+    const [name, setName] = useState(null);
 
     console.log("messages sa chat modal", messages);
 
@@ -35,7 +36,17 @@ const ChatModal = ({
     const imageUrl = matchedPic
         ? `http://localhost:8080${matchedPic.filePath}`
         : Avatar;
+    
+    useEffect(() => {
 
+        if (currentUserRole === "STUDENT") {
+            setName(session?.tutor?.student?.fullName);
+        } else if (currentUserRole === "TUTOR") {
+            setName(session?.student?.fullName);
+        }
+    }, [currentUserRole, session?.tutor?.student?.fullName, session?.student?.fullName]);
+
+    
 
 
     useEffect(() => {
@@ -155,10 +166,10 @@ const ChatModal = ({
                         <div className="flex items-center gap-3">
                             <img
                                 src={imageUrl}
-                                alt={session?.tutorUser?.username}
+                                alt={name}
                                 className="w-10 h-10 rounded-full object-cover"
                             />
-                            <h2 className="text-lg font-semibold text-gray-800">{session?.tutorUser?.username}</h2>
+                            <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
                         </div>
                         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
                             <X size={20} />
