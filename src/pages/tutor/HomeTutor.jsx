@@ -96,6 +96,9 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
               <Heart className="text-pink-600 w-5 h-5" />
               <h2 className="text-xl font-semibold text-gray-800">Favorite Tutors</h2>
             </div>
+            <Link to="/tutors" className="text-sm text-pink-600 hover:underline">
+              See all
+            </Link>
           </div>
           {favoriteTutors.length === 0 ? (
             <p className="text-gray-600 text-sm">
