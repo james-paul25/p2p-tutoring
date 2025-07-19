@@ -26,25 +26,36 @@ const ChatModal = ({
     const [showFailedModal, setShowFailedModal] = useState(false);
     const [messageStatus, setMessageStatus] = useState(null);
     const [name, setName] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
 
     console.log("messages sa chat modal", messages);
 
-    const matchedPic = profilePictures.find(
+    const matchedPicForStudent = profilePictures.find(
         (pic) => pic?.user?.userId === session?.tutorUser?.userId
     );
 
-    const imageUrl = matchedPic
-        ? `http://localhost:8080${matchedPic.filePath}`
+    const matchedPicForTutor = profilePictures.find(
+        (pic) => pic?.user?.userId === session?.studentUser?.userId
+    );
+
+    const imageUrlForStudent = matchedPicForStudent
+        ? `http://localhost:8080${matchedPicForStudent.filePath}`
+        : Avatar;
+    
+    const imageUrlForTutor = matchedPicForTutor
+        ? `http://localhost:8080${matchedPicForTutor.filePath}`
         : Avatar;
     
     useEffect(() => {
 
         if (currentUserRole === "STUDENT") {
             setName(session?.tutor?.student?.fullName);
+            setImageUrl(imageUrlForStudent);
         } else if (currentUserRole === "TUTOR") {
             setName(session?.student?.fullName);
+            setImageUrl(imageUrlForTutor);
         }
-    }, [currentUserRole, session?.tutor?.student?.fullName, session?.student?.fullName]);
+    }, [currentUserRole, session?.tutor?.student?.fullName, session?.student?.fullName, imageUrlForStudent, imageUrlForTutor]);
 
     
 
