@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import SessionCard from "../../components/SessionCard";
 import SearchBar from "../../components/SearchBar";
 import FilterDropdown from "../../components/FilterDropdown";
 import { debounce } from "../../utils/debounce";
 import SessionModal from "../../modals/SessionModal";
+import { setStatusComplete } from "../../services/sessionService";
 
 import { Users } from "lucide-react";
 
@@ -25,6 +26,37 @@ const Session = ({ user, session, profilePictures }) => {
     setSearchTerm(e.target.value);
     debouncedChangeHandler(searchTerm);
   };
+
+  useEffect(() => {
+      const now = new Date();
+  
+      const updateCompletedSessions = async () => {
+        const sessionsToComplete = session.filter((session) => {
+          const isUserStudent = session?.student?.user?.userId === user?.userId;
+  
+          if (!isUserStudent) return false;
+  
+          const sessionDateTime = new Date(`${session.sessionDate}T${session.sessionTime}`);
+          const isDue = sessionDateTime <= now;
+          const isNotCompleted = session.sessionStatus !== "COMPLETED";
+  
+          return isDue && isNotCompleted;
+        });
+  
+        for (const session of sessionsToComplete) {
+          const result = await setStatusComplete({
+            sessionId: session.sessionId,
+            sessionDate: session.sessionDate,
+            sessionTime: session.sessionTime,
+          });
+  
+          console.log(`Updated session ${session.sessionId}:`, result);
+        }
+      };
+  
+      updateCompletedSessions();
+    }, [session, user]);
+  
 
   const filteredSessions = session.filter((session) => {
     const fullName = `${session?.tutor?.student?.fullName}`.toLowerCase();

@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import SessionCard from "../../components/SessionCard";
 import SearchBar from "../../components/SearchBar";
 import FilterDropdown from "../../components/FilterDropdown";
 import { debounce } from "../../utils/debounce";
 import SessionForTutorModal from "../../modals/SessionForTutorModal";
 import { Users } from "lucide-react";
+import { setStatusComplete } from "../../services/sessionService";
 
 const TutorSession = ({ user, sessions, profilePictures }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,6 +25,37 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
     setSearchTerm(e.target.value);
     debouncedChangeHandler(e.target.value);
   };
+
+  useEffect(() => {
+    const now = new Date();
+
+    const updateCompletedSessions = async () => {
+      const sessionsToComplete = sessions.filter((session) => {
+        const isUserTutor = session?.tutor?.user?.userId === user?.userId;
+
+        if (!isUserTutor) return false;
+
+        const sessionDateTime = new Date(`${session.sessionDate}T${session.sessionTime}`);
+        const isDue = sessionDateTime <= now;
+        const isNotCompleted = session.sessionStatus !== "COMPLETED";
+
+        return isDue && isNotCompleted;
+      });
+
+      for (const session of sessionsToComplete) {
+        const result = await setStatusComplete({
+          sessionId: session.sessionId,
+          sessionDate: session.sessionDate,
+          sessionTime: session.sessionTime,
+        });
+
+        console.log(`Updated session ${session.sessionId}:`, result);
+      }
+    };
+
+    updateCompletedSessions();
+  }, [sessions, user]);
+
 
   const filteredSessions = sessions.filter((session) => {
     const isUserTutor = session?.tutor?.user?.userId === user?.userId;
@@ -49,7 +81,6 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
     { value: "PENDING", label: "Pending" },
     { value: "APPROVED", label: "Approved" },
     { value: "REJECTED", label: "Rejected" },
-    { value: "COMPLETED", label: "Completed" },
     { value: "COMPLETED", label: "Completed" },
   ];
 
