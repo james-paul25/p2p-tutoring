@@ -16,6 +16,8 @@ import Avatar from "../../assets/prof.jpg"
 import TutorCard from "../../components/TutorCard";
 import SessionCard from "../../components/SessionCard";
 
+import { sortTutors, sortSessions } from "../../utils/sort";
+
 const dummyTutors = [
 ];
 
@@ -28,6 +30,9 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
+
+  const sortedTutors = sortTutors(tutors);
+  const sortedSessions = sortSessions(session);
 
   return (
     <>
@@ -51,7 +56,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="flex flex-col gap-4">
-              {session.slice(0, 3).map((session) => (
+              {sortedSessions.slice(0, 3).map((session) => (
                 <SessionCard
                   key={session?.sessionId}
                   session={session}
@@ -79,7 +84,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
             </p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {tutors.slice(0, 6).map((tutor) => {
+              {sortedTutors.slice(0, 6).map((tutor) => {
                 const matchedPic = profilePictures.find(
                   (pic) => pic?.user?.userId === tutor?.user?.userId
                 );
