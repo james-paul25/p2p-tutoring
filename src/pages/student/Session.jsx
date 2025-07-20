@@ -30,13 +30,13 @@ const Session = ({ user, session, profilePictures }) => {
   useEffect(() => {
     const updateCompletedSessions = async () => {
       if (!session || !user) return;
-  
+
       const notCompletedSessions = session.filter(
         (s) =>
           s?.student?.user?.userId === user?.userId &&
           s?.sessionStatus !== "COMPLETED"
       );
-  
+
       for (const s of notCompletedSessions) {
         try {
           const result = await setStatusComplete({ sessionId: s.sessionId });
@@ -46,11 +46,11 @@ const Session = ({ user, session, profilePictures }) => {
         }
       }
     };
-  
+
     updateCompletedSessions();
   }, [session, user]);
-  
-  
+
+
 
   const filteredSessions = session.filter((session) => {
     const fullName = `${session?.tutor?.student?.fullName}`.toLowerCase();
