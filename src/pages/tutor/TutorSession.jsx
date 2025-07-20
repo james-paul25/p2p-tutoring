@@ -32,8 +32,9 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
     const updateCompletedSessions = async () => {
       const sessionsToComplete = sessions.filter((session) => {
         const isUserTutor = session?.tutor?.user?.userId === user?.userId;
+        const isUserStudent = session?.student?.user?.userId === user?.userId;
 
-        if (!isUserTutor) return false;
+        if (!isUserTutor && !isUserStudent) return false;
 
         const sessionDateTime = new Date(`${session.sessionDate}T${session.sessionTime}`);
         const isDue = sessionDateTime <= now;
