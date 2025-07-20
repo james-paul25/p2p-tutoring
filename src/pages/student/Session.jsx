@@ -47,6 +47,7 @@ const Session = ({ user, session, profilePictures }) => {
     { value: "PENDING", label: "Pending" },
     { value: "APPROVED", label: "Approved" },
     { value: "REJECTED", label: "Rejected" },
+    { value: "COMPLETED", label: "Completed" },
   ];
   console.log(user);
 

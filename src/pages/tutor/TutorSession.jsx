@@ -50,6 +50,7 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
     { value: "APPROVED", label: "Approved" },
     { value: "REJECTED", label: "Rejected" },
     { value: "COMPLETED", label: "Completed" },
+    { value: "COMPLETED", label: "Completed" },
   ];
 
   return (
