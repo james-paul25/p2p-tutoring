@@ -28,8 +28,6 @@ const ChatModal = ({
     const [name, setName] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
-    console.log("messages sa chat modal", messages);
-
     const matchedPicForStudent = profilePictures.find(
         (pic) => pic?.user?.userId === session?.tutorUser?.userId
     );
@@ -66,7 +64,6 @@ const ChatModal = ({
                 const response = await fetchMessages(session.sessionId);
 
                 setMessages(response);
-                console.log("messages sa chat modal", response);
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }

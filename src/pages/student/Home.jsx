@@ -29,9 +29,6 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
   const favoriteTutors = dummyTutors;
   const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
 
-  console.log("user: ", user)
-  console.log("profile pictures", profilePictures);
-
   return (
     <>
       <div

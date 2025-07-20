@@ -50,7 +50,6 @@ const EditProfileModal = ({ student, departments, onClose }) => {
       }
 
       const updated = await res.text();
-      console.log("updated", updated);
       setMessage(updated || "Your info was updated successfully!");
       setShowSuccessModal(true);
     } catch (err) {

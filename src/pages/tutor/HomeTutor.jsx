@@ -50,7 +50,6 @@ const HomeTutor = ({ user, tutors, profilePictures, session, subject, student })
                   session={s}
                   profilePictures={profilePictures}
                   onClick={() => {
-                    console.log("onclick", s);
                     setSelectedSession(s)
                   }}
                 />

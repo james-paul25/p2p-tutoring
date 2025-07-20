@@ -53,7 +53,6 @@ const Profile = ({ user, student, profile, departments }) => {
 
         const savedProfile = await res.json();
         alert(savedProfile.message || "Profile image uploaded successfully!");
-        console.log("saveprofile", savedProfile);
       } catch (err) {
         console.warn("Upload failed:", err.message);
         alert("Failed to upload image: " + err.message);
@@ -82,8 +81,6 @@ const Profile = ({ user, student, profile, departments }) => {
       alert("Failed to update bio");
     }
   };
-
-  console.log("Student info: ", studentInfo);
 
   return (
     <>

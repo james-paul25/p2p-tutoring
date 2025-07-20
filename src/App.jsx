@@ -137,12 +137,6 @@ function App() {
 
   }, [loggedIn, userData]);
 
-  console.log("subjects", subjects);
-  console.log("Departments", departments);
-  console.log("As tutor: ", tutor);
-  console.log("TutorSession: ", tutorSession);
-
-
   if (loggedIn === null || (loggedIn && !userData)) {
     return <p className="p-4">Checking session...</p>;
   }

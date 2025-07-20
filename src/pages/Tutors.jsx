@@ -50,9 +50,6 @@ const Tutors = ({ user, tutors, profilePictures }) => {
     { value: "REJECTED", label: "Rejected" },
   ];
 
-  console.log(user);
-  console.log("tutor: ", tutors);
-
   return (
     <>
       <div

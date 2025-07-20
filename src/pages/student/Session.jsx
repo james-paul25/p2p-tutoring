@@ -65,9 +65,6 @@ const Session = ({ user, session, profilePictures }) => {
     return matchesSearch && matchesStatus;
   });
 
-  console.log("session", session);
-
-
   const statusOptions = [
     { value: "ALL", label: "Status" },
     { value: "PENDING", label: "Pending" },
@@ -75,7 +72,6 @@ const Session = ({ user, session, profilePictures }) => {
     { value: "REJECTED", label: "Rejected" },
     { value: "COMPLETED", label: "Completed" },
   ];
-  console.log(user);
 
   return (
     <>

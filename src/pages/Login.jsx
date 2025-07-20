@@ -26,7 +26,6 @@ const Login = ({ onLogin }) => {
       if (response.ok) {
         const data = await response.json();
         onLogin(data);
-        console.log("Data: ", data)
         alert(data.message);
       } else {
         alert("Signing in failed");
