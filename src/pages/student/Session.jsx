@@ -28,34 +28,28 @@ const Session = ({ user, session, profilePictures }) => {
   };
 
   useEffect(() => {
-      const now = new Date();
+    const updateCompletedSessions = async () => {
+      if (!session || !user) return;
   
-      const updateCompletedSessions = async () => {
-        const sessionsToComplete = session.filter((session) => {
-          const isUserStudent = session?.student?.user?.userId === user?.userId;
+      const notCompletedSessions = session.filter(
+        (s) =>
+          s?.student?.user?.userId === user?.userId &&
+          s?.sessionStatus !== "COMPLETED"
+      );
   
-          if (!isUserStudent) return false;
-  
-          const sessionDateTime = new Date(`${session.sessionDate}T${session.sessionTime}`);
-          const isDue = sessionDateTime <= now;
-          const isNotCompleted = session.sessionStatus !== "COMPLETED";
-  
-          return isDue && isNotCompleted;
-        });
-  
-        for (const session of sessionsToComplete) {
-          const result = await setStatusComplete({
-            sessionId: session.sessionId,
-            sessionDate: session.sessionDate,
-            sessionTime: session.sessionTime,
-          });
-  
-          console.log(`Updated session ${session.sessionId}:`, result);
+      for (const s of notCompletedSessions) {
+        try {
+          const result = await setStatusComplete({ sessionId: s.sessionId });
+          console.log(`Session ${s.sessionId} update:`, result);
+        } catch (err) {
+          console.error("Error updating session:", s.sessionId, err);
         }
-      };
+      }
+    };
   
-      updateCompletedSessions();
-    }, [session, user]);
+    updateCompletedSessions();
+  }, [session, user]);
+  
   
 
   const filteredSessions = session.filter((session) => {

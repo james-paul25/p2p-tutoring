@@ -20,24 +20,18 @@ const fetchSessionByTutor = async (tutorId) => {
     return res.json();
 }
 
-const setStatusComplete = async ({ sessionId, sessionDate, sessionTime }) => {
+const setStatusComplete = async ({ sessionId }) => {
     try {
-        const response = await fetch(`http://localhost:8080/update-status-completed/${sessionId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: "include",
-            body: JSON.stringify({
-                sessionDate,
-                sessionTime,
-            }),
-        });
-
-        return response.text();
+      const response = await fetch(`http://localhost:8080/api/v1/sessions/update-status-completed/${sessionId}`, {
+        method: 'PUT',
+        credentials: "include",
+      });
+  
+      return response.text();
     } catch (error) {
-        return error;
+      return error.message;
     }
-}
+  };
+  
 
 export { getSessionByStudent, fetchSessionByTutor, setStatusComplete };
