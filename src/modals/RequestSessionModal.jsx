@@ -11,7 +11,8 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
   useEscapeClose(onClose);
 
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [topic, setTopic] = useState("");
   const [error, setError] = useState("");
   const [studentInfo, setStudentInfo] = useState({});
@@ -36,14 +37,15 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
   }, [user.userId]);
 
   const isFutureDateTime = () => {
-    if (!date || !time) return false;
-    const selectedDateTime = new Date(`${date}T${time}`);
+    if (!date || !startTime) return false;
+    const selectedDateTime = new Date(`${date}T${startTime}`);
     return selectedDateTime.getTime() > Date.now();
   };
 
   const postApplySession = async () => {
     try {
-      const formattedTime = time.length === 5 ? `${time}:00` : time;
+      const formattedStartTime = startTime.length === 5 ? `${startTime}:00` : startTime;
+      const formattedEndTime = endTime.length === 5 ? `${endTime}:00` : startTime;
 
       const res = await fetch(
         `http://localhost:8080/api/v1/sessions/students-apply-session/${tutor?.tutorId}/${subjectId}/${studentInfo?.studentId}`,
@@ -55,7 +57,8 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
           credentials: "include",
           body: JSON.stringify({
             sessionDate: date,              // format: YYYY-MM-DD
-            sessionTime: formattedTime,     // format: HH:mm:ss
+            sessionStartTime: formattedStartTime,     // format: HH:mm:ss
+            sessionEndTime: formattedEndTime,
             topic: topic,
             tutorUser: tutor?.user?.userId,
             studentUser: user?.userId,
@@ -80,7 +83,7 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
   };
 
   const handleSubmit = () => {
-    if (!date || !time || !topic) {
+    if (!date || !startTime || !topic || !endTime) {
       setError("All fields are required.");
       return;
     }
@@ -128,12 +131,22 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Time</label>
+              <label className="block text-sm font-medium text-gray-700">Start Time</label>
               <input
                 type="time"
                 className="w-full px-3 py-2 border rounded-md"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">End Time</label>
+              <input
+                type="time"
+                className="w-full px-3 py-2 border rounded-md"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
               />
             </div>
 
