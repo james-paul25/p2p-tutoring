@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-
+import SuccessModal from "../modals/SuccessModal";
+import FailedModal from "../modals/FailedModal";
 
 const Login = ({ onLogin }) => {
 
@@ -9,6 +10,9 @@ const Login = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,9 +30,11 @@ const Login = ({ onLogin }) => {
       if (response.ok) {
         const data = await response.json();
         onLogin(data);
-        alert(data.message);
+        setMessage(data.message);
+        setShowSuccessModal(true);
       } else {
-        alert("Signing in failed");
+        setMessage("Signing in failed!");
+        setShowFailedModal(true);
       }
 
     } catch (e) {
@@ -38,63 +44,83 @@ const Login = ({ onLogin }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-100"
-      >
-        <h2 className="text-2xl font-semibold text-purple-600 mb-6 text-center">Sign In</h2>
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-white px-4">
+        <form
+          onSubmit={handleLogin}
+          className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-100"
+        >
+          <h2 className="text-2xl font-semibold text-purple-600 mb-6 text-center">Sign In</h2>
 
-        <input
-          type="email"
-          value={email}
-          placeholder="Email"
-          required
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
-        />
-
-        <div className="relative mb-6">
           <input
-            type={passwordVisible ? "text" : "password"}
-            value={password}
-            placeholder="Password"
+            type="email"
+            value={email}
+            placeholder="Email"
             required
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
           />
+
+          <div className="relative mb-6">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              value={password}
+              placeholder="Password"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible((prev) => !prev)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {passwordVisible ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+
+
+          <button
+            type="submit"
+            className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+          >
+            Sign In
+          </button>
+
+          <p className="text-center text-sm text-gray-600 mt-4">Don’t have an account?</p>
+
           <button
             type="button"
-            onClick={() => setPasswordVisible((prev) => !prev)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            onClick={() => navigate("/signup")}
+            className="w-full mt-2 border border-purple-500 text-purple-600 py-2 rounded-md hover:bg-purple-100 transition"
           >
-            {passwordVisible ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
+            Sign Up
           </button>
-        </div>
+        </form>
+      </div>
 
+      {showSuccessModal && (
+        <SuccessModal
+          message={message}
+          onClose={() => {
+            setShowSuccessModal(false);
+          }}
+        />
+      )}
 
-        <button
-          type="submit"
-          className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
-        >
-          Sign In
-        </button>
-
-        <p className="text-center text-sm text-gray-600 mt-4">Don’t have an account?</p>
-
-        <button
-          type="button"
-          onClick={() => navigate("/signup")}
-          className="w-full mt-2 border border-purple-500 text-purple-600 py-2 rounded-md hover:bg-purple-100 transition"
-        >
-          Sign Up
-        </button>
-      </form>
-    </div>
+      {showFailedModal && (
+        <SuccessModal
+          message={message}
+          onClose={() => {
+            setShowFailedModal(false);
+          }}
+        />
+      )}
+    </>
 
   );
 }
