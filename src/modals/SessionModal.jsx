@@ -46,7 +46,10 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
             <span className="font-semibold text-gray-800">Date:</span> {formatDate(session?.sessionDate)}
           </p>
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800">Time:</span> {formatTime(session?.sessionTime)}
+            <span className="font-semibold text-gray-800">Start Time:</span> {formatTime(session?.sessionStartTime)}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">End Time:</span> {formatTime(session?.sessionEndTime)}
           </p>
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Location:</span> dummy location
