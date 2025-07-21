@@ -114,6 +114,7 @@ const Session = ({ user, session, profilePictures }) => {
       </div>
       {selectedSession && (
         <SessionModal
+          user={user}
           session={selectedSession}
           profilePictures={profilePictures}
           onClose={() => {

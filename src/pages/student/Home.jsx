@@ -239,6 +239,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
       )}
       {selectedSession && (
         <SessionModal
+          user={user}
           session={selectedSession}
           profilePictures={profilePictures}
           onClose={() => {
