@@ -83,6 +83,7 @@ const Session = ({ user, session, profilePictures }) => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            
             <SearchBar
               value={searchTerm}
               onChange={handleSearchChange}

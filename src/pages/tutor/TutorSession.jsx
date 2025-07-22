@@ -82,7 +82,7 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
       <div className="bg-white p-6 rounded-lg shadow-md space-y-10 transition">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <Users className="text-blue-600 w-6 h-6" />
+            <Users className="text-purple-600 w-6 h-6" />
             <h1 className="text-2xl font-bold text-gray-800">Your Sessions</h1>
           </div>
 

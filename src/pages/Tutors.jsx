@@ -3,10 +3,10 @@ import { Users } from "lucide-react";
 import TutorCard from "../components/TutorCard";
 import TutorProfileModal from "../modals/TutorProfileModal";
 import Avatar from "../assets/prof.jpg";
-
 import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
 import { debounce } from "../utils/debounce";
+import { Heart, Star } from "lucide-react";
 
 const Tutors = ({ user, tutors, profilePictures }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
@@ -58,11 +58,24 @@ const Tutors = ({ user, tutors, profilePictures }) => {
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <Users className="text-blue-600 w-6 h-6" />
+            <Users className="text-purple-600 w-6 h-6" />
             <h1 className="text-2xl font-bold text-gray-800">All Tutors</h1>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <button
+              onClick={() => console.log("Star clicked")}
+              className="transition"
+            >
+              <Star className="w-5 h-5 text-yellow-400 hover:fill-yellow-400 hover:text-yellow-400 cursor-pointer" />
+            </button>
+
+            <button
+              onClick={() => console.log("Heart clicked")}
+              className="transition"
+            >
+              <Heart className="w-5 h-5 text-pink-500 hover:fill-pink-500 hover:text-pink-500 cursor-pointer" />
+            </button>
             <SearchBar
               value={searchTerm}
               onChange={handleSearchChange}
