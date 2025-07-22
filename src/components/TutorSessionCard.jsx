@@ -38,7 +38,9 @@ const TutorSessionCard = ({ session, profilePictures, onClick }) => {
                 ? "text-red-600"
                 : status === "APPROVED"
                   ? "text-green-600"
-                  : "text-gray-600"
+                  : status === "COMPLETED"
+                    ? "text-blue-600"
+                    : "text-gray-600"
           }>
             {status}
           </span>
