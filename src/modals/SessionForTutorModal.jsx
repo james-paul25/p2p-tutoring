@@ -6,7 +6,7 @@ import { Check, X, Pencil } from "lucide-react";
 import SuccessModal from "./SuccessModal";
 import FailedModal from "./FailedModal";
 import { useEscapeClose } from "../utils/useEscapeClose";
-import TutorSessionCardUi from "../components/TutorSessionCardUi";
+import TutorSessionUi from "../components/TutorSessionUi";
 import FilterDropdown from "../components/FilterDropdown";
 import TutorLayout from "../layout/TutorLayout";
 import TutorSession from "../pages/tutor/TutorSession";
@@ -36,7 +36,7 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
         id="tutorSessionModalBackdrop"
         className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
       >
-        <TutorSessionCardUi
+        <TutorSessionUi
           sessionId={tutorSession?.sessionId}
           imageUrl={imageUrl}
           firstName={tutorSession?.student?.firstName}
