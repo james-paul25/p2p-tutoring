@@ -34,17 +34,18 @@ const setStatusComplete = async ({ sessionId }) => {
 };
 
 const updateSessionStatus = async ({ sessionId, sessionStatus }) => {
-  console.log("from service: ",sessionId)
+  console.log("from service: ", sessionId);
   try {
     const res = await fetch(`http://localhost:8080/api/v1/sessions/update-status/${sessionId}`, {
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ status: sessionStatus }),
     });
 
     if (!res.ok) throw new Error("Error approving session.");
 
-    return await res.json();
+    return await res.text();
 
   } catch (e) {
     return e;

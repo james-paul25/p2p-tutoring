@@ -19,7 +19,7 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   const [showFailedModal, setShowFailedModal] = useState(false);
   const [message, setMessage] = useState("");
   const [currentNote, setCurrentNote] = useState(tutorSession?.notes || "");
-  const [statuss, setStatus] = useState(tutorSession?.sessionStatus);
+  const [status, setStatus] = useState(tutorSession?.sessionStatus?.toUpperCase());
 
   const handleNoteSave = async () => {
     try {
@@ -47,10 +47,25 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   console.log("session id from sessio ui", tutorSession?.sessionId);
 
   const handleApprove = async () => {
-    const response = await updateSessionStatus(tutorSession?.sessionId, 'APPROVED');
-    setMessage(response);
-    setStatus('APPROVED');
-    setShowSuccessModal(true);
+    try {
+      const res = await fetch(`http://localhost:8080/api/v1/sessions/update-status/${tutorSession?.sessionId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ status: 'APPROVED' }),
+      });
+
+      if (!res.ok) throw new Error("Error approving session.");
+
+      const data = res.text();
+      setMessage(data);
+      setStatus("APPROVED");
+      setShowSuccessModal(true)
+
+    } catch (e) {
+      setMessage(e);
+      setShowFailedModal(true);
+    }
   }
 
   const handleRejected = async () => {
@@ -70,7 +85,6 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
 
   if (!tutorSession) return null;
 
-  const status = tutorSession?.sessionStatus?.toUpperCase();
   const statusTextColor = statusTextColors[status] || statusTextColors.DEFAULT;
 
 
@@ -91,7 +105,7 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
             <div>
               <h2 className="text-xl font-bold text-gray-800">{tutorSession?.student?.fullName}</h2>
               <div className="flex items-center space-x-2">
-                <h6 className={`text-l font-bold ${statusTextColor}`}>{statuss}</h6>
+                <h6 className={`text-l font-bold ${statusTextColor}`}>{status}</h6>
                 {tutorSession?.sessionStatus === 'PENDING' && (
                   <>
                     <CheckCircle
