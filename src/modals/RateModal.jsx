@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
+import { useOutsideClick } from "../utils/useOutsideClick";
+import { useEscapeClose } from "../utils/useEscapeClose";
 
-const RateModal = ({ tutor, onClose, onSubmit }) => {
+const RateModal = ({ session, imageUrl, onClose }) => {
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState(0);
-  const [comment, setComment] = useState("");
+
+  useOutsideClick("rateModalBackdrop", onClose);
+  useEscapeClose(onClose);
 
   const handleSubmit = () => {
     if (rating === 0) return alert("Please select a rating.");
-    onSubmit({ rating, comment });
-    onClose(); // Close after submission
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div
+      id="rateModalBackdrop"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
         <button
           onClick={onClose}
@@ -21,10 +26,16 @@ const RateModal = ({ tutor, onClose, onSubmit }) => {
         >
           <X />
         </button>
+        <div className="flex flex-col items-center mb-4">
+          <img
+            src={imageUrl}
+            alt={session.tutor.student.firstName}
+            className="w-16 h-16 rounded-full object-cover mb-2"
+          />
+          <p className="text-center text-gray-700">{session.tutor.student.fullName}</p>
+        </div>
+
         <h2 className="text-xl font-semibold mb-4 text-center">Rate Your Tutor</h2>
-        <p className="text-center mb-2 text-gray-700">
-          {tutor.fullName}
-        </p>
 
         <div className="flex justify-center mb-4">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -41,21 +52,16 @@ const RateModal = ({ tutor, onClose, onSubmit }) => {
             </span>
           ))}
         </div>
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleSubmit}
+            className="w-fit px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            Submit Rating
+          </button>
+        </div>
 
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Leave a comment (optional)"
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-          rows={3}
-        />
 
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Submit Rating
-        </button>
       </div>
     </div>
   );
