@@ -40,7 +40,7 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
             <p className="text-gray-600">{session?.subject?.subjectDescription} – {session?.topic}</p>
           </div>
         </div>
-d
+        
         <div className="space-y-2">
           <p className="text-sm text-gray-600">
             <span className="font-semibold text-gray-800">Date:</span> {formatDate(session?.sessionDate)}

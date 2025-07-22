@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import SessionCard from "../../components/SessionCard";
+import TutorSessionCard from "../../components/TutorSessionCard";
 import SearchBar from "../../components/SearchBar";
 import FilterDropdown from "../../components/FilterDropdown";
 import { debounce } from "../../utils/debounce";
@@ -104,7 +104,7 @@ const TutorSession = ({ user, sessions, profilePictures }) => {
         <div className="flex flex-col gap-4">
           {filteredSessions.length > 0 ? (
             filteredSessions.map((sesh) => (
-              <SessionCard
+              <TutorSessionCard
                 key={sesh.sessionId}
                 session={sesh}
                 profilePictures={profilePictures}

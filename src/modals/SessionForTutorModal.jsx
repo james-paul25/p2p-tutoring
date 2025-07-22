@@ -7,6 +7,8 @@ import { Check, X, Pencil } from "lucide-react";
 import SuccessModal from "./SuccessModal";
 import FailedModal from "./FailedModal";
 import { useEscapeClose } from "../utils/useEscapeClose";
+import TutorLayout from "../layout/TutorLayout";
+import TutorSession from "../pages/tutor/TutorSession";
 
 const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   useOutsideClick("tutorSessionModalBackdrop", onClose);
@@ -54,6 +56,8 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   const status = tutorSession?.sessionStatus?.toUpperCase();
   const statusTextColor = statusTextColors[status] || statusTextColors.DEFAULT;
 
+
+
   return (
     <>
       <div
@@ -79,7 +83,10 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
               <span className="font-semibold text-gray-800">Date:</span> {formatDate(tutorSession?.sessionDate)}
             </p>
             <p className="text-sm text-gray-600">
-              <span className="font-semibold text-gray-800">Time:</span> {formatTime(tutorSession?.sessionTime)}
+              <span className="font-semibold text-gray-800">Start Time:</span> {formatTime(tutorSession?.sessionStartTime)}
+            </p>
+            <p className="text-sm text-gray-600">
+              <span className="font-semibold text-gray-800">End Time:</span> {formatTime(tutorSession?.sessionEndTime)}
             </p>
             <p className="text-sm text-gray-600">
               <span className="font-semibold text-gray-800">Location:</span> dummy location
