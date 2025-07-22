@@ -34,7 +34,6 @@ const setStatusComplete = async ({ sessionId }) => {
 };
 
 const updateSessionStatus = async ({ sessionId, sessionStatus }) => {
-  console.log("from service: ", sessionId);
   try {
     const res = await fetch(`http://localhost:8080/api/v1/sessions/update-status/${sessionId}`, {
       method: "PUT",
@@ -45,10 +44,10 @@ const updateSessionStatus = async ({ sessionId, sessionStatus }) => {
 
     if (!res.ok) throw new Error("Error approving session.");
 
-    return await res.text();
+    return res.text();
 
   } catch (e) {
-    return e;
+    return e.message;
   }
 }
 

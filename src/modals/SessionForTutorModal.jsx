@@ -47,29 +47,14 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   console.log("session id from sessio ui", tutorSession?.sessionId);
 
   const handleApprove = async () => {
-    try {
-      const res = await fetch(`http://localhost:8080/api/v1/sessions/update-status/${tutorSession?.sessionId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ status: 'APPROVED' }),
-      });
-
-      if (!res.ok) throw new Error("Error approving session.");
-
-      const data = res.text();
-      setMessage(data);
-      setStatus("APPROVED");
-      setShowSuccessModal(true)
-
-    } catch (e) {
-      setMessage(e);
-      setShowFailedModal(true);
-    }
+    const response = await updateSessionStatus({ sessionId: tutorSession?.sessionId, sessionStatus: 'APPROVED' });
+    setMessage(response);
+    setStatus('APPROVED');
+    setShowSuccessModal(true);
   }
 
   const handleRejected = async () => {
-    const response = await updateSessionStatus(tutorSession?.sessionId, 'REJECTED');
+    const response = await updateSessionStatus({ sessionId: tutorSession?.sessionId, sessionStatus: 'REJECTED' });
     setMessage(response);
     setStatus('REJECTED');
     setShowSuccessModal(true);
