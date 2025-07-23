@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useEscapeClose } from "../utils/useEscapeClose";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import { fetchRates } from "../services/rateService";
-import { Trophy, Star } from "lucide-react";
+import { Trophy } from "lucide-react";
 import PaginationControls from "../components/PaginationControls";
+import LeaderboardList from "../components/LeaderboardList";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -45,7 +46,7 @@ const LeaderboardModal = ({ user, profilePictures, onClose }) => {
     return (
         <div
             id="leaderboardBackdrop"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
         >
             <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md relative overflow-y-auto max-h-[90vh]">
                 <button
@@ -60,50 +61,11 @@ const LeaderboardModal = ({ user, profilePictures, onClose }) => {
                     <h2 className="text-xl font-bold text-gray-800">Tutor - Leaderboard</h2>
                 </div>
 
-                <div className="space-y-3">
-                    {currentRates.length === 0 ? (
-                        <p className="text-center text-gray-500">No ratings yet.</p>
-                    ) : (
-                        currentRates.map((rate, index) => {
-                            const tutor = rate.tutor;
-                            const matchedPic = profilePictures.find(
-                                (pic) => pic?.user?.userId === tutor?.user?.userId
-                            );
-                            const imageUrl = matchedPic
-                                ? `http://localhost:8080${matchedPic.filePath}`
-                                : "/default-avatar.png";
-
-                            return (
-                                <div
-                                    key={index}
-                                    className="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <img
-                                            src={imageUrl}
-                                            alt="Profile"
-                                            className="w-8 h-8 rounded-full object-cover"
-                                        />
-                                        <div>
-                                            <p className="font-semibold text-sm text-gray-800">
-                                                #{startIndex + index + 1} {tutor?.user?.username || "Unknown"}
-                                            </p>
-                                            <p className="text-xs text-gray-500">
-                                                GWA: {tutor?.gwa ?? "N/A"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <Star className="text-yellow-400 w-4 h-4" />
-                                        <span className="text-sm font-medium text-gray-700">
-                                            {rate.averageRating?.toFixed(2)}
-                                        </span>
-                                    </div>
-                                </div>
-                            );
-                        })
-                    )}
-                </div>
+                <LeaderboardList
+                    currentRates={currentRates}
+                    profilePictures={profilePictures}
+                    startIndex={startIndex}
+                />
                 <PaginationControls
                     currentPage={currentPage}
                     totalPages={totalPages}
