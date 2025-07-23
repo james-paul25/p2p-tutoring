@@ -6,6 +6,7 @@ import ProfileItem from "../components/ProfileItem"
 
 {/* usable both sa tutor and student */ }
 const Profile = ({ user, student, profile, departments }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [showEditModal, setShowEditModal] = useState(false);
   const [profileImage, setProfileImage] = useState();
   const [editingBio, setEditingBio] = useState(false);
@@ -20,7 +21,7 @@ const Profile = ({ user, student, profile, departments }) => {
         setBioInput(student.bio || "");
         setStudentInfo(student);
         if (profile?.filePath) {
-          setProfileImage(`http://localhost:8080${profile.filePath}`);
+          setProfileImage(`${API_BASE_URL}${profile.filePath}`);
         }
       } catch (error) {
         console.error("Fetching error:", error);
@@ -28,7 +29,7 @@ const Profile = ({ user, student, profile, departments }) => {
     };
 
     fetchData();
-  }, [user.userId, student, profile]);
+  }, [user.userId, student, profile, API_BASE_URL]);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -40,7 +41,7 @@ const Profile = ({ user, student, profile, departments }) => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await fetch(`http://localhost:8080/api/v1/profile-picture/upload/${user.userId}`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/profile-picture/upload/${user.userId}`, {
           method: "POST",
           credentials: "include",
           body: formData,
@@ -62,7 +63,7 @@ const Profile = ({ user, student, profile, departments }) => {
 
   const handleBioUpdate = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/students/edit-bio/${studentInfo.studentId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/students/edit-bio/${studentInfo.studentId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

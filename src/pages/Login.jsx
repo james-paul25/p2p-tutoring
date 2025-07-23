@@ -6,6 +6,7 @@ import FailedModal from "../modals/FailedModal";
 
 const Login = ({ onLogin }) => {
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -18,7 +19,7 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/api/v1/users/login', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

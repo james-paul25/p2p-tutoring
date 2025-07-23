@@ -1,6 +1,7 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const fetchProfilePicture = async (userId) => {
     try {
-    const res = await fetch(`http://localhost:8080/api/v1/profile-picture/get-profile/${userId}`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/profile-picture/get-profile/${userId}`, {
       credentials: "include",
     });
 
@@ -21,7 +22,7 @@ const fetchProfilePicture = async (userId) => {
 }
 
 const fetchAllProfilePicture = async () => {
-    const res = await fetch(`http://localhost:8080/api/v1/profile-picture/get-all-profiles`);
+    const res = await fetch(`${API_BASE_URL}/api/v1/profile-picture/get-all-profiles`);
     if (!res.ok) throw new Error("Fetching profile picture failed");
     return res.json();
 }

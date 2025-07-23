@@ -18,6 +18,7 @@ import {
 import { fetchProfilePicture } from "../services/profilePictureService";
 
 const TutorLayout = ({ onLogout, user }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL;  
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -43,7 +44,7 @@ const TutorLayout = ({ onLogout, user }) => {
           fetchProfilePicture(user.userId)
         ]);
 
-        setProfilePicture(`http://localhost:8080${profile.filePath}`);
+        setProfilePicture(`${API_BASE_URL}${profile.filePath}`);
 
       } catch (error) {
         console.error("Fetching error:", error);
@@ -51,7 +52,7 @@ const TutorLayout = ({ onLogout, user }) => {
     };
 
     fetchData();
-  }, [user.userId]);
+  }, [user.userId, API_BASE_URL]);
 
 
   return (

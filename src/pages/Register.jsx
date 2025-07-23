@@ -7,8 +7,7 @@ import FailedModal from "../modals/FailedModal";
 const Register = () => {
 
   const navigate = useNavigate();
-
-
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [username, setUsername] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -21,7 +20,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/api/v1/users/registration', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/users/registration`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

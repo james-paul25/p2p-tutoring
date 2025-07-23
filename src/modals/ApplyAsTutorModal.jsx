@@ -5,6 +5,7 @@ import { useOutsideClick } from "../utils/useOutsideClick";
 import { useEscapeClose } from "../utils/useEscapeClose";
 
 const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [loading, setLoading] = useState(false);
   const [subjectIden, setSubjectId] = useState();
   const [gwa, setGwa] = useState();
@@ -23,7 +24,7 @@ const ApplyAsTutorModal = ({ user, student, subject, onClose }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/tutors/apply/${user.userId}/${student.studentId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/v1/tutors/apply/${user.userId}/${student.studentId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

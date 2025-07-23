@@ -10,6 +10,7 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
   useOutsideClick("requestSessionBackdrop", onClose);
   useEscapeClose(onClose);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -48,7 +49,7 @@ const RequestSessionModal = ({ user, tutor, onClose }) => {
       const formattedEndTime = endTime.length === 5 ? `${endTime}:00` : startTime;
 
       const res = await fetch(
-        `http://localhost:8080/api/v1/sessions/students-apply-session/${tutor?.tutorId}/${subjectId}/${studentInfo?.studentId}`,
+        `${API_BASE_URL}/api/v1/sessions/students-apply-session/${tutor?.tutorId}/${subjectId}/${studentInfo?.studentId}`,
         {
           method: "POST",
           headers: {

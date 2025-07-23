@@ -6,7 +6,7 @@ import FailedModal from "./FailedModal";
 import { useEscapeClose } from "../utils/useEscapeClose";
 
 const EditProfileModal = ({ student, departments, onClose }) => {
-
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
   const [message, setMessage] = useState(null);
@@ -32,7 +32,7 @@ const EditProfileModal = ({ student, departments, onClose }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/v1/students/update-student/${student?.studentId}`,
+        `${API_BASE_URL}/api/v1/students/update-student/${student?.studentId}`,
         {
           method: "PUT",
           headers: {

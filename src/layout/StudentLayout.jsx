@@ -18,6 +18,7 @@ import {
 import { fetchProfilePicture } from "../services/profilePictureService";
 
 const StudentLayout = ({ onLogout, user }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL; 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -43,7 +44,7 @@ const StudentLayout = ({ onLogout, user }) => {
           fetchProfilePicture(user.userId)
         ]);
 
-        setProfilePicture(`http://localhost:8080${profile.filePath}`);
+        setProfilePicture(`${API_BASE_URL}${profile.filePath}`);
 
       } catch (error) {
         console.error("Fetching error:", error);
@@ -51,7 +52,7 @@ const StudentLayout = ({ onLogout, user }) => {
     };
 
     fetchData();
-  }, [user.userId]);
+  }, [user.userId, API_BASE_URL]);
 
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">
@@ -116,7 +117,7 @@ const StudentLayout = ({ onLogout, user }) => {
                 to="/session"
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition 
-                    hover:shadow-md hover:scale-[1.01] transition duration-200${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                    hover:shadow-md hover:scale-[1.01] transition duration-200 ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >

@@ -13,6 +13,7 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
   useOutsideClick("tutorSessionModalBackdrop", onClose);
   useEscapeClose(onClose);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [editingNote, setEditingNote] = useState(false);
   const [noteInput, setNoteInput] = useState(tutorSession?.notes || "");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -23,7 +24,7 @@ const SessionForTutorModal = ({ tutorSession, profilePictures, onClose }) => {
 
   const handleNoteSave = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/sessions/edit-note/${tutorSession?.sessionId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/sessions/edit-note/${tutorSession?.sessionId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

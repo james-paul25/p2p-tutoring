@@ -27,6 +27,7 @@ import Tutors from './pages/Tutors';
 import Profile from './pages/Profile';
 
 function App() {
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [loggedIn, setLoggedIn] = useState(null);
   const [userData, setUserData] = useState(null);
 
@@ -44,7 +45,7 @@ function App() {
   useEffect(() => {
     const check = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/check', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/auth/check`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -63,10 +64,10 @@ function App() {
     };
 
     check();
-  }, []);
+  }, [API_BASE_URL]);
 
   const handleLogout = async () => {
-    await fetch('http://localhost:8080/api/v1/auth/logout', {
+    await fetch(`${API_BASE_URL}/api/v1/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });

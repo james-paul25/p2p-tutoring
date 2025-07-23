@@ -10,6 +10,7 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
   useOutsideClick("sessionModalBackdrop", onClose);
   useEscapeClose(onClose);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
   const [showRateModal, setShowRateModal] = useState(false);
 
   const matchedPic = profilePictures.find(
@@ -17,7 +18,7 @@ const SessionModal = ({ session, profilePictures, onClose }) => {
   );
 
   const imageUrl = matchedPic
-    ? `http://localhost:8080${matchedPic.filePath}`
+    ? `${API_BASE_URL}${matchedPic.filePath}`
     : Avatar;
 
   if (!session) return null;
