@@ -211,8 +211,8 @@ const Home = ({ user, tutors, profilePictures, session, subject, student, rates 
             </div>
             <button
               onClick={() => setApplyButton(true)}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium
+                hover:shadow-md hover:scale-[1.01] transition duration-200 cursor-pointer"
             >
               Apply as Tutor
             </button>

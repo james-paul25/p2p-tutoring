@@ -18,7 +18,8 @@ const SessionCard = ({ session, profilePictures, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer p-4 rounded-lg flex gap-4 items-center transition ${statusBg}`}
+      className={`cursor-pointer p-4 rounded-lg flex gap-4 items-center transition ${statusBg}
+      hover:shadow-md hover:scale-[1.01] transition duration-200`}
     >
       <img
         src={imageUrl}

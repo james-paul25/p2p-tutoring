@@ -18,7 +18,8 @@ const TutorCard = ({ tutor, imageUrl, onClick, variant = "default" }) => {
   return (
     <div
       onClick={onClick}
-      className={`${variantStyles[variant]} shadow rounded-lg p-4 flex gap-4 cursor-pointer`}
+      className={`${variantStyles[variant]} shadow rounded-lg p-4 flex gap-4 cursor-pointer
+      hover:shadow-md hover:scale-[1.01] transition duration-200`}
     >
       <img
         src={imageUrl || Avatar}

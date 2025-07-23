@@ -73,7 +73,8 @@ const TutorLayout = ({ onLogout, user }) => {
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="md:block hidden p-1 rounded hover:bg-gray-100 hover:text-blue-600 transition"
+              className="md:block hidden p-1 rounded hover:bg-gray-100 hover:text-blue-600 transition
+               hover:shadow-md hover:scale-[1.01] transition duration-200 cursor-pointer"
               title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
               {collapsed ? (
@@ -89,7 +90,8 @@ const TutorLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/home"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition 
+                    hover:shadow-md hover:scale-[1.01] transition duration-200${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -101,7 +103,8 @@ const TutorLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/message"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition 
+                    hover:shadow-md hover:scale-[1.01] transition duration-200${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -113,7 +116,8 @@ const TutorLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/session"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition 
+                    hover:shadow-md hover:scale-[1.01] transition duration-200 ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >
@@ -125,7 +129,8 @@ const TutorLayout = ({ onLogout, user }) => {
               <NavLink
                 to="/tutors"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
+                  `flex items-center gap-3 px-2 py-2 rounded hover:text-blue-600 hover:bg-gray-100 transition
+                    hover:shadow-md hover:scale-[1.01] transition duration-200 ${isActive ? "text-blue-600 bg-gray-100" : "text-gray-700"
                   }`
                 }
               >

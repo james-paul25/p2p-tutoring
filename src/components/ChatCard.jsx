@@ -21,7 +21,8 @@ const ChatCard = ({ session, profilePictures, onClick, currentUserRole }) => {
     return (
         <div
             onClick={onClick}
-            className="bg-white hover:bg-gray-50 shadow rounded-lg p-4 flex items-center justify-between cursor-pointer"
+            className="bg-white hover:bg-gray-50 shadow rounded-lg p-4 flex items-center justify-between cursor-pointer
+                        hover:shadow-md hover:scale-[1.01] transition duration-200"
         >
             <div className="flex items-center gap-4">
                 <img
