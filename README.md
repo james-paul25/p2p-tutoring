@@ -29,8 +29,6 @@ A full-stack tutoring platform for BISU students. It streamlines the entire tuto
 ### Frontend
 - ⚛️ **React.js** (Vite)
 - 💨 **Tailwind CSS**
-- 🔐 **Firebase Authentication**
-- 🗂️ Context API + React Hooks
 - 🌐 Deployed on **Vercel**
 
 ### Backend
