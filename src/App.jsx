@@ -20,6 +20,7 @@ import { getStudentInfo } from './services/studentService';
 import { getSessionByStudent, fetchSessionByTutor } from './services/sessionService';
 import { fetchDepartment } from './services/departmentService'
 import { fetchSubjects } from './services/subjectService';
+import { fetchRates } from './services/rateService';
 
 {/* can access both tutors and students */ }
 import Tutors from './pages/Tutors';
@@ -38,6 +39,7 @@ function App() {
   const [departments, setDepartments] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [tutorSession, setTutorSession] = useState([]);
+  const [rates, setRates] = useState([]);
 
   useEffect(() => {
     const check = async () => {
@@ -75,7 +77,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [recent, student, tutorInfo, pictures, department, subject] = await Promise.all([
+        const [recent, student, tutorInfo, pictures, department, subject, ratings] = await Promise.all([
           fetchAllTutors().catch((e) => {
             console.warn("Tutors fetch failed", e);
             return [];
@@ -98,6 +100,10 @@ function App() {
           }),
           fetchSubjects().catch((e) => {
             console.warn("Subjects fetch failed", e);
+            return [];
+          }),
+          fetchRates().catch((e) => {
+            console.warn("Rates fetch failed", e);
             return [];
           }),
         ]);
@@ -126,6 +132,7 @@ function App() {
         setSubjects(subject);
         setTutor(tutorInfo);
         setTutorSession(tutorSession);
+        setRates(ratings);
       } catch (error) {
         console.error("Fetching error:", error);
       }
@@ -180,6 +187,7 @@ function App() {
               session={studentSession}
               subject={subjects}
               student={studentInfo}
+              rates={rates}
             />} />
             <Route path="/profile" element={<Profile
               user={userData}
@@ -215,6 +223,7 @@ function App() {
               subject={subjects}
               student={studentInfo}
               tutor={tutor}
+              rates={rates}
             />} />
             <Route path="/profile" element={<Profile
               user={userData}

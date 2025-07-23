@@ -15,13 +15,14 @@ import Avatar from "../../assets/prof.jpg"
 
 import TutorCard from "../../components/TutorCard";
 import SessionCard from "../../components/SessionCard";
+import LeaderboardList from "../../components/LeaderboardList";
 
 import { sortTutors, sortSessions } from "../../utils/sort";
 
 const dummyTutors = [
 ];
 
-const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
+const Home = ({ user, tutors, profilePictures, session, subject, student, rates }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedTutorImage, setSelectedTutorImage] = useState(null);
@@ -29,10 +30,10 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
 
   const recommendedSubjects = ["Calculus", "Data Structures", "Physics"];
   const favoriteTutors = dummyTutors;
-  const topTutors = dummyTutors.sort((a, b) => b.rating - a.rating);
 
   const sortedTutors = sortTutors(tutors);
   const sortedSessions = sortSessions(session);
+  const sortedRates = rates.sort((a, b) => b.averageRating - a.averageRating);
 
   return (
     <>
@@ -121,7 +122,7 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
           </div>
           {favoriteTutors.length === 0 ? (
             <p className="text-gray-600 text-sm">
-              No favorites yet. Book a session and mark a tutor as favorite.
+              Coming soon...
             </p>
           ) : (
             <div className="flex gap-4 overflow-x-auto pb-1">
@@ -159,33 +160,24 @@ const Home = ({ user, tutors, profilePictures, session, subject, student }) => {
               See all
             </Link>
           </div>
-          {topTutors.length === 0 ? (
+          {rates.length === 0 ? (
             <p className="text-gray-600 text-sm">
               No top-rated tutors yet. Book a session and rate your tutor.
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {topTutors.map((tutor) => {
-                const matchedPic = profilePictures.find(
-                  (pic) => pic?.user?.userId === tutor?.user?.userId
-                );
-                const imageUrl = matchedPic ? `http://localhost:8080${matchedPic.filePath}` : Avatar;
-
-                return (
-                  <TutorCard
-                    key={tutor.id}
-                    tutor={tutor}
-                    imageUrl={imageUrl}
-                    onClick={() => {
-                      setSelectedTutor(tutor);
-                      setSelectedTutorImage(imageUrl);
-                    }}
-                    variant="topRated"
+            <div className="flex flex-wrap gap-4">
+              {sortedRates.map((rate, index) => (
+                <div key={index} className="w-full sm:w-[48%] md:w-[30%]">
+                  <LeaderboardList
+                    currentRates={[rate]}
+                    profilePictures={profilePictures}
+                    startIndex={index}
                   />
-                );
-              })}
+                </div>
+              ))}
             </div>
           )}
+
         </section>
 
         <section>

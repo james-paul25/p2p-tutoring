@@ -1,8 +1,7 @@
 import React from "react";
 import { Star } from "lucide-react";
 
-const LeaderboardList = ({currentRates, profilePictures, startIndex}) => {
-
+const LeaderboardList = ({ currentRates, profilePictures, startIndex }) => {
     return (
         <div className="space-y-3">
             {currentRates.length === 0 ? (
@@ -20,7 +19,8 @@ const LeaderboardList = ({currentRates, profilePictures, startIndex}) => {
                     return (
                         <div
                             key={index}
-                            className="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg"
+                            className="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg
+                                       hover:bg-gray-200 hover:shadow-md hover:scale-[1.01] transition duration-200"
                         >
                             <div className="flex items-center gap-3">
                                 <img
@@ -49,6 +49,6 @@ const LeaderboardList = ({currentRates, profilePictures, startIndex}) => {
             )}
         </div>
     );
-}
+};
 
 export default LeaderboardList;
