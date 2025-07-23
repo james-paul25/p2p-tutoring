@@ -1,12 +1,110 @@
-# React + Vite
+# 🎓 BISU Peer-to-Peer Tutoring System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack tutoring platform for BISU students and tutors. It streamlines the entire tutoring workflow — from finding a tutor, requesting a session, to real-time-like messaging — built with modern technologies and deployed on production-ready services.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🧑‍🎓 Students
+- Browse and search tutors by subject or department
+- Request tutoring sessions (with calendar selector)
+- View top-rated, recently active, and favorite tutors
+- See session history and tutor profiles
+- Send messages to tutors per session
 
-## Expanding the ESLint configuration
+### 🧑‍🏫 Tutors
+- Receive and manage session requests
+- Accept or reject session requests
+- View upcoming schedules
+- Reply to student messages per session
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 💬 Messaging System
+- One-to-one chat per session (text & files)
+- Messages are stored in MySQL database
+- No WebSocket: messages are fetched via API polling
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- ⚛️ **React.js** (Vite)
+- 💨 **Tailwind CSS**
+- 🔐 **Firebase Authentication**
+- 🗂️ Context API + React Hooks
+- 🌐 Deployed on **Vercel**
+
+### Backend
+- ☕ **Spring Boot** (Java)
+- 🧩 RESTful APIs for all features
+- 🗃️ **MySQL** (Hosted on Railway)
+- 📁 File upload handling
+- 🌐 Deployed on **Render**
+
+---
+
+## 📁 Project Structure (Frontend)
+p2p-tutoring/
+├── public/
+├── src/
+│ ├── assets/
+│ ├── components/ 
+│ ├── layout/ 
+│ ├── modals/ 
+│ ├── pages/ 
+│ ├── services/ 
+│ ├── utils/
+│ └── App.jsx
+├── .env
+└── vite.config.js
+
+
+---
+
+## 🌐 Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+VITE_API_BASE_URL=https://your-render-backend.onrender.com/api
+or
+VITE_API_BASE_URL=http://localhost:{port}//dbname
+```
+
+## ⚙️ How to Run Locally
+### 📦 Prerequisites
+- Node.js 18+
+- Java 17+
+- MySQL DB (or Railway instance)
+- Springboot api
+
+### 🔧 Frontend Setup
+```bash
+git clone https://github.com/james-paul25/p2p-tutoring.git
+cd p2p-tutoring
+npm install
+npm run dev
+```
+### 🔧 Backend Setup (Spring Boot)
+```application:properties
+spring.datasource.url=jdbc:mysql://<host>:<port>/<db_name>
+spring.datasource.username=your_db_user
+spring.datasource.password=your_db_pass
+
+spring.jpa.hibernate.ddl-auto=update
+```
+- run the backend app
+```bash
+./mvnw spring-boot:run
+```
+## 👨‍💻 Author
+James Paul
+[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/friyayy404)
+[![GitHub](https://img.shields.io/badge/GitHub-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/james-paul25)
+
+## Made with ❤️ as a student project for BISU – Bohol Island State University
+- Disclaimer: This project is for our final completion in the subject of Software Engineering and Information Management(MySql)
+- 🔗 **Live Demo** [https://bisu-p2p-tutoring.vercel.app/](https://github.com/james-paul25/)
+- Use this account for demo to save storage hahaha
+- Email: japjap@bisu.edu.ph
+- Password: japjap
+
