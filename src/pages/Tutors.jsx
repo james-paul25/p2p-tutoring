@@ -7,6 +7,7 @@ import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
 import { debounce } from "../utils/debounce";
 import { Heart, Star } from "lucide-react";
+import LeaderboardModal from "../modals/LeaderboardModal";
 
 const Tutors = ({ user, tutors, profilePictures }) => {
   const [selectedTutor, setSelectedTutor] = useState(null);
@@ -14,6 +15,7 @@ const Tutors = ({ user, tutors, profilePictures }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const debouncedChangeHandler = useMemo(
     () =>
@@ -64,7 +66,7 @@ const Tutors = ({ user, tutors, profilePictures }) => {
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <button
-              onClick={() => console.log("Star clicked")}
+              onClick={() => setShowLeaderboard(true)}
               className="transition"
             >
               <Star className="w-5 h-5 text-yellow-400 hover:fill-yellow-400 hover:text-yellow-400 cursor-pointer" />
@@ -128,6 +130,12 @@ const Tutors = ({ user, tutors, profilePictures }) => {
           tutor={selectedTutor}
           imageUrl={selectedTutorImage}
           onClose={() => setSelectedTutor(null)}
+        />
+      )}
+      {showLeaderboard && (
+        <LeaderboardModal
+          user={user}
+          onClose={() => setShowLeaderboard(false)}
         />
       )}
     </>
