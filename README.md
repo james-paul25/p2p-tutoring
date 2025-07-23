@@ -1,13 +1,13 @@
 # 🎓 BISU Peer-to-Peer Tutoring System
 
-A full-stack tutoring platform for BISU students and tutors. It streamlines the entire tutoring workflow — from finding a tutor, requesting a session, to real-time-like messaging — built with modern technologies and deployed on production-ready services.
+A full-stack tutoring platform for BISU students. It streamlines the entire tutoring workflow — from finding a tutor, requesting a session, to real-time-like messaging — built with modern technologies and deployed.
 
 ## 🚀 Features
 
 ### 🧑‍🎓 Students
 - Browse and search tutors by subject or department
 - Request tutoring sessions (with calendar selector)
-- View top-rated, recently active, and favorite tutors
+- View top-rated and favorite tutors
 - See session history and tutor profiles
 - Send messages to tutors per session
 
@@ -43,20 +43,22 @@ A full-stack tutoring platform for BISU students and tutors. It streamlines the 
 ---
 
 ## 📁 Project Structure (Frontend)
+
+```
 p2p-tutoring/
 ├── public/
 ├── src/
-│ ├── assets/
-│ ├── components/ 
-│ ├── layout/ 
-│ ├── modals/ 
-│ ├── pages/ 
-│ ├── services/ 
-│ ├── utils/
-│ └── App.jsx
-├── .env
-└── vite.config.js
-
+│   ├── assets/        # Images, icons, static files
+│   ├── components/    # Reusable UI components
+│   ├── layout/        # Shared layout wrappers (Navbar, Footer, etc.)
+│   ├── modals/        # Modal components (EditModal, DeleteModal, etc.)
+│   ├── pages/         # Route-based pages
+│   ├── services/      # API and data-fetching logic
+│   ├── utils/         # Helper functions
+│   └── App.jsx        # Main App component
+├── .env               # Environment variables
+└── vite.config.js     # Vite configuration
+```
 
 ---
 
@@ -97,9 +99,9 @@ spring.jpa.hibernate.ddl-auto=update
 ./mvnw spring-boot:run
 ```
 ## 👨‍💻 Author
-James Paul
-[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/friyayy404)
-[![GitHub](https://img.shields.io/badge/GitHub-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/james-paul25)
+- James Paul
+- [![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/friyayy404)
+- [![GitHub](https://img.shields.io/badge/GitHub-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/james-paul25)
 
 ## Made with ❤️ as a student project for BISU – Bohol Island State University
 - Disclaimer: This project is for our final completion in the subject of Software Engineering and Information Management(MySql)
