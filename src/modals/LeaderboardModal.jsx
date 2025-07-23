@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useEscapeClose } from "../utils/useEscapeClose";
 import { useOutsideClick } from "../utils/useOutsideClick";
 import { fetchRates } from "../services/rateService";
-import { Trophy, Star, User } from "lucide-react";
+import { Trophy, Star } from "lucide-react";
 import PaginationControls from "../components/PaginationControls";
 
 const ITEMS_PER_PAGE = 5;
 
-const LeaderboardModal = ({ user, onClose }) => {
+const LeaderboardModal = ({ user, profilePictures, onClose }) => {
     useOutsideClick("leaderboardBackdrop", onClose);
     useEscapeClose(onClose);
 
@@ -28,7 +28,7 @@ const LeaderboardModal = ({ user, onClose }) => {
         getRates();
     }, []);
 
-    if (!user) return (<><h1>Please login</h1></>);
+    if (!user) return (<h1>Please login</h1>);
 
     const totalPages = Math.ceil(rates.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -55,54 +55,61 @@ const LeaderboardModal = ({ user, onClose }) => {
                     ✕
                 </button>
 
-                {/* Header */}
                 <div className="mb-5 flex items-center gap-2">
                     <Trophy className="text-purple-500 w-5 h-5" />
-                    <h2 className="text-xl font-bold text-gray-800">Tutor Leaderboard</h2>
+                    <h2 className="text-xl font-bold text-gray-800">Tutor - Leaderboard</h2>
                 </div>
 
                 <div className="space-y-3">
                     {currentRates.length === 0 ? (
                         <p className="text-center text-gray-500">No ratings yet.</p>
                     ) : (
-                        currentRates.map((rate, index) => (
-                            <div
-                                key={index}
-                                className="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <img
-                                        src={rate.tutor?.user?.profilePictureUrl || "/default-avatar.png"}
-                                        alt="Profile"
-                                        className="w-8 h-8 rounded-full object-cover"
-                                    />
-                                    <div>
-                                        <p className="font-semibold text-sm text-gray-800">
-                                            #{startIndex + index + 1} {rate.tutor?.user?.username || "Unknown"}
-                                        </p>
-                                        <p className="text-xs text-gray-500">
-                                            GWA: {rate.tutor?.gwa ?? "N/A"}
-                                        </p>
+                        currentRates.map((rate, index) => {
+                            const tutor = rate.tutor;
+                            const matchedPic = profilePictures.find(
+                                (pic) => pic?.user?.userId === tutor?.user?.userId
+                            );
+                            const imageUrl = matchedPic
+                                ? `http://localhost:8080${matchedPic.filePath}`
+                                : "/default-avatar.png";
+
+                            return (
+                                <div
+                                    key={index}
+                                    className="flex justify-between items-center bg-gray-100 px-4 py-3 rounded-lg"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={imageUrl}
+                                            alt="Profile"
+                                            className="w-8 h-8 rounded-full object-cover"
+                                        />
+                                        <div>
+                                            <p className="font-semibold text-sm text-gray-800">
+                                                #{startIndex + index + 1} {tutor?.user?.username || "Unknown"}
+                                            </p>
+                                            <p className="text-xs text-gray-500">
+                                                GWA: {tutor?.gwa ?? "N/A"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <Star className="text-yellow-400 w-4 h-4" />
+                                        <span className="text-sm font-medium text-gray-700">
+                                            {rate.averageRating?.toFixed(2)}
+                                        </span>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <Star className="text-yellow-400 w-4 h-4" />
-                                    <span className="text-sm font-medium text-gray-700">
-                                        {rate.averageRating?.toFixed(2)}
-                                    </span>
-                                </div>
-                            </div>
-                        ))
+                            );
+                        })
                     )}
                 </div>
-
                 <PaginationControls
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPrev={handlePrev}
                     onNext={handleNext}
                 />
-
             </div>
         </div>
     );

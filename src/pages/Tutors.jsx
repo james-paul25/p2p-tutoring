@@ -135,6 +135,7 @@ const Tutors = ({ user, tutors, profilePictures }) => {
       {showLeaderboard && (
         <LeaderboardModal
           user={user}
+          profilePictures={profilePictures}
           onClose={() => setShowLeaderboard(false)}
         />
       )}
